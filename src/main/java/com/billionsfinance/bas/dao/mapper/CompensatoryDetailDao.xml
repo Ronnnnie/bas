@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.CompensatoryDetailDao" >
+ 	
+ 	 <resultMap id="CompensatoryDetailMap" type="java.util.HashMap">
+  		<result column="KEEPACCOUNTSDATE" property="keepaccountsDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="LOANNO" property="loanNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="SEQID" property="seqId" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CONTRACTNO" property="contractNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CLIENTNAME" property="clientName" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CITY" property="city" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CAPITALSIDE" property="capitalSide" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PRODUCTTYPE" property="productType" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PRODUCTSUBTYPE" property="productSubType" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="REGISTERDATE" property="registerDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PRINCIPALBALANCE" property="principalBlance" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DCOVERDUEPRINCIPALBEFORE" property="dcoverDueprinCipalBefore" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DCOVERDUEINTERESTBEFORE" property="dcoverDueinterestBefore" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="OVERDUEPRINCIPAL" property="overDuePrincipal" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="OVERDUEINTEREST" property="overDueInterest" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DCPRINCIPAL" property="dcPrincipal" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DCINTEREST" property="dcInterest" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DCAMOUNT" property="dcAmount" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PRINCIPALBALANCESUM" property="principalBlanceSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DCOVERDUEPRINCIPALBEFORESUM" property="dcoverDueprinCipalBeforeSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DCOVERDUEINTERESTBEFORESUM" property="dcoverDueinterestBeforeSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="OVERDUEPRINCIPALSUM" property="overDuePrincipalSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="OVERDUEINTERESTSUM" property="overDueInterestSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DCPRINCIPALSUM" property="dcPrincipalSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DCINTERESTSUM" property="dcInterestSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DCAMOUNTSUM" property="dcAmountSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DCOVERDUEDAYBEFORE" property="dcoverDuedayBefore" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DCDATE" property="dcDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYDATE" property="payDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYSTATUS" property="payStatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ASSETBELONG" property="assetBelong" jdbcType="INTEGER" javaType="java.lang.String" />
+ 		<result column="GUARANTEEPARTY" property="guaranteeParty" jdbcType="INTEGER" javaType="java.lang.String" />
+ 		<result column="PRINCIPALREMAININGSUM" property="principalRemainingSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="APPROVESTATUS" property="approveStatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="APPROVETIME" property="approveTime" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="APPROVEBY" property="approveBy" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="APPROVEREMARK" property="approveRemark" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KEEPACCOUNTSSTATUS" property="keepaccountsStatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KEEPACCOUNTSBY" property="keepaccountsBy" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KEEPACCOUNTSREMARK" property="keepaccountsRemark" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CONTRACTCOUNT" property="contractCount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 		<result column="MONEYCOUNT" property="moneyCount" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 	</resultMap>
+	
+	<select id="queryRepaymentDetail" resultMap="CompensatoryDetailMap">
+		SELECT * FROM (
+			SELECT A.*,ROWNUM RN FROM (
+				 SELECT ZDBR.KEEPACCOUNTSDATE,
+						ZDBR.SERIALNUMBER,
+						NVL(ZDBR.SEQID,0) AS SEQID,
+						ZDBR.LOANNO,
+						ZDBR.CONTRACTNO,
+						ZDBR.CLIENTNAME,
+						ZDBR.CITY,
+						ZDBR.CAPITALSIDE,
+						ZDBR.PRODUCTTYPE,
+						ZDBR.PRODUCTSUBTYPE,
+						ZDBR.REGISTERDATE,
+						NVL(ZDBR.PRINCIPALBALANCE,0) AS PRINCIPALBALANCE,
+						NVL(ZDBR.DCOVERDUEDAYBEFORE,0) AS DCOVERDUEDAYBEFORE,
+						NVL(ZDBR.DCOVERDUEPRINCIPALBEFORE,0) AS DCOVERDUEPRINCIPALBEFORE,
+						NVL(ZDBR.DCOVERDUEINTERESTBEFORE,0) AS DCOVERDUEINTERESTBEFORE,
+						ZDBR.DCDATE,
+						ZDBR.PAYDATE,
+						ZDBR.ASSETBELONG,
+						ZDBR.GUARANTEEPARTY,
+						ZDBR.PRINCIPALREMAININGSUM,
+						NVL(ZDBR.OVERDUEPRINCIPAL,0) AS OVERDUEPRINCIPAL,
+						NVL(ZDBR.OVERDUEINTEREST,0) AS OVERDUEINTEREST,
+						NVL(ZDBR.DCPRINCIPAL,0) AS DCPRINCIPAL,
+						NVL(ZDBR.DCINTEREST,0) AS DCINTEREST,
+						NVL(ZDBR.DCAMOUNT,0) AS DCAMOUNT,
+						ZDBR.APPROVESTATUS,
+						ZDBR.PAYSTATUS,
+						<!-- CASE WHEN ZDBR.APPROVESTATUS = 1 THEN '已审核' WHEN ZDBR.APPROVESTATUS = 0 THEN '未审核' ELSE NULL END AS APPROVESTATUS,
+						CASE WHEN ZDBR.PAYSTATUS = 1 THEN '已支付' WHEN ZDBR.PAYSTATUS = 0 THEN '未支付' ELSE NULL END AS PAYSTATUS, -->
+						ZDBR.APPROVETIME,
+						ZDBR.APPROVEBY,
+						ZDBR.APPROVEREMARK,
+						ZDBR.KEEPACCOUNTSSTATUS,
+						ZDBR.KEEPACCOUNTSBY,
+						ZDBR.KEEPACCOUNTSREMARK
+				  FROM ZJJS_DC_BANKROLL_RECKON ZDBR
+				 <include refid="CompensatoryDetail_Where_Sql" />
+				)   A WHERE ROWNUM &lt;= #{endpoint} 
+			  ) WHERE RN &gt;= #{startpoint} 			  
+	</select>
+	
+	<select id="queryRepaymentDetailById" resultType="com.billionsfinance.bas.entity.ClientRepaymentVO">
+		 SELECT ZDBR.KEEPACCOUNTSDATE,
+				ZDBR.SERIALNUMBER,
+				NVL(ZDBR.SEQID,0) AS SEQID,
+				ZDBR.LOANNO,
+				ZDBR.CONTRACTNO,
+				ZDBR.CLIENTNAME,
+				ZDBR.CITY,
+				ZDBR.CAPITALSIDE,
+				ZDBR.PRODUCTTYPE,
+				ZDBR.PRODUCTSUBTYPE,
+				ZDBR.REGISTERDATE,
+				ZDBR.PRINCIPALBALANCE,
+				ZDBR.DCOVERDUEDAYBEFORE,
+				ZDBR.DCOVERDUEPRINCIPALBEFORE,
+				ZDBR.DCOVERDUEINTERESTBEFORE,
+				ZDBR.DCDATE,
+				ZDBR.PAYDATE,
+				ZDBR.ASSETBELONG,
+				ZDBR.GUARANTEEPARTY,
+				ZDBR.PRINCIPALREMAININGSUM,
+				NVL(ZDBR.OVERDUEPRINCIPAL,0) AS OVERDUEPRINCIPAL,
+				NVL(ZDBR.OVERDUEINTEREST,0) AS OVERDUEINTEREST,
+				NVL(ZDBR.DCPRINCIPAL,0) AS DCPRINCIPAL,
+				NVL(ZDBR.DCINTEREST,0) AS DCINTEREST,
+				NVL(ZDBR.DCAMOUNT,0) AS DCAMOUNT,
+				ZDBR.APPROVESTATUS,
+				ZDBR.APPROVETIME,
+				ZDBR.APPROVEBY,
+				ZDBR.APPROVEREMARK,
+				ZDBR.KEEPACCOUNTSSTATUS,
+				ZDBR.KEEPACCOUNTSBY,
+				ZDBR.KEEPACCOUNTSREMARK,
+				ZDBR.PAYSTATUS
+				<!-- CASE WHEN ZDBR.PAYSTATUS = 1 THEN '已支付' WHEN ZDBR.PAYSTATUS = 0 THEN '未支付' ELSE NULL END AS PAYSTATUS -->
+		  FROM ZJJS_DC_BANKROLL_RECKON ZDBR
+		 <include refid="CompensatoryDetail_Where_Sql" />
+	</select>
+	
+	<select id="queryRepaymentDetailFindAll" parameterType="com.billionsfinance.bas.entity.ClientRepaymentVO" resultMap="CompensatoryDetailMap">
+		 SELECT ZDBR.KEEPACCOUNTSDATE,
+				ZDBR.SERIALNUMBER,
+				NVL(ZDBR.SEQID,0) AS SEQID,
+				ZDBR.LOANNO,
+				ZDBR.CONTRACTNO,
+				ZDBR.CLIENTNAME,
+				ZDBR.CITY,
+				ZDBR.CAPITALSIDE,
+				ZDBR.PRODUCTTYPE,
+				ZDBR.PRODUCTSUBTYPE,
+				ZDBR.REGISTERDATE,
+				NVL(ZDBR.PRINCIPALBALANCE,0) AS PRINCIPALBALANCE,
+				NVL(ZDBR.DCOVERDUEDAYBEFORE,0) AS DCOVERDUEDAYBEFORE,
+				NVL(ZDBR.DCOVERDUEPRINCIPALBEFORE,0) AS DCOVERDUEPRINCIPALBEFORE,
+				NVL(ZDBR.DCOVERDUEINTERESTBEFORE,0) AS DCOVERDUEINTERESTBEFORE,
+				ZDBR.DCDATE,
+				ZDBR.PAYDATE,
+				ZDBR.ASSETBELONG,
+				ZDBR.GUARANTEEPARTY,
+				ZDBR.PRINCIPALREMAININGSUM,
+				NVL(ZDBR.OVERDUEPRINCIPAL,0) AS OVERDUEPRINCIPAL,
+				NVL(ZDBR.OVERDUEINTEREST,0) AS OVERDUEINTEREST,
+				NVL(ZDBR.DCPRINCIPAL,0) AS DCPRINCIPAL,
+				NVL(ZDBR.DCINTEREST,0) AS DCINTEREST,
+				NVL(ZDBR.DCAMOUNT,0) AS DCAMOUNT,
+				ZDBR.APPROVESTATUS,
+				ZDBR.APPROVETIME,
+				ZDBR.APPROVEBY,
+				ZDBR.APPROVEREMARK,
+				ZDBR.KEEPACCOUNTSSTATUS,
+				ZDBR.KEEPACCOUNTSBY,
+				ZDBR.KEEPACCOUNTSREMARK,
+				ZDBR.PAYSTATUS
+				<!-- CASE WHEN ZDBR.PAYSTATUS = 1 THEN '已支付' WHEN ZDBR.PAYSTATUS = 0 THEN '未支付' ELSE NULL END AS PAYSTATUS -->
+		  FROM ZJJS_DC_BANKROLL_RECKON ZDBR
+		 <include refid="CompensatoryDetail_Where_Sql" />
+	</select>
+	
+
+	<sql id="CompensatoryDetail_Where_Sql">
+    	<where> 
+		<if test=" seqId != null and seqId != '' and seqId != 0">
+			AND ZDBR.SEQID = #{seqId,jdbcType=VARCHAR}
+		</if>
+		<if test=" contractNo != null and contractNo != ''">
+			AND ZDBR.CONTRACTNO = #{contractNo,jdbcType=VARCHAR}
+		</if>
+		<if test=" startKeepaccountsDate != null and startKeepaccountsDate != ''">
+			AND ZDBR.KEEPACCOUNTSDATE &gt;= #{startKeepaccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endKeepaccountsDate != null and endKeepaccountsDate != ''">
+			AND ZDBR.KEEPACCOUNTSDATE &lt;= #{endKeepaccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" startDcDate != null and startDcDate != ''">
+			AND ZDBR.DCDATE &gt;= #{startDcDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endDcDate != null and endDcDate != ''">
+			AND ZDBR.DCDATE &lt;= #{endDcDate,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<sql id="AccountingMark_Where_Sql">
+    	<where> 
+    		AND ZDBR.PAYSTATUS = 1
+    		AND (ZDBR.KEEPACCOUNTSSTATUS IN ('0','2') OR ZDBR.KEEPACCOUNTSSTATUS IS NULL)
+		<if test=" seqId != null and seqId != '' and seqId != 0">
+			AND ZDBR.SEQID = #{seqId,jdbcType=VARCHAR}
+		</if>
+		<if test=" contractNo != null and contractNo != ''">
+			AND ZDBR.CONTRACTNO = #{contractNo,jdbcType=VARCHAR}
+		</if>
+		<if test=" startKeepaccountsDate != null and startKeepaccountsDate != ''">
+			AND ZDBR.KEEPACCOUNTSDATE &gt;= #{startKeepaccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endKeepaccountsDate != null and endKeepaccountsDate != ''">
+			AND ZDBR.KEEPACCOUNTSDATE &lt;= #{endKeepaccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" startDcDate != null and startDcDate != ''">
+			AND ZDBR.DCDATE &gt;= #{startDcDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endDcDate != null and endDcDate != ''">
+			AND ZDBR.DCDATE &lt;= #{endDcDate,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<sql id="CancelAccountingMark_Where_Sql">
+    	<where> 
+    		AND ZDBR.KEEPACCOUNTSSTATUS = 1
+		<if test=" seqId != null and seqId != '' and seqId != 0">
+			AND ZDBR.SEQID = #{seqId,jdbcType=VARCHAR}
+		</if>
+		<if test=" contractNo != null and contractNo != ''">
+			AND ZDBR.CONTRACTNO = #{contractNo,jdbcType=VARCHAR}
+		</if>
+		<if test=" startKeepaccountsDate != null and startKeepaccountsDate != ''">
+			AND ZDBR.KEEPACCOUNTSDATE &gt;= #{startKeepaccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endKeepaccountsDate != null and endKeepaccountsDate != ''">
+			AND ZDBR.KEEPACCOUNTSDATE &lt;= #{endKeepaccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" startDcDate != null and startDcDate != ''">
+			AND ZDBR.DCDATE &gt;= #{startDcDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endDcDate != null and endDcDate != ''">
+			AND ZDBR.DCDATE &lt;= #{endDcDate,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<!-- 匹配合同个数 总金额  -->
+	<select id="queryRepaymentDetailCount" parameterType="java.util.HashMap" resultMap="CompensatoryDetailMap">
+		SELECT COUNT(1) AS CONTRACTCOUNT,
+		       SUM(DCAMOUNT) AS MONEYCOUNT,
+		       SUM(PRINCIPALBALANCE) AS PRINCIPALBALANCESUM,
+		       SUM(DCOVERDUEPRINCIPALBEFORE) AS DCOVERDUEPRINCIPALBEFORESUM,
+		       SUM(DCOVERDUEINTERESTBEFORE) AS DCOVERDUEINTERESTBEFORESUM,
+		       SUM(OVERDUEPRINCIPAL) AS OVERDUEPRINCIPALSUM,
+		       SUM(OVERDUEINTEREST) AS OVERDUEINTERESTSUM,
+		       SUM(DCPRINCIPAL) AS DCPRINCIPALSUM,
+		       SUM(DCINTEREST) AS DCINTERESTSUM,
+		       SUM(DCAMOUNT) AS DCAMOUNTSUM
+		  FROM ZJJS_DC_BANKROLL_RECKON ZDBR
+		<include refid="CompensatoryDetail_Where_Sql" />
+	</select>
+	
+	<!-- 记账确认 -->
+	<update id="accountingMark">
+		UPDATE ZJJS_DC_BANKROLL_RECKON ZDBR SET 
+			KEEPACCOUNTSSTATUS = '1',
+			KEEPACCOUNTSBY = #{keepaccountsBy,jdbcType=VARCHAR},
+			KEEPACCOUNTSDATE = #{updateDate,jdbcType=VARCHAR},
+			KEEPACCOUNTSREMARK = #{keepaccountsRemark,jdbcType=VARCHAR}
+		<include refid="AccountingMark_Where_Sql" />
+	</update>
+	
+	<!-- 记账撤销 -->
+	<update id="cancelAccountingMark">
+		UPDATE ZJJS_DC_BANKROLL_RECKON ZDBR SET 
+			KEEPACCOUNTSSTATUS = '2',
+			KEEPACCOUNTSREMARK = '记账撤销',
+			KEEPACCOUNTSDATE = ''
+		<include refid="CancelAccountingMark_Where_Sql" />
+	</update>
+	
+	<!-- 审核 -->
+	<update id="contractApprove">
+		UPDATE ZJJS_DC_BANKROLL_RECKON ZDBR SET
+			APPROVEREMARK = #{approveRemark,jdbcType=VARCHAR},
+			APPROVEBY = #{approveBy,jdbcType=VARCHAR},
+			APPROVETIME = #{approveTime,jdbcType=VARCHAR},
+			APPROVESTATUS = '1'
+		<include refid="CompensatoryDetail_Where_Sql" />
+	</update>
+	
+</mapper>

@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.SysAdminDao" >
+	<resultMap id="BaseResultMap" type="java.util.HashMap">
+		<id column="PK_UUID" property="pkUuid" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="UPDATED_USER" property="updatedUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="VALID_IND" property="validInd" jdbcType="CHAR" javaType="java.lang.String" />
+ 		<result column="CREATED_DATE" property="createdDate" jdbcType="DATE" javaType="java.lang.String" />
+ 		<result column="USER_CODE" property="userCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CREATED_USER" property="createdUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ADMIN_LEVEL" property="adminLevel" jdbcType="CHAR" javaType="java.lang.String" />
+ 		<result column="SYS_CODE" property="sysCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="UPDATED_DATE" property="updatedDate" jdbcType="DATE" javaType="java.lang.String" />
+  	</resultMap>
+
+	<resultMap id="BaseResultVo" type="com.billionsfinance.bas.entity.SysAdminVO">
+		<id column="PK_UUID" property="pkUuid" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="UPDATED_USER" property="updatedUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="VALID_IND" property="validInd" jdbcType="CHAR" javaType="java.lang.String" />
+ 		<result column="CREATED_DATE" property="createdDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+ 		<result column="USER_CODE" property="userCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CREATED_USER" property="createdUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ADMIN_LEVEL" property="adminLevel" jdbcType="CHAR" javaType="java.lang.String" />
+ 		<result column="SYS_CODE" property="sysCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="UPDATED_DATE" property="updatedDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+  	</resultMap>
+
+	<!-- 查询数据列Sql不转换成对应的Java命名 -->
+	<sql id="Base_Column_List" >
+		UPDATED_USER,
+		VALID_IND,
+		CREATED_DATE,
+		USER_CODE,
+		CREATED_USER,
+		ADMIN_LEVEL,
+		SYS_CODE,
+		UPDATED_DATE,
+		PK_UUID
+	</sql>
+	
+	<!-- 查询数据列Sql换成对应的Java命名 -->
+	<sql id="Base_Column_List_JavaName" >
+		UPDATED_USER as "updatedUser",
+		VALID_IND as "validInd",
+		CREATED_DATE as "createdDate",
+		USER_CODE as "userCode",
+		CREATED_USER as "createdUser",
+		ADMIN_LEVEL as "adminLevel",
+		SYS_CODE as "sysCode",
+		UPDATED_DATE as "updatedDate",
+		PK_UUID as "pkUuid"
+	</sql>
+	
+	<!-- 写入操作的SQL -->
+	<sql id="Insert_Base_values">
+		#{updatedUser,jdbcType=VARCHAR},
+ 		#{validInd,jdbcType=CHAR},
+ 		SYSDATE,
+ 		#{userCode,jdbcType=VARCHAR},
+ 		#{createdUser,jdbcType=VARCHAR},
+ 		#{adminLevel,jdbcType=CHAR},
+ 		#{sysCode,jdbcType=VARCHAR},
+ 		SYSDATE,
+ 		#{pkUuid,jdbcType=VARCHAR}
+ 	</sql>
+	
+	<!-- 查询条件的sql -->
+	<sql id="Base_Where_Sql">
+		<where>
+		<if test="updatedUser != null and updatedUser != ''">
+			and UPDATED_USER = #{updatedUser,jdbcType=VARCHAR}
+		</if>
+		<if test="validInd != null and validInd != ''">
+			and VALID_IND = #{validInd,jdbcType=CHAR}
+		</if>
+		<if test="createdDate != null and createdDate != ''">
+			and CREATED_DATE = #{createdDate,jdbcType=DATE}
+		</if>
+		<if test="userCode != null and userCode != ''">
+			and USER_CODE = #{userCode,jdbcType=VARCHAR}
+		</if>
+		<if test="createdUser != null and createdUser != ''">
+			and CREATED_USER = #{createdUser,jdbcType=VARCHAR}
+		</if>
+		<if test="adminLevel != null and adminLevel != ''">
+			and ADMIN_LEVEL = #{adminLevel,jdbcType=CHAR}
+		</if>
+		<if test="sysCode != null and sysCode != ''">
+			and SYS_CODE = #{sysCode,jdbcType=VARCHAR}
+		</if>
+		<if test="updatedDate != null and updatedDate != ''">
+			and UPDATED_DATE = #{updatedDate,jdbcType=DATE}
+		</if>
+		<if test="pkUuid != null and pkUuid != ''">
+			and PK_UUID = #{pkUuid,jdbcType=VARCHAR}
+		</if>
+		</where>
+	</sql>
+	
+		<!-- 查询UM管理员数据 -->
+	<select id="queryAdminData" parameterType="map" resultType="map">
+	     select 
+		    u.USER_CODE as "userCode",
+		    r.user_cname as "userCname",
+		    u.PK_UUID as "pkUuid",
+		    u.VALID_IND as "validInd"
+	     from UM_ADMIN u,um_user r
+                  where u.user_code = r.user_code
+		    and u.sys_code = #{sysCode,jdbcType=VARCHAR}
+		    <if test="validInd != null and validInd != ''">
+		  	  and u.valid_ind = #{validInd,jdbcType=CHAR}
+		    </if>
+	</select>
+
+	<!-- 查询当前系统中，当前用户可以分配的系统用户-->
+	<select id="queryCurrSysUser" parameterType="map" resultType="map">
+	     select r.USER_CODE as "userCode", e.user_cname as "userCname"
+		   from (select us.USER_CODE
+		           from um_system_user us,
+		                (select distinct m.user_code
+		                   from um_system_user u, um_admin m
+		                  where u.sys_code = m.sys_code
+		                    and u.sys_code = #{sysCode,jdbcType=VARCHAR}
+		                    and u.valid_ind = #{validInd,jdbcType=VARCHAR}
+		                    and m.valid_ind = #{validInd,jdbcType=VARCHAR}) a
+		          where us.user_code = a.user_code(+)
+		            and us.sys_code = #{sysCode,jdbcType=VARCHAR}
+		            and us.valid_ind = #{validInd,jdbcType=VARCHAR}
+		            and a.user_code is null) r, um_user e
+ 	         where r.user_code = e.user_code
+ 	          <if test="userCode != null and userCode != ''">
+			   and lower(r.USER_CODE) like '%'||lower(trim(#{userCode,jdbcType=VARCHAR}))||'%'
+	         </if>
+	         <if test="userCname != null and userCname != ''">
+			   and e.USER_CNAME like '%'||trim(#{userCname,jdbcType=VARCHAR})||'%'
+	         </if>
+	</select>
+	
+	<!-- 
+		insert操作给定的参数是java.util.Map<String,Object>类型的对象，
+		与<sql id="Insert_Base_values">中配置的列一致
+	-->
+	<insert id="saveSysAdmin" parameterType="com.billionsfinance.bas.entity.SysAdminVO" >
+    insert into UM_ADMIN (
+		<include refid="Base_Column_List" />
+    )
+	values (
+		<include refid="Insert_Base_values" />
+    )
+	</insert>
+	
+	<update id="updateSysAdminById" parameterType="map" >
+		update UM_ADMIN
+		<set>
+		<if test="updatedUser != null and updatedUser != ''">
+			UPDATED_USER = #{updatedUser,jdbcType=VARCHAR},
+		</if>
+	  	<if test="validInd != null and validInd != ''">
+			VALID_IND = #{validInd,jdbcType=CHAR},
+		</if>
+	  	<if test="createdDate != null and createdDate != ''">
+			CREATED_DATE = #{createdDate,jdbcType=DATE},
+		</if>
+	  	<if test="userCode != null and userCode != ''">
+			USER_CODE = #{userCode,jdbcType=VARCHAR},
+		</if>
+	  	<if test="createdUser != null and createdUser != ''">
+			CREATED_USER = #{createdUser,jdbcType=VARCHAR},
+		</if>
+	  	<if test="adminLevel != null and adminLevel != ''">
+			ADMIN_LEVEL = #{adminLevel,jdbcType=CHAR},
+		</if>
+	  	<if test="sysCode != null and sysCode != ''">
+			SYS_CODE = #{sysCode,jdbcType=VARCHAR},
+		</if>
+		UPDATED_DATE = SYSDATE,
+	   	</set>
+		where PK_UUID = #{pkUuid,jdbcType=VARCHAR}
+	</update>
+	
+		<!-- 条件查询总数据量 -->
+	<select id="queryAdminCount" parameterType="map" resultType="long">
+         select count(1)
+             from UM_ADMIN D,UM_SYSTEM U,UM_USER E 
+             where U.SYS_CODE = D.SYS_CODE AND E.USER_CODE = D.USER_CODE
+             <if test="updatedUser != null and updatedUser != ''">
+			and D.UPDATED_USER = #{updatedUser,jdbcType=VARCHAR}
+            </if>
+            <if test="validInd != null and validInd != ''">
+			and D.VALID_IND = #{validInd,jdbcType=CHAR}
+            </if>
+			<if test="createdDate != null and createdDate != ''">
+			and D.CREATED_DATE = #{createdDate,jdbcType=DATE}
+			</if>
+			<if test="userCode != null and userCode != ''">
+			and lower(D.USER_CODE) like '%'||lower(trim(#{userCode,jdbcType=VARCHAR}))||'%'
+			</if>
+			<if test="createdUser != null and createdUser != ''">
+				and D.CREATED_USER = #{createdUser,jdbcType=VARCHAR}
+			</if>
+			<if test="adminLevel != null and adminLevel != ''">
+				and D.ADMIN_LEVEL = #{adminLevel,jdbcType=CHAR}
+			</if>
+			<if test="sysCode != null and sysCode != ''">
+				and D.SYS_CODE = #{sysCode,jdbcType=VARCHAR}
+			</if>
+			<if test="updatedDate != null and updatedDate != ''">
+				and D.UPDATED_DATE = #{updatedDate,jdbcType=DATE}
+			</if>
+			<if test="pkUuid != null and pkUuid != ''">
+				and D.PK_UUID = #{pkUuid,jdbcType=VARCHAR}
+			</if>
+	</select>
+
+	<!-- 单独条件分页查询语句,注意下面语句中的endpoint和startpoint这两个名称不可修改，否则将导致sql错误 -->
+	<select id="queryAdmin" parameterType="map" resultType="map">
+	select * from (
+			select a.*,rownum rn from (
+			select 
+			D.UPDATED_USER as "updatedUser",
+			D.VALID_IND as "validInd",
+			to_char(D.CREATED_DATE,'yyyy-mm-dd') as "createdDate",
+			D.USER_CODE as "userCode",
+			E.USER_CNAME as "userCname",
+			D.CREATED_USER as "createdUser",
+			D.ADMIN_LEVEL as "adminLevel",
+			D.SYS_CODE as "sysCode",
+			U.SYS_CNAME as "sysCname",
+	        U.SYS_DESC  as "sysDesc",
+			to_char(D.UPDATED_DATE,'yyyy-mm-dd') as "updatedDate",
+			D.PK_UUID as "pkUuid"
+           from UM_ADMIN D,UM_SYSTEM U,UM_USER E 
+           where U.SYS_CODE = D.SYS_CODE AND E.USER_CODE = D.USER_CODE
+           <if test="updatedUser != null and updatedUser != ''">
+			and D.UPDATED_USER = #{updatedUser,jdbcType=VARCHAR}
+            </if>
+            <if test="validInd != null and validInd != ''">
+			and D.VALID_IND = #{validInd,jdbcType=CHAR}
+            </if>
+			<if test="createdDate != null and createdDate != ''">
+			and D.CREATED_DATE = #{createdDate,jdbcType=DATE}
+			</if>
+			<if test="userCode != null and userCode != ''">
+			and lower(D.USER_CODE) like '%'||lower(trim(#{userCode,jdbcType=VARCHAR}))||'%'
+			</if>
+			<if test="createdUser != null and createdUser != ''">
+				and D.CREATED_USER = #{createdUser,jdbcType=VARCHAR}
+			</if>
+			<if test="adminLevel != null and adminLevel != ''">
+				and D.ADMIN_LEVEL = #{adminLevel,jdbcType=CHAR}
+			</if>
+			<if test="sysCode != null and sysCode != ''">
+				and D.SYS_CODE = #{sysCode,jdbcType=VARCHAR}
+			</if>
+			<if test="updatedDate != null and updatedDate != ''">
+				and D.UPDATED_DATE = #{updatedDate,jdbcType=DATE}
+			</if>
+			<if test="pkUuid != null and pkUuid != ''">
+				and D.PK_UUID = #{pkUuid,jdbcType=VARCHAR}
+			</if>
+			<if test="userCname != null and userCname != ''">
+				and E.USER_CNAME like '%'||trim(#{userCname,jdbcType=VARCHAR})||'%'
+			</if>
+			order by D.UPDATED_DATE desc,D.SYS_CODE desc
+			) a where rownum &lt;= #{endpoint}
+		) where rn &gt;= #{startpoint}
+	</select>
+      
+</mapper>

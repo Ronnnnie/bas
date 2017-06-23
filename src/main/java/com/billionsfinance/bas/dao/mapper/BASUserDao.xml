@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.BASUserDao" >
+	<resultMap id="BaseResultMap" type="java.util.HashMap">
+		<id column="USER_CODE" property="userCode" javaType="java.lang.String" jdbcType="VARCHAR" />
+  		<result column="USER_CNAME" property="userCname" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="STATUS" property="status" jdbcType="CHAR" javaType="java.lang.String" />
+ 		<result column="PWD" property="pwd" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PWD_UPDATE_TIME" property="pwdUpdateTime" jdbcType="DATE" javaType="java.sql.Timestamp" />
+ 		<result column="CREATED_USER" property="createdUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CREATED_DATE" property="createdDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+		<result column="UPDATED_USER" property="updatedUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="UPDATED_DATE" property="updatedDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+ 		<result column="USER_EMAIL" property="userEmail" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="USER_PHONE" property="userPhone" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ROGID" property="orgid" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DEPTNO" property="deptNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 	</resultMap>
+	
+	<resultMap id="BaseResultVo" type="com.billionsfinance.bas.entity.BASUserVO">
+		<id column="USER_CODE" property="userCode" javaType="java.lang.String" jdbcType="VARCHAR" />
+  		<result column="USER_CNAME" property="userCname" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="STATUS" property="status" jdbcType="CHAR" javaType="java.lang.String" />
+ 		<result column="PWD" property="pwd" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PWD_UPDATE_TIME" property="pwdUpdateTime" jdbcType="DATE" javaType="java.sql.Timestamp" />
+ 		<result column="CREATED_USER" property="createdUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CREATED_DATE" property="createdDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+		<result column="UPDATED_USER" property="updatedUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="UPDATED_DATE" property="updatedDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+ 		<result column="USER_EMAIL" property="userEmail" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="USER_PHONE" property="userPhone" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ORGID" property="orgid" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DEPTNO" property="deptNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 	</resultMap>
+
+
+	<!-- 查询数据列Sql换成对应的Java命名 -->
+	<sql id="Base_Column_List_JavaName" >
+		u.USER_CODE as "userCode",
+		u.USER_CNAME as "userCname",
+		u.STATUS as "status",
+		u.PWD_UPDATE_TIME as "pwdUpdateTime",
+		u.CREATED_USER as "createdUser",
+		u.CREATED_DATE as "createdDate",
+		u.UPDATED_USER as "updatedUser",
+		u.UPDATED_DATE as "updatedDate",
+		u.USER_EMAIL as "userEmail",
+		u.USER_PHONE as "userPhone",
+		u.ORGID as "orgid",
+		u.DEPTNO as "deptNo"
+	</sql>
+	
+	<sql id="Role_Column_List_JavaName">
+		r.ROLE_CODE as "roleCode",
+		r.ROLE_CNAME as "roleCname"
+	</sql>
+	
+	<!-- 写入操作的SQL -->
+	<sql id="Insert_Base_values">
+ 		#{userCode,jdbcType=VARCHAR},
+ 		#{userCname,jdbcType=VARCHAR},
+ 		#{status,jdbcType=CHAR},
+ 		#{pwd,jdbcType=VARCHAR},
+ 		#{pwdUpdateTime,jdbcType=DATE},
+ 		#{createdUser,jdbcType=VARCHAR},
+ 		SYSDATE,
+		#{updatedUser,jdbcType=VARCHAR},
+ 		SYSDATE,
+ 		#{userEmail,jdbcType=VARCHAR},
+ 		#{userPhone,jdbcType=VARCHAR},
+		#{orgid,jdbcType=VARCHAR},
+		#{deptNo,jdbcType=VARCHAR},
+ 	</sql>
+ 	
+ 	<!-- 查询数据列Sql不转换成对应的Java命名 -->
+	<sql id="Insert_Column_List" >
+		USER_CODE,
+		USER_CNAME,
+		STATUS,
+		PWD,
+		PWD_UPDATE_TIME,
+		CREATED_USER,
+		CREATED_DATE,
+		UPDATED_USER,
+		UPDATED_DATE,
+		USER_EMAIL,
+		USER_PHONE,
+		ORGID,
+		DEPTNO
+	</sql>
+	
+	<!-- 写入操作的SQL -->
+	<sql id="Insert_Column_values">
+ 		#{userCode,jdbcType=VARCHAR},
+ 		#{userCname,jdbcType=VARCHAR},
+ 		#{status,jdbcType=CHAR},
+ 		#{pwd,jdbcType=VARCHAR},
+ 		#{pwdUpdateTime,jdbcType=DATE},
+ 		#{createdUser,jdbcType=VARCHAR},
+ 		SYSDATE,
+		#{updatedUser,jdbcType=VARCHAR},
+ 		SYSDATE,
+ 		#{userEmail,jdbcType=VARCHAR},
+ 		#{userPhone,jdbcType=VARCHAR},
+ 		#{orgid,jdbcType=VARCHAR},
+ 		#{deptNo,jdbcType=VARCHAR}
+ 	</sql>
+	
+	<!-- 查询条件的sql -->
+	<sql id="Base_Where_Sql">
+		<where>
+		<if test="updatedUser != null and updatedUser != ''">
+			and UPDATED_USER = #{updatedUser,jdbcType=VARCHAR}
+		</if>
+		<if test="pwdUpdateTime != null and pwdUpdateTime != ''">
+			and PWD_UPDATE_TIME = #{pwdUpdateTime,jdbcType=DATE}
+		</if>
+		<if test="userCode != null and userCode != ''">
+			and USER_CODE = #{userCode,jdbcType=VARCHAR}
+		</if>
+		<if test="userCname != null and userCname != ''">
+			and USER_CNAME = #{userCname,jdbcType=VARCHAR}
+		</if>
+		<if test="createdUser != null and createdUser != ''">
+			and CREATED_USER = #{createdUser,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null and status != ''">
+			and STATUS = #{status,jdbcType=CHAR}
+		</if>
+		<if test="updatedDate != null and updatedDate != ''">
+			and UPDATED_DATE = #{updatedDate,jdbcType=DATE}
+		</if>
+		<if test="pwd != null and pwd != ''">
+			and PWD = #{pwd,jdbcType=VARCHAR}
+		</if>
+		<if test="createdDate != null and createdDate != ''">
+			and CREATED_DATE = #{createdDate,jdbcType=DATE}
+		</if>
+		</where>
+	</sql>
+	
+	<select id="checkUser" parameterType="com.billionsfinance.bas.entity.BASUserVO" 
+				resultMap="BaseResultVo">
+		select * from um_user
+		<include refid="Base_Where_Sql" /> 
+	</select>
+	
+	<!-- 根据条件获取用户个数  -->
+	<select id="queryUserCount" parameterType="map" resultType="long">
+		select count(1) from  um_user
+			<where>
+				ishide = '0'
+                 <if test="status != null and status != ''">
+					AND STATUS = #{status,jdbcType=CHAR}
+				</if>
+				<if test="userCode != null and userCode != ''">
+					AND USER_CODE = #{userCode,jdbcType=VARCHAR}
+				</if>
+				<if test="userCname != null and userCname != ''">
+					AND USER_CNAME = #{userCname,jdbcType=VARCHAR}
+				</if>
+			</where>
+	</select>
+		
+		<!-- 根据条件获取用户 -->
+		<!-- <select id="queryUserListPage" parameterType="map" resultType="map">
+			  select * from (
+			  select a.*,rownum rn from (
+			    select distinct 
+			 	    hr.fname as "deptName",
+			    	<include refid="Base_Column_List_JavaName"/>
+	                from 
+		                   um_user                   u 
+	                       left join 
+	                       hr_user_department        hu
+	                       on  u.user_code = hu.user_code and hu.valid_ind = '1'
+	                       left join
+	                       HR_DEPARTMENT_INFORMATION hr
+	                       部门启用
+	                       on  hu.DEPTID = hr.FID and hr.FISSTART = '0'
+	              		<where>
+			                <if test="deptIdLists != null and !deptIdLists.isEmpty">
+				                and hu.user_code = u.user_code
+			                 	and hu.valid_ind = '1'
+			              		and hu.deptId in
+				                <foreach collection="deptIdLists" item="deptIdList"  separator="or hu.deptId in" index="index">
+					                <foreach collection="deptIdList" item="deptId"
+					                    index="index" open="(" close=")" separator=",">
+					                    #{deptId}
+					                </foreach>
+				                </foreach>
+			                 </if>
+			                 <if test="userCode != null and userCode != ''">
+			                 	and lower(u.user_code) like '%'||lower(trim(#{userCode}))||'%'
+			                 </if>
+			                 <if test="userCname != null and userCname != ''">
+			                 	and u.user_cname like '%'||trim(#{userCname})||'%' 
+			                 </if>
+			                 <if test="status != null and status != ''">
+			                 	and u.status = #{status}
+			                 </if>
+	                   </where> 
+	                   order by u.UPDATED_DATE desc,u.user_code desc
+	                 ) a where rownum &lt;= #{endpoint} 
+			  ) where rn &gt;= #{startpoint} 
+		</select> -->
+		
+		<!-- 根据条件获取用户   替代上面的方法 -->
+		<select id="queryUserListPage" parameterType="map" resultType="map">
+			  select * from (
+			  select a.*,rownum rn from (
+			  	select
+			    	<include refid="Role_Column_List_JavaName" />,
+			    	<include refid="Base_Column_List_JavaName"/>
+		             from  UM_USER  u 
+		             LEFT JOIN UM_SYS_USER_ROLE ur ON u.user_code = ur.user_code
+		             LEFT JOIN UM_ROLE r ON ur.role_code = r.role_code
+	             		<where>
+	             			u.ishide = '0'
+			                 <if test="userCode != null and userCode != ''">
+			                 	and u.user_code = #{userCode,jdbcType=VARCHAR}
+			                 </if>
+			                 <if test="userCname != null and userCname != ''">
+			                 	and u.user_cname = #{userCname,jdbcType=VARCHAR}
+			                 </if>
+			                 <if test="status != null and status != ''">
+								and STATUS = #{status,jdbcType=CHAR}
+							</if>
+						</where>
+	                   order by u.UPDATED_DATE desc,u.user_code desc
+	                 ) a where rownum &lt;= #{endpoint} 
+			  ) where rn &gt;= #{startpoint} 
+		</select>
+	
+	
+
+		<!-- 
+		insert操作给定的参数是java.util.Map<String,Object>类型的对象，
+		与<sql id="Insert_Base_values">中配置的列一致
+	-->
+	<!-- <insert id="saveUser" parameterType="com.billionsfinance.bas.entity.basUserVO" >
+	    insert into UM_USER (
+			<include refid="Base_Column_List" />
+	    )
+		values (
+			<include refid="Insert_Base_values" />
+	    )
+	</insert>
+	 -->
+	<insert id="saveUser" parameterType="com.billionsfinance.bas.entity.BASUserVO" >
+	    insert into UM_USER (
+			<include refid="Insert_Column_List" />
+	    )
+		values (
+			<include refid="Insert_Column_values" />
+	    )
+	</insert>
+	
+	<update id="updateUser" parameterType="com.billionsfinance.bas.entity.BASUserVO" >
+		update UM_USER
+		<set>
+			<if test="updatedUser != null and updatedUser != ''">
+				UPDATED_USER = #{updatedUser,jdbcType=VARCHAR},
+			</if>
+		  	<if test="pwdUpdateTime != null and pwdUpdateTime != ''">
+				PWD_UPDATE_TIME = #{pwdUpdateTime,jdbcType=DATE},
+			</if>
+		   	<if test="userCname != null and userCname != ''">
+				USER_CNAME = #{userCname,jdbcType=VARCHAR},
+			</if>
+			<if test="userPhone != null and userPhone != ''">
+				USER_PHONE = #{userPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="userEmail != null and userEmail != ''">
+				USER_EMAIL = #{userEmail,jdbcType=VARCHAR},
+			</if>
+		  	<if test="status != null and status != ''">
+				STATUS = #{status,jdbcType=CHAR},
+			</if>
+		  	<if test="pwd != null and pwd != ''">
+				PWD = #{pwd,jdbcType=VARCHAR},
+			</if>
+			<if test="deptNo != null and deptNo != ''">
+				DEPTNO = #{deptNo,jdbcType=VARCHAR},
+			</if>
+				UPDATED_DATE = SYSDATE,
+	  	</set>
+		where USER_CODE = #{userCode,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateStatus" parameterType="map">
+		update UM_USER u
+		<set>
+			<if test="status != null and status != ''">
+				u.status = #{status, jdbcType=CHAR},
+			</if>
+			<if test="updatedUser != null and updatedUser != ''">
+				UPDATED_USER = #{updatedUser,jdbcType=VARCHAR},
+			</if>
+				UPDATED_DATE = SYSDATE
+		</set>
+		where  u.user_code in (
+			select sur.user_code from UM_SYS_USER_ROLE sur
+			where sur.role_code = #{roleCode,jdbcType=VARCHAR}
+		)
+	</update>
+	
+	<delete id="deleteUser" parameterType="java.lang.String" >
+		delete from um_user u where u.user_code = #{_parameter}
+	</delete>
+	
+	<delete id="deleteRoleRe" parameterType="map">
+		delete from UM_SYS_USER_ROLE ur 
+		<where>
+			<if test="userCode != null and userCode != ''">
+				ur.user_code = #{userCode,jdbcType=VARCHAR}
+			</if>
+			<if test="roleCode != null and roleCode != ''">
+				ur.role_code = #{roleCode,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</delete>
+	
+	
+	<!-- 根据Id查询一条数据 -->
+	<select id="findUserByCode" resultMap="BaseResultVo" parameterType="java.lang.String" >
+	    select <include refid="Base_Column_List_JavaName" />
+			from UM_USER u
+			<where>
+			<if test="_parameter != null and _parameter != ''">
+				AND USER_CODE = #{_parameter}
+			</if>
+			</where>
+<!-- 			where USER_CODE = #{userCode,jdbcType=VARCHAR} -->
+	</select>
+	
+		<!-- 修改用户密码 -->
+	<update id="updatePwd" parameterType="com.billionsfinance.bas.entity.BASUserVO" >
+       update um_user t
+          set t.pwd          = #{pwd},
+              t.updated_user = #{updatedUser},
+              t.updated_date = sysdate,
+              t.pwd_update_time = sysdate
+        where t.user_code = #{userCode}   
+	</update>
+	
+	<resultMap id="UserCodeResultMap" type="java.util.HashMap">
+		<id column="id" property="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+		<result column="user_maxcode" property="userMaxCode" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 	</resultMap>
+	
+</mapper>

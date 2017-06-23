@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.DayTradingDao" >
+ 	
+ 	 <resultMap id="DayTradingDetailMap" type="java.util.HashMap">
+  		<result column="TRANSDATE" property="transDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="TRANSTYPE" property="transType" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="TRANSCODE" property="transCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BELONG" property="belong" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DATASOURCE" property="dataSource" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="PRINCIPALAMT" property="principalamt" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="INTEAMT" property="inteamt" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYPRINCIPALAMT" property="payPrincipalamt" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="RECEIVEPRINCIPALAMT" property="receivePrincipalamt" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYINTEAMT" property="payInteamt" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="RECEIVEINTEAMT" property="receiveInteamt" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PUREOVERFLOWSUM" property="pureoverflowsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYPUREOVERFLOWSUM" property="payPureoverflowsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="A2" property="a2" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="A7" property="a7" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="A9" property="a9" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="A10" property="a10" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="A11" property="a11" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="A12" property="a12" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="A17" property="a17" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="A18" property="a18" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="A19" property="a19" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="A22" property="a22" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ISCHECK" property="isCheck" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CREATETIME" property="createTime" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CONTRACTCOUNT" property="contractCount" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="MONEYCOUNT" property="moneyCount" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		
+ 		<result column="PRINCIPALAMTSUM" property="principalamtSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="INTEAMTSUM" property="inteamtSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYPRINCIPALAMTSUM" property="payPrincipalamtSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="RECEIVEPRINCIPALAMTSUM" property="receivePrincipalamtSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYINTEAMTSUM" property="payInteamtSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="RECEIVEINTEAMTSUM" property="receiveInteamtSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PUREOVERFLOWSUMTOTAL" property="pureoverflowsumTotal" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYPUREOVERFLOWSUMTOTAL" property="payPureoverflowsumTotal" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="A2SUM" property="a2Sum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="A7SUM" property="a7Sum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="A9SUM" property="a9Sum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="A10SUM" property="a10Sum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="A11SUM" property="a11Sum" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="A12SUM" property="a12Sum" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="A17SUM" property="a17Sum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="A18SUM" property="a18Sum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="A19SUM" property="a19Sum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="A22SUM" property="a22Sum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 	</resultMap>
+	
+	<select id="queryDayTradingDetail" resultMap="DayTradingDetailMap">
+		SELECT * FROM (
+			SELECT A.*,ROWNUM RN FROM (
+				 SELECT ZTD.TRANSDATE,
+						ZTD.TRANSTYPE,
+						ZTD.TRANSCODE,
+						ZTD.BELONG,
+						ZTD.DATASOURCE,
+						ZTD.PRINCIPALAMT,
+						ZTD.INTEAMT,
+						ZTD.PAYPRINCIPALAMT,
+						ZTD.RECEIVEPRINCIPALAMT,
+						ZTD.PAYINTEAMT,
+						ZTD.RECEIVEINTEAMT,
+						ZTD.A2,
+						ZTD.A7,
+						ZTD.A9,
+						ZTD.A10,
+						ZTD.A11,
+						ZTD.A12,
+						ZTD.A17,
+						ZTD.A18,
+						ZTD.A19,
+						ZTD.A22,
+						ZTD.PUREOVERFLOWSUM,
+						ZTD.ISCHECK,
+						ZTD.PAYPUREOVERFLOWSUM,
+						ZTD.CREATETIME
+				  FROM ZJJS_TRANS_DAILY ZTD
+				 <include refid="DayTradingDetail_Where_Sql" />
+				  ORDER BY ZTD.TRANSDATE DESC
+				)   A WHERE ROWNUM &lt;= #{endpoint} 
+			  ) WHERE RN &gt;= #{startpoint} 			  
+	</select>
+	
+	<select id="queryDayTradingDetailFindAll" resultMap="DayTradingDetailMap" parameterType="com.billionsfinance.bas.entity.DayTradingVO">
+ 		 SELECT ZTD.TRANSDATE,
+				(
+		            CASE WHEN TRANSTYPE = 'zr' THEN '转让' 
+		            	 WHEN TRANSTYPE = 'dc' THEN '代偿' 
+		            	 WHEN TRANSTYPE = 'sh' THEN '赎回' 
+		            	 WHEN TRANSTYPE = 'lp' THEN '理赔' 
+		            	 WHEN TRANSTYPE = 'hk' THEN '还款' 
+		            	 WHEN TRANSTYPE = 'fk' THEN '放款' 
+		            	 WHEN TRANSTYPE = 'hb' THEN '划拨' 
+		            ELSE TRANSTYPE END
+		        ) AS TRANSTYPE,
+				ZTD.TRANSCODE,
+				(select itemname from creditperson_code where itemno=BELONG) BELONG,
+				(
+		            CASE WHEN DATASOURCE = 'as' THEN '安硕' 
+		            	 WHEN DATASOURCE = 'cd' THEN '车贷' 
+		            ELSE DATASOURCE END
+		        ) AS DATASOURCE,
+				NVL(ZTD.PRINCIPALAMT,'0.00') PRINCIPALAMT,
+				NVL(ZTD.INTEAMT,'0.00') INTEAMT,
+				NVL(ZTD.PAYPRINCIPALAMT,'0.00') PAYPRINCIPALAMT,
+				NVL(ZTD.RECEIVEPRINCIPALAMT,'0.00') RECEIVEPRINCIPALAMT,
+				NVL(ZTD.PAYINTEAMT,'0.00') PAYINTEAMT,
+				NVL(ZTD.RECEIVEINTEAMT,'0.00') RECEIVEINTEAMT,
+				NVL(ZTD.A2,'0.00') A2,
+				NVL(ZTD.A7,'0.00') A7,
+				NVL(ZTD.A9,'0.00') A9,
+				NVL(ZTD.A10,'0.00') A10,
+				NVL(ZTD.A11,'0.00') A11,
+				NVL(ZTD.A12,'0.00') A12,
+				NVL(ZTD.A17,'0.00') A17,
+				NVL(ZTD.A18,'0.00') A18,
+				NVL(ZTD.A19,'0.00') A19,
+				NVL(ZTD.A22,'0.00') A22,
+				NVL(ZTD.PUREOVERFLOWSUM,'0.00') PUREOVERFLOWSUM,
+				NVL(ZTD.PAYPUREOVERFLOWSUM,'0.00') PAYPUREOVERFLOWSUM,
+				ZTD.ISCHECK,
+				ZTD.CREATETIME
+		  FROM ZJJS_TRANS_DAILY ZTD
+		 <include refid="DayTradingDetail_Where_Sql" />
+	</select>
+	
+
+	<sql id="DayTradingDetail_Where_Sql">
+    	<where> 
+		<if test=" transType != null and transType != ''">
+			AND ZTD.TRANSTYPE = #{transType,jdbcType=VARCHAR}
+		</if>
+		<if test=" belong != null and belong != ''">
+			AND ZTD.BELONG = #{belong,jdbcType=VARCHAR}
+		</if>
+		<if test=" dataSource != null and dataSource != ''">
+			AND ZTD.DATASOURCE = #{dataSource,jdbcType=VARCHAR}
+		</if>
+		<if test=" startTransDate != null and startTransDate != ''">
+			AND ZTD.TRANSDATE &gt;= #{startTransDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endTransDate != null and endTransDate != ''">
+			AND ZTD.TRANSDATE &lt;= #{endTransDate,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	
+	<!-- 匹配合同个数 总金额  -->
+	<select id="queryDayTradingDetailCount" parameterType="java.util.HashMap" resultMap="DayTradingDetailMap">
+		SELECT 
+		COUNT(1) AS CONTRACTCOUNT,SUM(PRINCIPALAMT) AS MONEYCOUNT,SUM(PRINCIPALAMT) AS PRINCIPALAMTSUM,
+		SUM(INTEAMT) AS INTEAMTSUM,SUM(PAYPRINCIPALAMT) AS PAYPRINCIPALAMTSUM,SUM(RECEIVEPRINCIPALAMT) AS RECEIVEPRINCIPALAMTSUM,
+		SUM(PAYINTEAMT) AS PAYINTEAMTSUM,SUM(RECEIVEINTEAMT) AS RECEIVEINTEAMTSUM,SUM(PUREOVERFLOWSUM) AS PUREOVERFLOWSUMTOTAL,SUM(PAYPUREOVERFLOWSUM) AS PAYPUREOVERFLOWSUMTOTAL,SUM(A2) AS A2SUM,
+		SUM(A7) AS A7SUM,SUM(A9) AS A9SUM,SUM(A10) AS A10SUM,
+		SUM(A11) AS A11SUM,SUM(A12) AS A12SUM,SUM(A17) AS A17SUM,
+		SUM(A18) AS A18SUM,SUM(A19) AS A19SUM,SUM(A22) AS A22SUM
+		FROM ZJJS_TRANS_DAILY ZTD
+		<include refid="DayTradingDetail_Where_Sql" />
+	</select>
+	
+</mapper>

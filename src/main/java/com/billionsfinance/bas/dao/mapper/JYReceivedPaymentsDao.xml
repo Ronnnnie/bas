@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.JYReceivedPaymentsDao" >
+ 	
+ 	 <resultMap id="JYReceivedPaymentsMap" type="java.util.HashMap">
+ 		<result column="SERIALNO" property="contractNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="PAYDATE" property="payDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="SEQID" property="sequence" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYTYPE" property="payType" jdbcType="VARCHAR" javaType="java.lang.String" />
+		<result column="PAYPRINCIPALAMT" property="payprinciPalamt" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYINTEAMT" property="payInteamt" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYAMT" property="payment" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BUSINESSSUM" property="loanAmount" jdbcType="VARCHAR" javaType="java.lang.String" />
+		<result column="PRINCIPALSUM" property="payprinciPalamtSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="INTERESTSUM" property="payInteamtSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYMENTSUM" property="paymentSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BUSINESSSUMSUM" property="loanAmountSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ACTUALPAYDATE" property="repayDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KEEPACCOUNTSDATE" property="keepAccountsTime" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PRODUCTID" property="productId" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SUBPRODUCTTYPE" property="subProductType" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PROVINCE" property="province" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CITY" property="city" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="CITYCODE" property="cityCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CLIENTNAME" property="clientName" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="GUARANTEEPARTY" property="guaranteeParty" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="REGISTRATIONDATE" property="registrationDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CREDITPERSON" property="creditPerson" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ACCORDDATE" property="accordDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYSTATUS" property="payStatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="APPROVESTATUS" property="approveStatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KEEPACCOUNTSSTATUS" property="keepAccountsStatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CONTRACTCOUNT" property="contractCount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 		<result column="MONEYCOUNT" property="moneyCount" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="SNO" property="sno" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="RNO" property="rno" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SA_ID" property="sa_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PRODUCTCATEGORY" property="productcategory" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SURETYPE" property="suretype" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BUSINESSMODEL" property="businessmodel" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CDATE" property="cdate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SJLYBD" property="sjlybd" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="A11" property="a11" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="AMOUNT" property="amount" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ASSETBELONG" property="assetBelong" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DEBOURS" property="debours" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYPRINCIPALAMT" property="payPrincipalAmt" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYINTEAMT" property="payInteamt" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 	</resultMap>
+	
+	<select id="queryJYReceivedPaymentsDetail" resultMap="JYReceivedPaymentsMap">
+		SELECT * FROM (
+			SELECT A.*,ROWNUM RN FROM (
+				 SELECT	ZDD.SERIALNO,
+				  		ZDD.PAYDATE,
+				 		NVL(ZDD.SEQID,0) AS SEQID,
+				  		ZDD.PAYTYPE,
+				  		ZDD.PAYPRINCIPALAMT,
+				 		ZDD.PAYINTEAMT,
+				 		ZDD.PAYAMT,
+				 		ZDD.BUSINESSSUM,
+				 		ZDD.ACTUALPAYDATE,
+				 		ZDD.PRODUCTID,
+				 		ZDD.SUBPRODUCTTYPE,
+				 		ZDD.CITY,
+				 		ZDD.CLIENTNAME,
+				 		ZDD.GUARANTEEPARTY,
+				 		ZDD.PROVINCE,
+				 		ZDD.CITYCODE,
+				 		ZDD.REGISTRATIONDATE,
+				 		ZDD.CREDITPERSON,
+				 		ZDD.ACCORDDATE,
+				 		ZDD.SNO,
+				 		ZDD.RNO,
+				 		ZDD.SA_ID,
+				 		ZDD.PRODUCTCATEGORY,
+				 		ZDD.SURETYPE,
+						ZDD.BUSINESSMODEL,
+						ZDD.CDATE,
+						ZDD.ASSETBELONG,
+				 		ZAD.KEEPACCOUNTSDATE,
+		 				ZAD.KEEPACCOUNTSSTATUS,
+				 		ZAD.APPROVESTATUS,
+ 						ZAD.PAYSTATUS
+				 FROM ZJJS_DOLA_DAILY ZDD
+				 LEFT JOIN ZJJS_ACCOUNTING_DOLA ZAD ON ZAD.ID = ZDD.ID
+				 <include refid="JYReceivedPayments_Where_Sql" />
+				)   A WHERE ROWNUM &lt;= #{endpoint} 
+			  ) WHERE RN &gt;= #{startpoint} 			  
+	</select>
+	
+	<select id="queryJYReceivedPaymentsContract" parameterType="com.billionsfinance.bas.entity.JYReceivedPaymentsVO" resultMap="JYReceivedPaymentsMap">
+		 SELECT	ZDD.SERIALNO,
+		  		ZDD.PAYDATE,
+		 		NVL(ZDD.SEQID,0) AS SEQID,
+		  		ZDD.PAYTYPE,
+		  		NVL(ZDD.PAYPRINCIPALAMT,0) AS PAYPRINCIPALAMT,
+		 		NVL(ZDD.PAYINTEAMT,0) AS PAYINTEAMT,
+		 		NVL(ZDD.PAYAMT,0) AS PAYAMT,
+		 		NVL(ZDD.BUSINESSSUM,0) AS BUSINESSSUM,
+		 		ZDD.ACTUALPAYDATE,
+		 		ZDD.PRODUCTID,
+		 		ZDD.SUBPRODUCTTYPE,
+		 		ZDD.CITY,
+		 		ZDD.CLIENTNAME,
+		 		ZDD.GUARANTEEPARTY,
+		 		ZDD.PROVINCE,
+		 		ZDD.CITYCODE,
+		 		ZDD.REGISTRATIONDATE,
+		 		ZDD.CREDITPERSON,
+		 		ZDD.ACCORDDATE,
+ 				ZDD.SNO,
+				ZDD.RNO,
+				ZDD.SA_ID,
+				ZDD.PRODUCTCATEGORY,
+				ZDD.SURETYPE,
+				ZDD.BUSINESSMODEL,
+				ZDD.CDATE,
+				ZDD.ASSETBELONG,
+		 		ZAD.KEEPACCOUNTSDATE,
+		 		ZAD.KEEPACCOUNTSSTATUS,
+		 		ZAD.APPROVESTATUS,
+ 				ZAD.PAYSTATUS
+		 FROM ZJJS_DOLA_DAILY ZDD
+		 LEFT JOIN ZJJS_ACCOUNTING_DOLA ZAD ON ZAD.ID = ZDD.ID
+		 <include refid="JYReceivedPayments_Where_Sql" />
+	</select>
+	
+	<select id="queryJYReceivedPaymentsDetailFindAll" parameterType="com.billionsfinance.bas.entity.JYReceivedPaymentsVO" resultMap="JYReceivedPaymentsMap">
+		 SELECT	ZDD.SERIALNO,
+		  		ZDD.PAYDATE,
+		 		NVL(ZDD.SEQID,0) AS SEQID,
+			    (
+		            CASE 
+		            WHEN PAYTYPE = '0055' THEN '提前还款' 
+		            WHEN PAYTYPE = '0055H' THEN '提前还款' 
+		            ELSE '正常还款' END
+		        )
+		        AS PAYTYPE, 
+		  		ZDD.PAYPRINCIPALAMT,
+		 		ZDD.PAYINTEAMT,
+		 		ZDD.PAYAMT,
+		 		ZDD.BUSINESSSUM,
+		 		ZDD.ACTUALPAYDATE,
+		 		ZDD.PRODUCTID,
+		 		ZDD.SUBPRODUCTTYPE,
+		 		ZDD.CITY,
+		 		ZDD.CLIENTNAME,
+		 		(select itemname from creditperson_code where itemno = ZDD.GUARANTEEPARTY) AS GUARANTEEPARTY,
+		 		ZDD.PROVINCE,
+		 		ZDD.CITYCODE,
+		 		ZDD.REGISTRATIONDATE,
+		 		(select itemname from creditperson_code where itemno = ZDD.CREDITPERSON) AS CREDITPERSON,
+		 		ZDD.ACCORDDATE,
+		 		ZDD.SNO,
+		 		ZDD.RNO,
+		 		ZDD.SA_ID,
+		 		ZDD.PRODUCTCATEGORY,
+		 		ZDD.SURETYPE,
+				ZDD.BUSINESSMODEL,
+				ZDD.CDATE,
+				(select itemname from creditperson_code where itemno = ZDD.ASSETBELONG) AS ASSETBELONG,
+		 		ZAD.KEEPACCOUNTSDATE,
+ 				ZAD.KEEPACCOUNTSSTATUS,
+		 		ZAD.APPROVESTATUS,
+				ZAD.PAYSTATUS
+		 FROM ZJJS_DOLA_DAILY ZDD
+		 LEFT JOIN ZJJS_ACCOUNTING_DOLA ZAD ON ZAD.ID = ZDD.ID
+		 <include refid="JYReceivedPayments_Where_Sql" />
+	</select>
+	
+	<select id="gatherExport" parameterType="com.billionsfinance.bas.entity.JYReceivedPaymentsVO" resultMap="JYReceivedPaymentsMap">
+		 SELECT
+		 	ZAD.KEEPACCOUNTSDATE,
+			ZDD.ACCORDDATE,
+			ZDD.SURETYPE,
+			ZDD.BUSINESSMODEL,
+			ZDD.PRODUCTID,
+			ZDD.SUBPRODUCTTYPE,
+			ZDD.PROVINCE,
+			ZDD.CITY,
+			ZDD.CITYCODE,
+			ZDD.PAYDATE,
+			ZDD.ACTUALPAYDATE,
+			ZDD.REGISTRATIONDATE,
+			(select itemname from creditperson_code where itemno = ZDD.GUARANTEEPARTY) AS GUARANTEEPARTY,
+			(select itemname from creditperson_code where itemno = ZDD.CREDITPERSON) AS CREDITPERSON,
+			(select itemname from creditperson_code where itemno = ZDD.DEBOURS) AS DEBOURS,
+			(select itemname from creditperson_code where itemno = ZDD.ASSETBELONG) AS ASSETBELONG,
+			'哆啦回款' AS SJLYBD,
+			SUM(ZDD.PAYPRINCIPALAMT) PAYPRINCIPALAMT,
+			SUM(ZDD.PAYINTEAMT) PAYINTEAMT,
+			SUM(NVL(ZDD.A11,0.00)) A11,
+			SUM(ZDD.PAYPRINCIPALAMT+ZDD.PAYINTEAMT+NVL(ZDD.A11,0)) AMOUNT
+	   FROM ZJJS_DOLA_DAILY ZDD
+	   LEFT JOIN ZJJS_ACCOUNTING_DOLA ZAD ON ZAD.ID = ZDD.ID
+	   <include refid="JYReceivedPayments_Where_Sql" />
+	GROUP BY ZAD.KEEPACCOUNTSDATE,ZDD.GUARANTEEPARTY,ZDD.CREDITPERSON,ZDD.DEBOURS,ZDD.ASSETBELONG,ZDD.ACCORDDATE,SURETYPE,BUSINESSMODEL,PRODUCTID,SUBPRODUCTTYPE,PROVINCE,CITY,CITYCODE,PAYDATE,ACTUALPAYDATE,REGISTRATIONDATE
+	</select>
+	
+	<select id="queryGatherCount" parameterType="com.billionsfinance.bas.entity.JYReceivedPaymentsVO" resultMap="JYReceivedPaymentsMap">
+		 SELECT COUNT(1) AS CONTRACTCOUNT FROM (
+			 SELECT
+			 	ZAD.KEEPACCOUNTSDATE,
+				ZDD.ACCORDDATE,
+				ZDD.SURETYPE,
+				ZDD.BUSINESSMODEL,
+				ZDD.PRODUCTID,
+				ZDD.SUBPRODUCTTYPE,
+				ZDD.PROVINCE,
+				ZDD.CITY,
+				ZDD.CITYCODE,
+				ZDD.PAYDATE,
+				ZDD.ACTUALPAYDATE,
+				(select itemname from creditperson_code where itemno = ZDD.GUARANTEEPARTY) AS GUARANTEEPARTY,
+				(select itemname from creditperson_code where itemno = ZDD.CREDITPERSON) AS CREDITPERSON,
+				(select itemname from creditperson_code where itemno = ZDD.DEBOURS) AS DEBOURS,
+				(select itemname from creditperson_code where itemno = ZDD.ASSETBELONG) AS ASSETBELONG,
+				'哆啦回款' AS SJLYBD,
+				SUM(ZDD.PAYPRINCIPALAMT) PAYPRINCIPALAMT,SUM(ZDD.PAYINTEAMT) PAYINTEAMT,SUM(NVL(ZDD.A11,0.00)) A11,
+				SUM(ZDD.PAYPRINCIPALAMT+ZDD.PAYINTEAMT+NVL(ZDD.A11,0)) AMOUNT
+		   FROM ZJJS_DOLA_DAILY ZDD
+	   	   LEFT JOIN ZJJS_ACCOUNTING_DOLA ZAD ON ZAD.ID = ZDD.ID
+		   <include refid="JYReceivedPayments_Where_Sql" />
+		GROUP BY ZAD.KEEPACCOUNTSDATE,ZDD.GUARANTEEPARTY,ZDD.CREDITPERSON,ZDD.DEBOURS,ZDD.ASSETBELONG,ZDD.ACCORDDATE,SURETYPE,BUSINESSMODEL,PRODUCTID,SUBPRODUCTTYPE,PROVINCE,CITY,CITYCODE,PAYDATE,ACTUALPAYDATE)
+	</select>
+	
+	<select id="queryDetailCount" parameterType="com.billionsfinance.bas.entity.JYReceivedPaymentsVO" resultMap="JYReceivedPaymentsMap">
+		 SELECT COUNT(1) AS CONTRACTCOUNT FROM (
+			 SELECT	ZDD.SERIALNO,
+			  		ZDD.PAYDATE,
+			 		NVL(ZDD.SEQID,0) AS SEQID,
+			  		ZDD.PAYTYPE,
+			  		ZDD.PAYPRINCIPALAMT,
+			 		ZDD.PAYINTEAMT,
+			 		ZDD.PAYAMT,
+			 		ZDD.BUSINESSSUM,
+			 		ZDD.ACTUALPAYDATE,
+			 		ZDD.PRODUCTID,
+			 		ZDD.SUBPRODUCTTYPE,
+			 		ZDD.CITY,
+			 		ZDD.CLIENTNAME,
+			 		(select itemname from creditperson_code where itemno = ZDD.GUARANTEEPARTY) AS GUARANTEEPARTY,
+			 		ZDD.PROVINCE,
+			 		ZDD.CITYCODE,
+			 		ZDD.REGISTRATIONDATE,
+			 		(select itemname from creditperson_code where itemno = ZDD.CREDITPERSON) AS CREDITPERSON,
+			 		ZDD.ACCORDDATE,
+			 		ZDD.SNO,
+			 		ZDD.RNO,
+			 		ZDD.SA_ID,
+			 		ZDD.PRODUCTCATEGORY,
+			 		ZDD.SURETYPE,
+					ZDD.BUSINESSMODEL,
+					ZDD.CDATE,
+					ZDD.ASSETBELONG,
+			 		ZAD.KEEPACCOUNTSDATE,
+	 				ZAD.KEEPACCOUNTSSTATUS,
+			 		ZAD.APPROVESTATUS,
+					ZAD.PAYSTATUS
+			 FROM ZJJS_DOLA_DAILY ZDD
+			 LEFT JOIN ZJJS_ACCOUNTING_DOLA ZAD ON ZAD.ID = ZDD.ID
+		   <include refid="JYReceivedPayments_Where_Sql" />)
+	</select>
+	
+	
+	<!-- 查询业务明细条件的sql -->
+	<sql id="JYReceivedPayments_Where_Sql">
+    	<where> 
+		<if test="sequence != null and sequence != '' and sequence!=0">
+			AND ZDD.SEQID = #{sequence,jdbcType=VARCHAR}
+		</if>
+		<if test="contracts != null and contracts != ''">
+			AND ZDD.SERIALNO = #{contracts,jdbcType=VARCHAR}
+		</if>
+		<if test="startKeepAccountsTime != null and startKeepAccountsTime != ''">
+			AND ZAD.KEEPACCOUNTSDATE &gt;= #{startKeepAccountsTime,jdbcType=VARCHAR}
+		</if>
+		<if test="endKeepAccountsTime != null and endKeepAccountsTime != ''">
+			AND ZAD.KEEPACCOUNTSDATE &lt;= #{endKeepAccountsTime,jdbcType=VARCHAR}
+		</if>
+		<if test="startRepayDate != null and startRepayDate != ''">
+			AND ZDD.ACTUALPAYDATE &gt;= #{startRepayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endRepayDate != null and endRepayDate != ''">
+			AND ZDD.ACTUALPAYDATE &lt;= #{endRepayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startRegistrationDate != null and startRegistrationDate != ''">
+			AND ZDD.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endRegistrationDate != null and endRegistrationDate != ''">
+			AND ZDD.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<sql id="AccountingMark_Where_Sql">
+    	<where> 
+    		AND ZAD.PAYSTATUS = 1
+    		AND (ZAD.KEEPACCOUNTSSTATUS IN ('0','2') OR ZAD.KEEPACCOUNTSSTATUS IS NULL)
+    	<if test="sequence != null and sequence != '' and sequence!=0">
+			AND ZDD.SEQID = #{sequence,jdbcType=VARCHAR}
+		</if>
+		<if test="contracts != null and contracts != ''">
+			AND ZDD.SERIALNO = #{contracts,jdbcType=VARCHAR}
+		</if>
+		<if test="startKeepAccountsTime != null and startKeepAccountsTime != ''">
+			AND ZAD.KEEPACCOUNTSDATE &gt;= #{startKeepAccountsTime,jdbcType=VARCHAR}
+		</if>
+		<if test="endKeepAccountsTime != null and endKeepAccountsTime != ''">
+			AND ZAD.KEEPACCOUNTSDATE &lt;= #{endKeepAccountsTime,jdbcType=VARCHAR}
+		</if>
+		<if test="startRepayDate != null and startRepayDate != ''">
+			AND ZDD.ACTUALPAYDATE &gt;= #{startRepayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endRepayDate != null and endRepayDate != ''">
+			AND ZDD.ACTUALPAYDATE &lt;= #{endRepayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startRegistrationDate != null and startRegistrationDate != ''">
+			AND ZDD.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endRegistrationDate != null and endRegistrationDate != ''">
+			AND ZDD.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<sql id="CancelAccountingMark_Where_Sql">
+    	<where> 
+    		AND ZAD.KEEPACCOUNTSSTATUS = 1
+    	<if test="sequence != null and sequence != '' and sequence!=0">
+			AND ZDD.SEQID = #{sequence,jdbcType=VARCHAR}
+		</if>
+		<if test="contracts != null and contracts != ''">
+			AND ZDD.SERIALNO = #{contracts,jdbcType=VARCHAR}
+		</if>
+		<if test="startKeepAccountsTime != null and startKeepAccountsTime != ''">
+			AND ZAD.KEEPACCOUNTSDATE &gt;= #{startKeepAccountsTime,jdbcType=VARCHAR}
+		</if>
+		<if test="endKeepAccountsTime != null and endKeepAccountsTime != ''">
+			AND ZAD.KEEPACCOUNTSDATE &lt;= #{endKeepAccountsTime,jdbcType=VARCHAR}
+		</if>
+		<if test="startRepayDate != null and startRepayDate != ''">
+			AND ZDD.ACTUALPAYDATE &gt;= #{startRepayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endRepayDate != null and endRepayDate != ''">
+			AND ZDD.ACTUALPAYDATE &lt;= #{endRepayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startRegistrationDate != null and startRegistrationDate != ''">
+			AND ZDD.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endRegistrationDate != null and endRegistrationDate != ''">
+			AND ZDD.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<!-- 根据条件获取匹配合同个数  -->
+	<select id="queryJYReceivedPaymentsCount" parameterType="map" resultMap="JYReceivedPaymentsMap">
+		SELECT COUNT(1) AS CONTRACTCOUNT,SUM(PAYPRINCIPALAMT) AS MONEYCOUNT,SUM(PAYPRINCIPALAMT) AS PRINCIPALSUM,SUM(PAYINTEAMT) AS INTERESTSUM,SUM(PAYAMT) AS PAYMENTSUM,SUM(BUSINESSSUM) AS BUSINESSSUMSUM 
+		FROM ZJJS_DOLA_DAILY ZDD
+	    LEFT JOIN ZJJS_ACCOUNTING_DOLA ZAD ON ZAD.ID = ZDD.ID
+		<include refid="JYReceivedPayments_Where_Sql" />
+	</select>
+	
+	<update id="accountingMark">
+		MERGE INTO ZJJS_ACCOUNTING_DOLA t1
+		USING (
+		        SELECT ZDD.ID FROM ZJJS_DOLA_DAILY ZDD
+		        <include refid="AccountingMark_Where_Sql"/>
+		) T2
+		ON (T1.ID = T2.ID) 
+		WHEN MATCHED THEN
+		  UPDATE SET T1.KEEPACCOUNTSDATE = #{updateDate,jdbcType=VARCHAR},
+		  			T1.KEEPACCOUNTSBY = #{keepAccountsBy,jdbcType=VARCHAR},
+		  			T1.KEEPACCOUNTSREMARK = #{keepAccountsRemark,jdbcType=VARCHAR},
+		  			T1.APPROVESTATUS = '1'
+		WHEN NOT MATCHED THEN
+		  INSERT (ID,APPROVETIME,APPROVEBY,APPROVEREMARK,APPROVESTATUS)
+		  VALUES (T2.ID,#{updateDate,jdbcType=VARCHAR},#{keepAccountsBy,jdbcType=VARCHAR},#{keepAccountsRemark,jdbcType=VARCHAR},'1')
+	</update>
+	
+	<update id="cancelAccountingMark">
+		UPDATE ZJJS_ACCOUNTING_DOLA ZAD SET 
+			KEEPACCOUNTSDATE = '',
+			KEEPACCOUNTSSTATUS = '2',
+			KEEPACCOUNTSREMARK = '记账撤销'
+		WHERE EXISTS (SELECT 1 FROM ZJJS_DOLA_DAILY ZDD WHERE ZDD.ID = ZAD.ID
+		<include refid="CancelAccountingMark_Where_Sql"/>
+		)
+	</update>
+	
+	<update id="approveContract">
+		MERGE INTO ZJJS_ACCOUNTING_DOLA t1
+		USING (
+		        SELECT ZDD.ID FROM ZJJS_DOLA_DAILY ZDD
+		        <include refid="JYReceivedPayments_Where_Sql"/>
+		) T2
+		ON (T1.ID = T2.ID) 
+		WHEN MATCHED THEN
+		  UPDATE SET T1.APPROVETIME = #{approveTime,jdbcType=VARCHAR},
+		  			T1.APPROVEBY = #{approveBy,jdbcType=VARCHAR},
+		  			T1.APPROVEREMARK = #{approveRemark,jdbcType=VARCHAR},
+		  			T1.APPROVESTATUS = '1'
+		WHEN NOT MATCHED THEN
+		  INSERT (ID,APPROVETIME,APPROVEBY,APPROVEREMARK,APPROVESTATUS)
+		  VALUES (T2.ID,#{approveTime,jdbcType=VARCHAR},#{approveBy,jdbcType=VARCHAR},#{approveRemark,jdbcType=VARCHAR},'1')
+	</update>
+	
+</mapper>

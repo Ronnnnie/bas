@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.CheckListDao" >
+	
+	<resultMap id="checkListMap" type="java.util.HashMap">
+		<id column="ID" property="id" javaType="java.lang.String" jdbcType="VARCHAR" />
+  		<result column="IMPORT_DATE" property="importDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SUNRISE_PRE_DEPOSIT" property="sunrisePreDeposit" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="SUNRISE_UNMATCH" property="sunriseUnmatch" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="YQZLWY_TOTAL_REVENUE" property="yqzlwyTotalRevenue" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="YQZLAS_TOTAL_REVENUE" property="yqzlasTotalRevenue" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="YQZL_TOTAL_REVENUE_DIFFERENCE" property="yqzlTotalRevenueDifference" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="YQZLDR_ALREADYMATCH" property="yqzldrAlreadymatch" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="YQZKDR_UNMATCH" property="yqzkdrUnmatch" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="HANDWORK_SEPARATE" property="handworkSeparate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="HANDWORK_MATCH" property="handworkMatch" jdbcType="VARCHAR" javaType="java.lang.String" />
+		<result column="RZ_UNMATCH" property="rzUnmatch" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="EBU_WY_TOTAL_REVENUE" property="ebuWyTotalRevenue" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="EBU_AS_TOTAL_REVENUES" property="ebuAsTotalRevenues" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="EBU_AS_TOTAL_REVENUE" property="ebuAsTotalRevenue" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="EBU_TOTAL_REVENUE_DIFFERENCE" property="ebuTotalRevenueDifference" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KFT_WY_TOTAL_REVENUE" property="kftWyTotalRevenue" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="KFT_AS_TOTAL_REVENUE" property="kftAsTotalRevenue" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="KFT_SSAS_TOTAL_REVENUE" property="kftSsasTotalRevenue" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="KFT_TOTAL_REVENUE_DIFFERENCE" property="kftTotalRevenueDifference" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="HH_WY_TOTAL_REVENUE" property="hhWyTotalRevenue" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="HH_AS_TOTAL_REVENUE" property="hhAsTotalRevenue" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="HH_TOTAL_REVENUE_DIFFERENCE" property="hhTotalRevenueDifference" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="KFT_SSWY_TOTAL_REVENUE" property="kftSswyTotalRevenue" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="KFT_SS_TOTAL_REVENUE_CY" property="kftSsTotalRevenueCy" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="REFUND" property="refund" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="ORDINARY_REPAYMENT" property="ordinaryRepayment" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="EARLIER_REPAYMENT" property="earlierRepayment" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="VIRTUAL_ACCOUNT" property="virtualAccount" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="RZ_PRE_DEPOSIT" property="rzPreDeposit" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="UNMATCH_DIFFERENCE" property="unmatchDifference" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="PRE_DEPOSIT_DIFFERENCE" property="preDepositDifference" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="CONTRACTCOUNT" property="contractCount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 	</resultMap>
+ 	
+ 	<insert id="importContract" parameterType="java.util.List" >
+		INSERT INTO BILL_CHECK_T(
+			ID,
+			IMPORT_DATE,
+			SUNRISE_PRE_DEPOSIT,
+			SUNRISE_UNMATCH,
+			YQZLWY_TOTAL_REVENUE,
+			YQZLAS_TOTAL_REVENUE,
+			YQZL_TOTAL_REVENUE_DIFFERENCE,
+			YQZLDR_ALREADYMATCH,
+			YQZKDR_UNMATCH,
+			HANDWORK_SEPARATE,
+			HANDWORK_MATCH,
+			RZ_UNMATCH,
+			EBU_WY_TOTAL_REVENUE,
+			EBU_AS_TOTAL_REVENUES,
+			EBU_AS_TOTAL_REVENUE,
+			EBU_TOTAL_REVENUE_DIFFERENCE,
+			KFT_WY_TOTAL_REVENUE,
+			KFT_AS_TOTAL_REVENUE,
+			KFT_SSAS_TOTAL_REVENUE,
+			KFT_TOTAL_REVENUE_DIFFERENCE,
+			HH_WY_TOTAL_REVENUE,
+			HH_AS_TOTAL_REVENUE,
+			HH_TOTAL_REVENUE_DIFFERENCE,
+			KFT_SSWY_TOTAL_REVENUE,
+			KFT_SS_TOTAL_REVENUE_CY,
+			REFUND,
+			ORDINARY_REPAYMENT,
+			EARLIER_REPAYMENT,
+			VIRTUAL_ACCOUNT,
+			RZ_PRE_DEPOSIT,
+			UNMATCH_DIFFERENCE,
+			PRE_DEPOSIT_DIFFERENCE
+		)
+		SELECT D.* FROM(
+		<foreach collection="list" item="item" index="index" separator="union all">
+			SELECT
+				#{item.id,jdbcType=VARCHAR},
+				#{item.importDate,jdbcType=VARCHAR},
+				#{item.sunrisePreDeposit,jdbcType=INTEGER},
+				#{item.sunriseUnmatch,jdbcType=VARCHAR},
+				#{item.yqzlwyTotalRevenue,jdbcType=INTEGER},
+				#{item.yqzlasTotalRevenue,jdbcType=INTEGER},
+				#{item.yqzlTotalRevenueDifference,jdbcType=INTEGER},
+				#{item.yqzldrAlreadymatch,jdbcType=VARCHAR},
+				#{item.yqzkdrUnmatch,jdbcType=VARCHAR},
+				#{item.handworkSeparate,jdbcType=VARCHAR},
+				#{item.handworkMatch,jdbcType=VARCHAR},
+				#{item.rzUnmatch,jdbcType=VARCHAR},
+				#{item.ebuWyTotalRevenue,jdbcType=INTEGER},
+				#{item.ebuAsTotalRevenues,jdbcType=VARCHAR},
+				#{item.ebuAsTotalRevenue,jdbcType=INTEGER},
+				#{item.ebuTotalRevenueDifference,jdbcType=VARCHAR},
+				#{item.kftWyTotalRevenue,jdbcType=INTEGER},
+				#{item.kftAsTotalRevenue,jdbcType=INTEGER},
+				#{item.kftSsasTotalRevenue,jdbcType=INTEGER},
+				#{item.kftTotalRevenueDifference,jdbcType=INTEGER},
+				#{item.hhWyTotalRevenue,jdbcType=INTEGER},
+				#{item.hhAsTotalRevenue,jdbcType=INTEGER},
+				#{item.hhTotalRevenueDifference,jdbcType=INTEGER},
+				#{item.kftSswyTotalRevenue,jdbcType=INTEGER},
+				#{item.kftSsTotalRevenueCy,jdbcType=INTEGER},
+				#{item.refund,jdbcType=INTEGER},
+				#{item.ordinaryRepayment,jdbcType=INTEGER},
+				#{item.earlierRepayment,jdbcType=INTEGER},
+				#{item.virtualAccount,jdbcType=VARCHAR},
+				#{item.rzPreDeposit,jdbcType=INTEGER},
+				#{item.unmatchDifference,jdbcType=INTEGER},
+				#{item.preDepositDifference,jdbcType=INTEGER}
+			FROM DUAL
+		</foreach>
+		) D
+	</insert>
+	
+ 	<update id="updateContract" parameterType="java.util.List" >
+		<foreach collection="list" item="item" index="index" separator=";">
+			UPDATE BILL_CHECK_T 
+			<set>
+				IMPORT_DATE=#{item.importDate,jdbcType=VARCHAR},
+				SUNRISE_PRE_DEPOSIT=#{item.sunrisePreDeposit,jdbcType=INTEGER},
+				SUNRISE_UNMATCH=#{item.sunriseUnmatch,jdbcType=VARCHAR},
+				YQZLWY_TOTAL_REVENUE=#{item.yqzlwyTotalRevenue,jdbcType=INTEGER},
+				YQZLAS_TOTAL_REVENUE=#{item.yqzlasTotalRevenue,jdbcType=INTEGER},
+				YQZL_TOTAL_REVENUE_DIFFERENCE=#{item.yqzlTotalRevenueDifference,jdbcType=INTEGER},
+				YQZLDR_ALREADYMATCH=#{item.yqzldrAlreadymatch,jdbcType=VARCHAR},
+				YQZKDR_UNMATCH=#{item.yqzkdrUnmatch,jdbcType=VARCHAR},
+				HANDWORK_SEPARATE=#{item.handworkSeparate,jdbcType=VARCHAR},
+				HANDWORK_MATCH=#{item.handworkMatch,jdbcType=VARCHAR},
+				RZ_UNMATCH=#{item.rzUnmatch,jdbcType=VARCHAR},
+				EBU_WY_TOTAL_REVENUE=#{item.ebuWyTotalRevenue,jdbcType=INTEGER},
+				EBU_AS_TOTAL_REVENUES=#{item.ebuAsTotalRevenues,jdbcType=VARCHAR},
+				EBU_AS_TOTAL_REVENUE=#{item.ebuAsTotalRevenue,jdbcType=INTEGER},
+				EBU_TOTAL_REVENUE_DIFFERENCE=#{item.ebuTotalRevenueDifference,jdbcType=VARCHAR},
+				KFT_WY_TOTAL_REVENUE=#{item.kftWyTotalRevenue,jdbcType=INTEGER},
+				KFT_AS_TOTAL_REVENUE=#{item.kftAsTotalRevenue,jdbcType=INTEGER},
+				KFT_SSAS_TOTAL_REVENUE=#{item.kftSsasTotalRevenue,jdbcType=INTEGER},
+				KFT_TOTAL_REVENUE_DIFFERENCE=#{item.kftTotalRevenueDifference,jdbcType=INTEGER},
+				HH_WY_TOTAL_REVENUE=#{item.hhWyTotalRevenue,jdbcType=INTEGER},
+				HH_AS_TOTAL_REVENUE=#{item.hhAsTotalRevenue,jdbcType=INTEGER},
+				HH_TOTAL_REVENUE_DIFFERENCE=#{item.hhTotalRevenueDifference,jdbcType=INTEGER},
+				KFT_SSWY_TOTAL_REVENUE=#{item.kftSswyTotalRevenue,jdbcType=INTEGER},
+				KFT_SS_TOTAL_REVENUE_CY=#{item.kftSsTotalRevenueCy,jdbcType=INTEGER},
+				REFUND=#{item.refund,jdbcType=INTEGER},
+				ORDINARY_REPAYMENT=#{item.ordinaryRepayment,jdbcType=INTEGER},
+				EARLIER_REPAYMENT=#{item.earlierRepayment,jdbcType=INTEGER},
+				VIRTUAL_ACCOUNT=#{item.virtualAccount,jdbcType=VARCHAR},
+				RZ_PRE_DEPOSIT=#{item.rzPreDeposit,jdbcType=INTEGER},
+				UNMATCH_DIFFERENCE=#{item.unmatchDifference,jdbcType=INTEGER},
+				PRE_DEPOSIT_DIFFERENCE=#{item.preDepositDifference,jdbcType=INTEGER}
+			</set>
+		  WHERE ID=#{item.id,jdbcType=VARCHAR}
+	   </foreach>
+	</update>
+	
+	
+	<select id="queryContractCount" resultMap="checkListMap">
+		SELECT COUNT(1) CONTRACTCOUNT FROM BILL_CHECK_T <include refid="CheckList_Where_Sql"/>
+	</select>
+	
+	<select id="queryBusinessDetail" resultMap="checkListMap">
+		SELECT * FROM (
+			SELECT A.*,ROWNUM RN FROM (
+			   SELECT
+					IMPORT_DATE,
+					SUNRISE_PRE_DEPOSIT,
+					SUNRISE_UNMATCH,
+					YQZLWY_TOTAL_REVENUE,
+					YQZLAS_TOTAL_REVENUE,
+					YQZL_TOTAL_REVENUE_DIFFERENCE,
+					YQZLDR_ALREADYMATCH,
+					YQZKDR_UNMATCH,
+					HANDWORK_SEPARATE,
+					HANDWORK_MATCH,
+					RZ_UNMATCH,
+					EBU_WY_TOTAL_REVENUE,
+					EBU_AS_TOTAL_REVENUES,
+					EBU_AS_TOTAL_REVENUE,
+					EBU_TOTAL_REVENUE_DIFFERENCE,
+					KFT_WY_TOTAL_REVENUE,
+					KFT_AS_TOTAL_REVENUE,
+					KFT_TOTAL_REVENUE_DIFFERENCE,
+					HH_WY_TOTAL_REVENUE,
+					HH_AS_TOTAL_REVENUE,
+					HH_TOTAL_REVENUE_DIFFERENCE,
+					KFT_SSWY_TOTAL_REVENUE,
+					KFT_SSAS_TOTAL_REVENUE,
+					KFT_SS_TOTAL_REVENUE_CY,
+					REFUND,
+					ORDINARY_REPAYMENT,
+					EARLIER_REPAYMENT,
+					VIRTUAL_ACCOUNT,
+					RZ_PRE_DEPOSIT,
+					UNMATCH_DIFFERENCE,
+					PRE_DEPOSIT_DIFFERENCE
+				FROM BILL_CHECK_T
+				<include refid="CheckList_Where_Sql"/>
+				)   A WHERE ROWNUM &lt;= #{endpoint} 
+			  ) WHERE RN &gt;= #{startpoint}
+	</select>
+	
+	<select id="queryCheckListDataFindAll" resultType="com.billionsfinance.bas.entity.CheckListVO">
+		SELECT
+			ID id,
+			IMPORT_DATE	importDate,
+			SUNRISE_PRE_DEPOSIT	sunrisePreDeposit,
+			SUNRISE_UNMATCH	sunriseUnmatch,
+			YQZLWY_TOTAL_REVENUE	yqzlwyTotalRevenue,
+			YQZLAS_TOTAL_REVENUE	yqzlasTotalRevenue,
+			YQZL_TOTAL_REVENUE_DIFFERENCE	yqzlTotalRevenueDifference,
+			YQZLDR_ALREADYMATCH	yqzldrAlreadymatch,
+			YQZKDR_UNMATCH	yqzkdrUnmatch,
+			HANDWORK_SEPARATE	handworkSeparate,
+			HANDWORK_MATCH	handworkMatch,
+			RZ_UNMATCH	rzUnmatch,
+			EBU_WY_TOTAL_REVENUE	ebuWyTotalRevenue,
+			EBU_AS_TOTAL_REVENUES	ebuAsTotalRevenues,
+			EBU_AS_TOTAL_REVENUE	ebuAsTotalRevenue,
+			EBU_TOTAL_REVENUE_DIFFERENCE	ebuTotalRevenueDifference,
+			KFT_WY_TOTAL_REVENUE	kftWyTotalRevenue,
+			KFT_AS_TOTAL_REVENUE	kftAsTotalRevenue,
+			KFT_TOTAL_REVENUE_DIFFERENCE	kftTotalRevenueDifference,
+			HH_WY_TOTAL_REVENUE	hhWyTotalRevenue,
+			HH_AS_TOTAL_REVENUE	hhAsTotalRevenue,
+			HH_TOTAL_REVENUE_DIFFERENCE	hhTotalRevenueDifference,
+			KFT_SSWY_TOTAL_REVENUE	kftSswyTotalRevenue,
+			KFT_SSAS_TOTAL_REVENUE	kftSsasTotalRevenue,
+			KFT_SS_TOTAL_REVENUE_CY	kftSsTotalRevenueCy,
+			REFUND	refund,
+			ORDINARY_REPAYMENT	ordinaryRepayment,
+			EARLIER_REPAYMENT	earlierRepayment,
+			VIRTUAL_ACCOUNT	virtualAccount,
+			RZ_PRE_DEPOSIT	rzPreDeposit,
+			UNMATCH_DIFFERENCE	unmatchDifference,
+			PRE_DEPOSIT_DIFFERENCE	preDepositDifference
+		 FROM BILL_CHECK_T
+	</select>
+	
+	<sql id="CheckList_Where_Sql">
+    	<where> 
+		<if test="startImportDate != null and startImportDate != ''">
+			AND IMPORT_DATE &gt;= #{startImportDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endImportDate != null and endImportDate != ''">
+			AND IMPORT_DATE &lt;= #{endImportDate,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+</mapper>

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.BankWithholdDao" >
+ 	
+ 	 <resultMap id="BankWithholdMap" type="java.util.HashMap">
+  		<result column="INPUTDATE" property="inputdate" jdbcType="DATE" javaType="java.util.Date" />
+ 		<result column="DEP_BOD" property="dep_bod" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="UNMATCH_BOD" property="unmatch_bod" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BANK_BANK" property="bank_bank" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BANK_CORE" property="bank_core" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="BANK_DIF" property="bank_dif" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BANK_MATCH" property="bank_match" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BANK_UNMATCH" property="bank_unmatch" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BANK_ROLL_HAND" property="bank_roll_hand" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BANK_MATCH_HAND" property="bank_match_hand" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="UNMATCH_EOD" property="unmatch_eod" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="EBU_BANK" property="ebu_bank" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="EBU_CORE1" property="ebu_core1" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="EBU_CORE" property="ebu_core" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="EBU_DIF" property="ebu_dif" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KFT_BANK" property="kft_bank" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KFT_CORE" property="kft_core" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KFT_DIF" property="kft_dif" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="HBK_BANK" property="hbk_bank" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="HBK_CORE" property="hbk_core" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="HBK_DIF" property="hbk_dif" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KFTS_BANK" property="kfts_bank" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KFTS_CORE" property="kfts_core" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KFTS_DIF" property="kfts_dif" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CFT_BANK" property="cft_bank" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CHECK_CFT_CORE" property="check_cft_core" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CFT_CORE" property="cft_core" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CFT_CORE_FEE" property="cft_core_fee" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CFT_DIF" property="cft_dif" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="REFUND" property="refund" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAY" property="pay" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PREPAY" property="prepay" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="VA_AMT" property="va_amt" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DEP_EOD" property="dep_eod" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="UNMATCH_DIF" property="unmatch_dif" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DEP_DIF" property="dep_dif" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="LOAN_REP" property="loan_rep" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<!-- 金额汇总 start -->
+ 		<result column="DEP_BODSUM" property="dep_bodsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="UNMATCH_BODSUM" property="unmatch_bodsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BANK_BANKSUM" property="bank_banksum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BANK_CORESUM" property="bank_coresum" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="BANK_DIFSUM" property="bank_difsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BANK_MATCHSUM" property="bank_matchsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BANK_UNMATCHSUM" property="bank_unmatchsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BANK_ROLL_HANDSUM" property="bank_roll_handsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BANK_MATCH_HANDSUM" property="bank_match_handsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="UNMATCH_EODSUM" property="unmatch_eodsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="EBU_BANKSUM" property="ebu_banksum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="EBU_CORE1SUM" property="ebu_core1sum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="EBU_CORESUM" property="ebu_coresum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="EBU_DIFSUM" property="ebu_difsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KFT_BANKSUM" property="kft_banksum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KFT_CORESUM" property="kft_coresum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KFT_DIFSUM" property="kft_difsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="HBK_BANKSUM" property="hbk_banksum" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="HBK_CORESUM" property="hbk_coresum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="HBK_DIFSUM" property="hbk_difsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KFTS_BANKSUM" property="kfts_banksum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KFTS_CORESUM" property="kfts_coresum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KFTS_DIFSUM" property="kfts_difsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CFT_BANKSUM" property="cft_banksum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CHECK_CFT_CORESUM" property="check_cft_coresum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CFT_CORESUM" property="cft_coresum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CFT_CORE_FEESUM" property="cft_core_feesum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CFT_DIFSUM" property="cft_difsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="REFUNDSUM" property="refundsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYSUM" property="paysum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PREPAYSUM" property="prepaysum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="VA_AMTSUM" property="va_amtsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DEP_EODSUM" property="dep_eodsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="UNMATCH_DIFSUM" property="unmatch_difsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DEP_DIFSUM" property="dep_difsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="LOAN_REPSUM" property="loan_repsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<!-- 金额汇总 end -->
+ 		<result column="MONEYCOUNT" property="moneycount" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CONTRACTCOUNT" property="contractcount" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 	</resultMap>
+	
+	<select id="queryBankWithhold" resultMap="BankWithholdMap">
+		SELECT * FROM (
+			SELECT A.*,ROWNUM RN FROM (
+				 SELECT ACI.INPUTDATE,
+						ACI.DEP_BOD,
+						ACI.UNMATCH_BOD,
+						ACI.BANK_BANK,
+						ACI.BANK_CORE,
+						ACI.BANK_DIF,
+						ACI.BANK_MATCH,
+						ACI.BANK_UNMATCH,
+						ACI.BANK_ROLL_HAND,
+						ACI.BANK_MATCH_HAND,
+						ACI.UNMATCH_EOD,
+						ACI.EBU_BANK,
+						ACI.EBU_CORE1,
+						ACI.EBU_CORE,
+						ACI.EBU_DIF,
+						ACI.KFT_BANK,
+						ACI.KFT_CORE,
+						ACI.KFT_DIF,
+						ACI.HBK_BANK,
+						ACI.HBK_CORE,
+						ACI.HBK_DIF,
+						ACI.KFTS_BANK,
+						ACI.KFTS_CORE,
+						ACI.KFTS_DIF,
+						ACI.CFT_BANK,
+						ACI.CHECK_CFT_CORE,
+						ACI.CFT_CORE,
+						ACI.CFT_CORE_FEE,
+						ACI.CFT_DIF,
+						ACI.REFUND,
+						ACI.PAY,
+						ACI.PREPAY,
+						ACI.VA_AMT,
+						ACI.DEP_EOD,
+						ACI.UNMATCH_DIF,
+						ACI.DEP_DIF,
+						ACI.LOAN_REP
+				  FROM AC_CHECK_INFO ACI
+				 <include refid="BankWithhold_Where_Sql" />
+				)   A WHERE ROWNUM &lt;= #{endpoint} 
+			  ) WHERE RN &gt;= #{startpoint} 			  
+	</select>
+	
+	<select id="queryBankWithholdFindAll" resultMap="BankWithholdMap" parameterType="com.billionsfinance.bas.entity.DayTradingVO">
+ 		 SELECT ACI.INPUTDATE,
+				ACI.DEP_BOD,
+				ACI.UNMATCH_BOD,
+				ACI.BANK_BANK,
+				ACI.BANK_CORE,
+				ACI.BANK_DIF,
+				ACI.BANK_MATCH,
+				ACI.BANK_UNMATCH,
+				ACI.BANK_ROLL_HAND,
+				ACI.BANK_MATCH_HAND,
+				ACI.UNMATCH_EOD,
+				ACI.EBU_BANK,
+				ACI.EBU_CORE1,
+				ACI.EBU_CORE,
+				ACI.EBU_DIF,
+				ACI.KFT_BANK,
+				ACI.KFT_CORE,
+				ACI.KFT_DIF,
+				ACI.HBK_BANK,
+				ACI.HBK_CORE,
+				ACI.HBK_DIF,
+				ACI.KFTS_BANK,
+				ACI.KFTS_CORE,
+				ACI.KFTS_DIF,
+				ACI.CFT_BANK,
+				ACI.CHECK_CFT_CORE,
+				ACI.CFT_CORE,
+				ACI.CFT_CORE_FEE,
+				ACI.CFT_DIF,
+				ACI.REFUND,
+				ACI.PAY,
+				ACI.PREPAY,
+				ACI.VA_AMT,
+				ACI.DEP_EOD,
+				ACI.UNMATCH_DIF,
+				ACI.DEP_DIF,
+				ACI.LOAN_REP
+		   FROM AC_CHECK_INFO ACI
+		 <include refid="BankWithhold_Where_Sql" />
+	</select>
+	
+
+	<sql id="BankWithhold_Where_Sql">
+    	<where> 
+		<if test=" startInputDate != null and startInputDate != ''">
+			AND ACI.INPUTDATE &gt;= to_date(#{startInputDate,jdbcType=DATE},'yyyy/MM/dd')
+		</if>
+		<if test=" endInputDate != null and endInputDate != ''">
+			AND ACI.INPUTDATE &lt;= to_date(#{endInputDate,jdbcType=DATE},'yyyy/MM/dd')
+		</if>
+      </where>
+	</sql>
+	
+	
+	<!-- 匹配合同个数 总金额  -->
+	<select id="queryBankWithholdCount" parameterType="java.util.HashMap" resultMap="BankWithholdMap">
+		SELECT 
+			COUNT(1) AS CONTRACTCOUNT,
+			SUM(ACI.DEP_BOD) AS DEP_BODSUM,
+			SUM(ACI.UNMATCH_BOD) AS UNMATCH_BODSUM,
+			SUM(ACI.BANK_BANK) AS BANK_BANKSUM,
+			SUM(ACI.BANK_CORE) AS BANK_CORESUM,
+			SUM(ACI.BANK_DIF) AS BANK_DIFSUM,
+			SUM(ACI.BANK_MATCH) AS BANK_MATCHSUM,
+			SUM(ACI.BANK_UNMATCH) AS BANK_UNMATCHSUM,
+			SUM(ACI.BANK_ROLL_HAND) AS BANK_ROLL_HANDSUM,
+			SUM(ACI.BANK_MATCH_HAND) AS BANK_MATCH_HANDSUM,
+			SUM(ACI.UNMATCH_EOD) AS UNMATCH_EODSUM,
+			SUM(ACI.EBU_BANK) AS EBU_BANKSUM,
+			SUM(ACI.EBU_CORE1) AS EBU_CORE1SUM,
+			SUM(ACI.EBU_CORE) AS EBU_CORESUM,
+			SUM(ACI.EBU_DIF) AS EBU_DIFSUM,
+			SUM(ACI.KFT_BANK) AS KFT_BANKSUM,
+			SUM(ACI.KFT_CORE) AS KFT_CORESUM,
+			SUM(ACI.KFT_DIF) AS KFT_DIFSUM,
+			SUM(ACI.HBK_BANK) AS HBK_BANKSUM,
+			SUM(ACI.HBK_CORE) AS HBK_CORESUM,
+			SUM(ACI.HBK_DIF) AS HBK_DIFSUM,
+			SUM(ACI.KFTS_BANK) AS KFTS_BANKSUM,
+			SUM(ACI.KFTS_CORE) AS KFTS_CORESUM,
+			SUM(ACI.KFTS_DIF) AS KFTS_DIFSUM,
+			SUM(ACI.CFT_BANK) AS CFT_BANKSUM,
+			SUM(ACI.CHECK_CFT_CORE) AS CHECK_CFT_CORESUM,
+			SUM(ACI.CFT_CORE) AS CFT_CORESUM,
+			SUM(ACI.CFT_CORE_FEE) AS CFT_CORE_FEESUM,
+			SUM(ACI.CFT_DIF) AS CFT_DIFSUM,
+			SUM(ACI.REFUND) AS REFUNDSUM,
+			SUM(ACI.PAY) AS PAYSUM,
+			SUM(ACI.PREPAY) AS PREPAYSUM,
+			SUM(ACI.VA_AMT) AS VA_AMTSUM,
+			SUM(ACI.DEP_EOD) AS DEP_EODSUM,
+			SUM(ACI.UNMATCH_DIF) AS UNMATCH_DIFSUM,
+			SUM(ACI.DEP_DIF) AS DEP_DIFSUM,
+			SUM(ACI.LOAN_REP) AS LOAN_REPSUM
+		FROM AC_CHECK_INFO ACI
+		<include refid="BankWithhold_Where_Sql" />
+	</select>
+	
+</mapper>

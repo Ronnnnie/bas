@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.XZXDPaymentsDao" >
+ 	
+ 	 <resultMap id="XZXDPaymentsMap" type="java.util.HashMap">
+ 		<result column="SERIALNO" property="serialno" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="LOANSNO" property="loansno" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SEQID" property="seqid" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYDATE" property="paydate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYTYPE" property="paytype" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="REGISTRATIONMONTH" property="registrationmonth" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="REGISTRATIONDATE" property="registrationdate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SURETYPE" property="suretype" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BUSINESSMODEL" property="businessmodel" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="SUBPRODUCTTYPE" property="subproducttype" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PROVINCE" property="province" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CITY" property="city" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CITYCODE" property="citycode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYMONTH" property="paymonth" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DELIVERYMONTH" property="deliverymonth" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DELIVERYDATE" property="deliverydate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="TRANSFERPAYPAYMENTMONTH" property="transferpaypaymentmonth" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="TRANSFERPAYPAYMENTDAY" property="transferpaypaymentday" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SHMONTH" property="shmonth" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="LPMONTH" property="lpmonth" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ASSETBELONG" property="assetBelong" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="GUARANTEEPARTY" property="guaranteeparty" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DEBOURS" property="debours" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SPONSOR" property="sponsor" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SPONSORTYPE" property="sponsortype" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="OVERDUEDAYS" property="overduedays" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CANCELTYPE" property="canceltype" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BUSINESSSUM" property="businesssum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYPRINCIPALAMT" property="payprincipalamt" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYINTEAMT" property="payinteamt" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SYWHZE" property="sywhze" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYAMT" property="payamt" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="YHLXFX" property="yhlxfx" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="YHBJFX" property="yhbjfx" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CREATETIME" property="createtime" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ACCORDMONTH" property="accordmonth" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ACTUALPAYDATE" property="actualpaydate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ACTUALPAYER" property="actualpayer" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="REMARK" property="remark" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CONTRACTCOUNT" property="contractCount" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="MONEYCOUNT" property="moneyCount" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PRODUCTID" property="productid" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		
+ 		<result column="BUSINESSSUMTOTAL" property="businesssumtotal" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYPRINCIPALAMTSUM" property="payprincipalamtsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYINTEAMTSUM" property="payinteamtsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SYWHZESUM" property="sywhzesum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYAMTSUM" property="payamtsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="YHLXFXSUM" property="yhlxfxsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="YHBJFXSUM" property="yhbjfxsum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 	
+ 	</resultMap>
+	
+	<select id="queryXZXDPaymentsDetail" resultMap="XZXDPaymentsMap">
+		SELECT * FROM (
+			SELECT A.*,ROWNUM RN FROM (
+				 SELECT SUBSTR(ZRP.ACCORDDATE, 0, 7) ACCORDMONTH,
+				        ZRP.SERIALNO,
+				        ZRP.SURETYPE,
+				        ZRP.BUSINESSMODEL,
+				        ZRP.PRODUCTID,
+				        ZRP.SUBPRODUCTTYPE,
+				        ZRP.PROVINCE,
+				        ZRP.CITY,
+				        ZRP.CITYCODE,
+				        ZRP.SEQID,
+				        SUBSTR(ZRP.REGISTRATIONDATE, 0, 7) REGISTRATIONMONTH,
+				        ZRP.REGISTRATIONDATE,
+				        SUBSTR(ZRP.PAYDATE, 0, 7) PAYMONTH,
+				        ZRP.PAYDATE,
+				        SUBSTR(ZRP.DELIVERYDATE, 0, 7) DELIVERYMONTH,
+						ZRP.DELIVERYDATE,
+				        SUBSTR(ZRP.TRANSFERPAYPAYMENTDAY, 0, 7) TRANSFERPAYPAYMENTMONTH,
+				        ZRP.TRANSFERPAYPAYMENTDAY,
+				        (
+				            CASE WHEN CANCELTYPE = 'Y' THEN '是' 
+				            WHEN CANCELTYPE = 'N' THEN '否' 
+				            WHEN CANCELTYPE IS NULL THEN '否'
+				            ELSE CANCELTYPE END
+				        )
+				        AS CANCELTYPE,
+				        SUBSTR(ZRP.SHDATE, 0, 7) SHMONTH,
+				        SUBSTR(ZRP.LPDATE, 0, 7) LPMONTH,
+				        (
+				            CASE WHEN PAYTYPE = '5' THEN '提前还款' 
+				            	 WHEN PAYTYPE = '1' THEN '正常还款' 
+				            ELSE PAYTYPE END
+				        ) AS PAYTYPE,
+				        (select itemname from creditperson_code where itemno=DEBOURS) DEBOURS,
+				        (select itemname from creditperson_code where itemno=ASSETBELONG) ASSETBELONG,
+				        (select itemname from creditperson_code where itemno=GUARANTEEPARTY) GUARANTEEPARTY,
+		        		(select itemname from creditperson_code where itemno=SPONSOR) SPONSOR,
+				        ZRP.SPONSORTYPE,
+				        ZRP.PAYPRINCIPALAMT,
+				        ZRP.PAYINTEAMT,
+				        ZRP.BUSINESSSUM,
+				        ZRP.SYWHZE,
+				        ZRP.PAYAMT,
+				        ZRP.YHLXFX,
+				        ZRP.YHBJFX,
+				        ZRP.OVERDUEDAYS,
+				        ZRP.ACTUALPAYDATE,
+				        ZRP.ACTUALPAYER,
+				        ZRP.REMARK
+				 FROM ZJJS_REPAYMENT_PLAN ZRP
+				 <include refid="XZXDPayments_Where_Sql" />
+				)   A WHERE ROWNUM &lt;= #{endpoint} 
+			  ) WHERE RN &gt;= #{startpoint} 			  
+	</select>
+	
+	<select id="queryXZXDPaymentsFindAll" resultMap="XZXDPaymentsMap" parameterType="com.billionsfinance.bas.entity.XZXDPaymentsVO">
+ 		 SELECT SUBSTR(ZRP.ACCORDDATE, 0, 7) ACCORDMONTH,
+		        ZRP.SERIALNO,
+		        ZRP.SURETYPE,
+		        ZRP.BUSINESSMODEL,
+		        ZRP.PRODUCTID,
+		        ZRP.SUBPRODUCTTYPE,
+		        ZRP.PROVINCE,
+		        ZRP.CITY,
+		        ZRP.CITYCODE,
+		        ZRP.SEQID,
+		        SUBSTR(ZRP.REGISTRATIONDATE, 0, 7) REGISTRATIONMONTH,
+		        ZRP.REGISTRATIONDATE,
+		        SUBSTR(ZRP.PAYDATE, 0, 7) PAYMONTH,
+		        ZRP.PAYDATE,
+		        SUBSTR(ZRP.DELIVERYDATE, 0, 7) DELIVERYMONTH,
+				ZRP.DELIVERYDATE,
+		        SUBSTR(ZRP.TRANSFERPAYPAYMENTDAY, 0, 7) TRANSFERPAYPAYMENTMONTH,
+		        ZRP.TRANSFERPAYPAYMENTDAY,
+		        (
+		            CASE WHEN CANCELTYPE = 'Y' THEN '是' 
+		            WHEN CANCELTYPE = 'N' THEN '否' 
+		            WHEN CANCELTYPE IS NULL THEN '否'
+		            ELSE CANCELTYPE END
+		        )
+		        AS CANCELTYPE,
+		        SUBSTR(ZRP.SHDATE, 0, 7) SHMONTH,
+		        SUBSTR(ZRP.LPDATE, 0, 7) LPMONTH,
+		        (
+		            CASE WHEN PAYTYPE = '5' THEN '提前还款' 
+		            	 WHEN PAYTYPE = '1' THEN '正常还款' 
+		            ELSE PAYTYPE END
+		        ) AS PAYTYPE,
+		        (select itemname from creditperson_code where itemno=DEBOURS) DEBOURS,
+		        (select itemname from creditperson_code where itemno=ASSETBELONG) ASSETBELONG,
+		        (select itemname from creditperson_code where itemno=GUARANTEEPARTY) GUARANTEEPARTY,
+		        (select itemname from creditperson_code where itemno=SPONSOR) SPONSOR,
+		        ZRP.SPONSORTYPE,
+		        ZRP.PAYPRINCIPALAMT,
+		        ZRP.PAYINTEAMT,
+		        ZRP.BUSINESSSUM,
+		        ZRP.SYWHZE,
+		        ZRP.PAYAMT,
+		        ZRP.YHLXFX,
+		        ZRP.YHBJFX,
+		        ZRP.OVERDUEDAYS,
+		        ZRP.ACTUALPAYDATE,
+		        ZRP.ACTUALPAYER,
+		        ZRP.REMARK
+		 FROM ZJJS_REPAYMENT_PLAN ZRP
+		 <include refid="XZXDPayments_Where_Sql" />
+	</select>
+	
+
+	<sql id="XZXDPayments_Where_Sql">
+    	<where>
+		<if test=" serialno != null and serialno != ''">
+			AND ZRP.SERIALNO = #{serialno,jdbcType=VARCHAR}
+		</if>
+		<if test=" seqid != null and seqid != ''">
+			AND ZRP.SEQID = #{seqid,jdbcType=VARCHAR}
+		</if>
+		<if test=" accordmonth != null and accordmonth != ''">
+			AND #{accordmonth,jdbcType=VARCHAR} = SUBSTR(ZRP.ACCORDDATE,0,7)
+		</if>
+		<if test=" subproducttype != null and subproducttype != ''">
+			AND ZRP.SUBPRODUCTTYPE = #{subproducttype,jdbcType=VARCHAR}
+		</if>
+		<if test=" paytype != null and paytype != ''">
+			AND ZRP.PAYTYPE = #{paytype,jdbcType=VARCHAR}
+		</if>
+		<if test=" startpaydate != null and startpaydate != ''">
+			AND ZRP.PAYDATE &gt;= #{startpaydate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endpaydate != null and endpaydate != ''">
+			AND ZRP.PAYDATE &lt;= #{endpaydate,jdbcType=VARCHAR}
+		</if>
+		<if test=" starttransferpaypaymentday != null and starttransferpaypaymentday != ''">
+			AND ZRP.TRANSFERPAYPAYMENTDAY &gt;= #{starttransferpaypaymentday,jdbcType=VARCHAR}
+		</if>
+		<if test=" endtransferpaypaymentday != null and endtransferpaypaymentday != ''">
+			AND ZRP.TRANSFERPAYPAYMENTDAY &lt;= #{endtransferpaypaymentday,jdbcType=VARCHAR}
+		</if>
+		<if test=" startactualpaydate != null and startactualpaydate != ''">
+			AND ZRP.ACTUALPAYDATE &gt;= #{startactualpaydate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endactualpaydate != null and endactualpaydate != ''">
+			AND ZRP.ACTUALPAYDATE &lt;= #{endactualpaydate,jdbcType=VARCHAR}
+		</if>
+		<if test=" startregistrationdate != null and startregistrationdate != ''">
+			AND ZRP.REGISTRATIONDATE &gt;= #{startregistrationdate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endregistrationdate != null and endregistrationdate != ''">
+			AND ZRP.REGISTRATIONDATE &lt;= #{endregistrationdate,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	
+	<!-- 匹配合同个数 总金额  -->
+	<select id="queryXZXDPaymentsCount" parameterType="java.util.HashMap" resultMap="XZXDPaymentsMap">
+		SELECT 
+			COUNT(1) AS CONTRACTCOUNT,
+			SUM(BUSINESSSUM) AS BUSINESSTOTAL,
+			SUM(PAYPRINCIPALAMT) AS PAYPRINCIPALAMTSUM,
+			SUM(PAYINTEAMT) AS PAYINTEAMTSUM,
+			SUM(SYWHZE) AS SYWHZESUM,
+			SUM(PAYAMT) AS PAYAMTSUM,
+			SUM(YHLXFX) AS YHLXFXSUM,
+			SUM(YHBJFX) AS YHBJFXSUM
+			FROM ZJJS_REPAYMENT_PLAN ZRP
+		<include refid="XZXDPayments_Where_Sql" />
+	</select>
+	
+	<update id="paymentsAffirm">
+		UPDATE ZJJS_REPAYMENT_PLAN ZRP SET ACTUALPAYDATE = #{actualpaydate,jdbcType=VARCHAR},ACTUALPAYER = #{actualpayer,jdbcType=VARCHAR},REMARK = #{remark,jdbcType=VARCHAR} 
+		<include refid="XZXDPayments_Where_Sql" />
+	</update>
+	
+</mapper>

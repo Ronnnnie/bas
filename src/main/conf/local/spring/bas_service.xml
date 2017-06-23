@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans default-lazy-init="true" xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+	<!-- 资源管理 -->
+	<bean id="resourceService" class="com.billionsfinance.bas.service.ResourceService"/>
+	<!-- 系统管理 --> 
+	<bean id = "systemService" class="com.billionsfinance.bas.service.SystemService"/>
+	<!-- 用户管理 -->
+	<bean id = "basUserService" class="com.billionsfinance.bas.service.BASUserService" />
+	<!-- 系统用户-->
+	<bean id = "systemUserService" class="com.billionsfinance.bas.service.SystemUserService" />
+	<!-- 系统管理员管理-->
+	<bean id = "sysAdminService" class="com.billionsfinance.bas.service.SysAdminService" />
+	<!-- 角色管理-->
+	<bean id = "sysRoleService" class="com.billionsfinance.bas.service.SysRoleService" />
+	<!-- 角色资源-->
+	<bean id = "roleResourcesService" class="com.billionsfinance.bas.service.RoleResourcesService" />
+	<!-- 系统用户角色-->
+	<bean id = "sysUserRoleService" class="com.billionsfinance.bas.service.SysUserRoleService" />
+	<!-- 获取系统用户信息--> 
+	<bean id = "sysUserFacadeService" class="com.billionsfinance.bas.service.UserSystemFacadeService" />
+	<!-- 获取部门信息-->
+	<bean id = "departService" class="com.billionsfinance.bas.service.DepartService" />
+	
+	<bean id = "contractService" class="com.billionsfinance.bas.service.ContractService" />
+	
+	<bean id = "checkListService" class="com.billionsfinance.bas.service.CheckListService" />
+	
+	<bean id = "businessLoanService" class="com.billionsfinance.bas.service.BusinessLoanService" />
+	
+	<bean id = "clientRefundService" class="com.billionsfinance.bas.service.ClientRefundService" />
+	
+	<bean id = "bqRefundService" class="com.billionsfinance.bas.service.BQRefundService" />
+	
+	<bean id = "receivedPaymentsService" class="com.billionsfinance.bas.service.ReceivedPaymentsService" />
+	
+	<bean id = "hhReceivedPaymentsService" class="com.billionsfinance.bas.service.HHReceivedPaymentsService" />
+	
+	<bean id = "trustAllotDetailService" class="com.billionsfinance.bas.service.TrustAllotDetailService" />
+	
+	<bean id = "repaymentDetailService" class="com.billionsfinance.bas.service.RepaymentDetailService" />
+	
+	<bean id = "clientRepaymentDetailService" class="com.billionsfinance.bas.service.ClientRepaymentDetailService" />
+	
+	<bean id = "compensatoryDetailService" class="com.billionsfinance.bas.service.CompensatoryDetailService" />
+	
+	<bean id = "ransomDetailService" class="com.billionsfinance.bas.service.RansomDetailService" />
+	
+	<bean id = "overdueService" class="com.billionsfinance.bas.service.OverdueService"/>
+	
+	<bean id = "overdueUnService" class="com.billionsfinance.bas.service.OverdueUnService"/>
+	
+	<bean id = "currentExpiredService" class="com.billionsfinance.bas.service.CurrentExpiredService" />
+	
+	<bean id = "currentPayService" class="com.billionsfinance.bas.service.CurrentPayService" />
+	
+	<bean id = "jyReceivedPaymentsService" class="com.billionsfinance.bas.service.JYReceivedPaymentsService" />
+	
+	<bean id = "villageReceivedPaymentsService" class="com.billionsfinance.bas.service.VillageReceivedPaymentsService" />
+	
+	<bean id = "capitalMitigateService" class="com.billionsfinance.bas.service.CapitalMitigateService" />
+	
+	<bean id = "predictcostService" class="com.billionsfinance.bas.service.PredictcostService" />
+	
+	<bean id = "releaseSlowDetailService" class="com.billionsfinance.bas.service.ReleaseSlowDetailService" />
+	
+	<bean id = "dayTradingService" class="com.billionsfinance.bas.service.DayTradingService" />
+	
+	<bean id = "xzxdPaymentsService" class="com.billionsfinance.bas.service.XZXDPaymentsService" />
+	
+	<bean id = "dataCheckService" class="com.billionsfinance.bas.service.DataCheckService" />
+	
+	<bean id = "bankWithholdService" class="com.billionsfinance.bas.service.BankWithholdService" />
+	
+	<bean id = "repaymentDetailCheckAccountService" class="com.billionsfinance.bas.service.RepaymentDetailCheckAccountService" />
+	
+	<bean id = "accountTotalCheckingAccountService" class="com.billionsfinance.bas.service.AccountTotalCheckingAccountService" />
+</beans>

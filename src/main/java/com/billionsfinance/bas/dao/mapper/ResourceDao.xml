@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.ResourceDao" >
+
+	<resultMap id="BaseResultMap" type="java.util.HashMap">
+		<id column="RESOURCE_ID" property="resourceId" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="UPDATED_USER" property="updatedUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CREATED_USER" property="createdUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="RESOURCE_NAME" property="resourceName" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="UPDATED_DATE" property="updatedDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+ 		<result column="RESOURCE_TYPE" property="resourceType" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 		<result column="MENU_INDEX" property="menuIndex" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 		<result column="VALID_IND" property="validInd" jdbcType="CHAR" javaType="java.lang.String" />
+ 		<result column="CREATED_DATE" property="createdDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+ 		<result column="SYS_CODE" property="sysCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="URL" property="url" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PARENT_ID" property="parentId" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="RESOURCE_CSS" property="resourceCss" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="RESOURCE_ICON" property="resourceIcon" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="MENU_LEVEL" property="menuLevel" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 		<result column="RESOURCE_CODE" property="resourceCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+ 	</resultMap>
+	
+	<resultMap id="BaseResultVo" type="com.billionsfinance.bas.entity.ResourceVO">
+		<id column="RESOURCE_ID" property="resourceId" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="UPDATED_USER" property="updatedUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CREATED_USER" property="createdUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="RESOURCE_NAME" property="resourceName" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="UPDATED_DATE" property="updatedDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+ 		<result column="RESOURCE_TYPE" property="resourceType" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 		<result column="MENU_INDEX" property="menuIndex" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 		<result column="VALID_IND" property="validInd" jdbcType="CHAR" javaType="java.lang.String" />
+ 		<result column="CREATED_DATE" property="createdDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+ 		<result column="SYS_CODE" property="sysCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="URL" property="url" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PARENT_ID" property="parentId" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="RESOURCE_CSS" property="resourceCss" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="RESOURCE_ICON" property="resourceIcon" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="MENU_LEVEL" property="menuLevel" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 		<result column="RESOURCE_CODE" property="resourceCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+ 		<!-- 父资源名称 -->
+ 		<result column="parentName" property="parentName" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 	</resultMap>
+
+	<!-- 查询数据列Sql不转换成对应的Java命名 -->
+	<sql id="Base_Column_List" >
+		UPDATED_USER,
+		CREATED_USER,
+		RESOURCE_NAME,
+		RESOURCE_ID,
+		UPDATED_DATE,
+		RESOURCE_TYPE,
+		MENU_INDEX,
+		VALID_IND,
+		CREATED_DATE,
+		SYS_CODE,
+		URL,
+		PARENT_ID,
+		RESOURCE_CSS,
+		RESOURCE_ICON,
+		MENU_LEVEL,
+		RESOURCE_CODE
+	</sql>
+	
+	<!-- 查询数据列Sql换成对应的Java命名 -->
+	<sql id="Base_Column_List_JavaName" >
+		UPDATED_USER as "updatedUser",
+		CREATED_USER as "createdUser",
+		RESOURCE_NAME as "resourceName",
+		RESOURCE_ID as "resourceId",
+		UPDATED_DATE as "updatedDate",
+		RESOURCE_TYPE as "resourceType",
+		MENU_INDEX as "menuIndex",
+		VALID_IND as "validInd",
+		CREATED_DATE as "createdDate",
+		SYS_CODE as "sysCode",
+		URL as "url",
+		PARENT_ID as "parentId",
+		RESOURCE_CSS as "resourceCss",
+		RESOURCE_ICON as "resourceIcon",
+		MENU_LEVEL as "menuLevel",
+		RESOURCE_CODE as "resourceCode"
+	</sql>
+	
+	<!-- 写入操作的SQL -->
+	<sql id="Insert_Base_values">
+		#{updatedUser,jdbcType=VARCHAR},
+ 		#{createdUser,jdbcType=VARCHAR},
+ 		#{resourceName,jdbcType=VARCHAR},
+ 		#{resourceId,jdbcType=VARCHAR},
+ 		SYSDATE,
+ 		#{resourceType,jdbcType=INTEGER},
+ 		#{menuIndex,jdbcType=INTEGER},
+ 		#{validInd,jdbcType=CHAR},
+ 		SYSDATE,
+ 		#{sysCode,jdbcType=VARCHAR},
+ 		#{url,jdbcType=VARCHAR},
+ 		#{parentId,jdbcType=VARCHAR},
+ 		#{resourceCss,jdbcType=VARCHAR},
+ 		#{resourceIcon,jdbcType=VARCHAR},
+ 		#{menuLevel,jdbcType=INTEGER},
+ 		#{resourceCode,jdbcType=VARCHAR}
+ 	</sql>
+	
+	<!-- 查询条件的sql -->
+	<sql id="Base_Where_Sql">
+		<where>
+		<if test="updatedUser != null and updatedUser != ''">
+			and UPDATED_USER = #{updatedUser,jdbcType=VARCHAR}
+		</if>
+		<if test="createdUser != null and createdUser != ''">
+			and CREATED_USER = #{createdUser,jdbcType=VARCHAR}
+		</if>
+		<if test="resourceName != null and resourceName != ''">
+			and RESOURCE_NAME = #{resourceName,jdbcType=VARCHAR}
+		</if>
+		<if test="resourceId != null and resourceId != ''">
+			and RESOURCE_ID = #{resourceId,jdbcType=VARCHAR}
+		</if>
+		<if test="resourceType != null">
+			and RESOURCE_TYPE = #{resourceType,jdbcType=INTEGER}
+		</if>
+		<if test="menuIndex != null">
+			and MENU_INDEX = #{menuIndex,jdbcType=INTEGER}
+		</if>
+		<if test="validInd != null and validInd != ''">
+			and VALID_IND = #{validInd,jdbcType=CHAR}
+		</if>
+		<if test="sysCode != null and sysCode != ''">
+			and SYS_CODE = #{sysCode,jdbcType=VARCHAR}
+		</if>
+		<if test="url != null and url != ''">
+			and URL = #{url,jdbcType=VARCHAR}
+		</if>
+		<if test="parentId != null and parentId != ''">
+			and PARENT_ID = #{parentId,jdbcType=VARCHAR}
+		</if>
+		<if test="menuLevel != null and menuLevel != ''">
+			and MENU_LEVEL = #{menuLevel,jdbcType=VARCHAR}
+		</if>
+		<if test="resourceCode != null and resourceCode != ''">
+			and RESOURCE_CODE = #{resourceCode,jdbcType=VARCHAR}
+		</if>
+		order by MENU_INDEX
+		</where>
+	</sql>
+	<!-- 
+		insert操作给定的参数是java.util.Map<String,Object>类型的对象，
+		与<sql id="Insert_Base_values">中配置的列一致
+	-->
+	<insert id="saveResource" parameterType="com.billionsfinance.bas.entity.ResourceVO" >
+	    insert into UM_RESOURCE (
+			<include refid="Base_Column_List" />
+	    )
+		values (
+			<include refid="Insert_Base_values" />
+	    )
+	</insert>
+	
+	<update id="updateResource" parameterType="com.billionsfinance.bas.entity.ResourceVO" >
+		update UM_RESOURCE
+		<set>
+		<if test="updatedUser != null and updatedUser != ''">
+			UPDATED_USER = #{updatedUser,jdbcType=VARCHAR},
+		</if>
+	  	<if test="createdUser != null and createdUser != ''">
+			CREATED_USER = #{createdUser,jdbcType=VARCHAR},
+		</if>
+	  	<if test="resourceName != null and resourceName != ''">
+			RESOURCE_NAME = #{resourceName,jdbcType=VARCHAR},
+		</if>
+	  	<if test="resourceType != null and resourceType != ''">
+			RESOURCE_TYPE = #{resourceType,jdbcType=INTEGER},
+		</if>
+			MENU_INDEX = #{menuIndex,jdbcType=INTEGER},
+	  	<if test="validInd != null and validInd != ''">
+			VALID_IND = #{validInd,jdbcType=CHAR},
+		</if>
+	  	<if test="createdDate != null and createdDate != ''">
+			CREATED_DATE = #{createdDate,jdbcType=DATE},
+		</if>
+	  	<if test="sysCode != null and sysCode != ''">
+			SYS_CODE = #{sysCode,jdbcType=VARCHAR},
+		</if>
+			URL = #{url,jdbcType=VARCHAR},
+	  	<if test="parentId != null and parentId != ''">
+			PARENT_ID = #{parentId,jdbcType=VARCHAR},
+		</if>
+		<if test="resourceCss != null and resourceCss != ''">
+			RESOURCE_CSS = #{resourceCss,jdbcType=VARCHAR},
+		</if>
+		<if test="resourceIcon != null and resourceIcon != ''">
+			RESOURCE_ICON = #{resourceIcon,jdbcType=VARCHAR},
+		</if>
+		<if test="menuLevel != null and menuLevel != ''">
+			MENU_LEVEL = #{menuLevel,jdbcType=INTEGER},
+		</if>
+		<if test="resourceCode != null and resourceCode != ''">
+			RESOURCE_CODE = #{resourceCode,jdbcType=VARCHAR},
+		</if>
+			UPDATED_DATE = SYSDATE
+	  	</set>
+		where RESOURCE_ID = #{resourceId,jdbcType=VARCHAR}
+	</update>
+	
+	<select id="queryResource" parameterType="com.billionsfinance.bas.entity.ResourceVO" resultMap="BaseResultVo">
+		select 
+			<include refid="Base_Column_List"/>
+		from um_resource r
+			<include refid="Base_Where_Sql"/>
+	</select>
+	
+	<select id="findResourceById" parameterType="java.lang.String" resultMap="BaseResultVo">
+		select 
+			<include refid="Base_Column_List"/>
+		from um_resource r
+			where r.resource_id = #{resourceId,jdbcType=VARCHAR}
+	</select>
+		<!-- 将资源及子资源置为失效-->
+	<update id="updateResourcesValidInd" parameterType="map" >
+		update UM_RESOURCE
+		set 
+			UPDATED_USER = #{updatedUser,jdbcType=VARCHAR},
+   			UPDATED_DATE = SYSDATE,
+  			VALID_IND = #{validInd,jdbcType=CHAR}
+  		where RESOURCE_ID in 
+		<foreach collection="resourceList" index="index" item="item" open="(" separator="," close=")">  
+			#{item}
+		</foreach>  
+
+	</update>
+	
+	<!-- 自定义sql -->
+	<!-- 查询用户是否是该系统的用户   -->
+	<!-- <select id="querySysUser" parameterType="map" resultType="Integer">
+		select count(1)
+		from um_system_user
+		where um_system_user.sys_code = #{sysCode}
+		and um_system_user.user_code = #{userCode}
+		and um_system_user.valid_ind = 1
+	</select> -->
+	<!-- 查询用户是否是该系统的用户    代替上面注释掉的sql   -->
+	<select id="querySysUser" parameterType="map" resultType="Integer">
+		select count(1)
+		from um_user u
+		where u.user_code = #{userCode}
+		and u.status = 1
+	</select>
+	<!-- 查询用户是否是该系统的管理员  -->
+	<select id="querySysManager" parameterType="map" resultType="Integer">
+		select count(1) 
+		from um_admin t where t.user_code = #{userCode} 
+		and t.sys_code = #{sysCode} 
+		and t.admin_level = '1'
+		and t.valid_ind = 1
+	</select>
+
+	<!-- 根据用户编码查询对应的角色所有的菜单  -->
+	<select id="querySysUserMenus" parameterType="map" resultType="map">
+		select distinct r.resource_id as "resourceId",
+	       r.resource_name as "resourceName",
+	       r.resource_type as "resourceType",
+	       r.sys_code as "sysCode",
+	       r.parent_id as "parentId",
+	       r.url as "url",
+	       r.menu_index as "menuIndex",
+	       r.valid_ind as "validInd",
+	       r.resource_css as "resourceCss",
+	       r.resource_icon as "resourceIcon",
+	       r.menu_level as "menuLevel"
+		from um_system_user su,
+	       um_sys_user_role sur,
+	       um_role_resource rr,
+	       um_resource r
+		where su.sys_user_id = sur.sys_user_id
+	       and sur.role_code = rr.role_code
+	       and r.resource_id = rr.resource_id
+	       and su.user_code= #{userCode}
+	       and r.sys_code = #{sysCode}
+	       and r.resource_type = 1
+	       and r.valid_ind = 1
+	       and rr.valid_ind = 1
+	       and sur.valid_ind = 1
+	     order by r.menu_index
+	</select>
+	
+	<!-- 根据用户编码查询对应的角色所有的菜单   代替上面的sql  -->
+	<select id="queryUserMenus" parameterType="map" resultType="map">
+	select distinct r.resource_id as "resourceId",
+	       r.resource_name as "resourceName",
+	       r.resource_type as "resourceType",
+	       r.sys_code as "sysCode",
+	       r.parent_id as "parentId",
+	       r.url as "url",
+	       r.menu_index as "menuIndex",
+	       r.valid_ind as "validInd",
+	       r.resource_css as "resourceCss",
+	       r.resource_icon as "resourceIcon",
+	       r.menu_level as "menuLevel"
+		from um_user u,
+	       um_sys_user_role sur,
+	       um_role ro,
+	       um_role_resource rr,
+	       um_resource r
+		where u.user_code = sur.user_code
+	       and sur.role_code = rr.role_code
+	       and sur.role_code = ro.role_code
+	       and r.resource_id = rr.resource_id
+	       and u.user_code= #{userCode}
+	       and r.resource_type = 1
+	       and ro.valid_ind = 1
+	       and r.valid_ind = 1
+	       and rr.valid_ind = 1
+	       and sur.valid_ind = 1
+	     order by r.menu_index
+	</select>
+	
+	
+	<!-- 系统管理员查询对应的所有系统菜单-->
+	<!-- <select id="querySystemMenus" parameterType="map" resultType="map">
+		select distinct r.resource_id as "resourceId",
+	       r.resource_name as "resourceName",
+	       r.resource_type as "resourceType",
+	       r.sys_code as "sysCode",
+	       r.parent_id as "parentId",
+	       r.url as "url",
+	       r.menu_index as "menuIndex",
+	       r.valid_ind as "validInd",
+	       r.resource_css as "resourceCss",
+	       r.resource_icon as "resourceIcon",
+	       r.menu_level as "menuLevel"
+	  from um_admin a,
+	       um_resource r
+	 where a.sys_code = r.sys_code
+	 and   r.sys_code = #{sysCode}
+	 and   a.user_code = #{userCode}
+	 and   r.resource_type = 1
+	 and   a.admin_level = '1'
+	 and   r.valid_ind = 1
+	 order by r.menu_index
+	</select> -->
+		
+	<!-- 查询当前系统下的所有可用菜单资源 -->
+	<select id="queryAllMenuResource" parameterType="map" resultMap="BaseResultVo">
+		select 
+			r.resource_id as "resourceId", 
+			r.resource_name as "resourceName",
+			r.parent_id as "parentId",
+			r.menu_index as "menuIndex",
+			r.menu_level as "menuLevel",
+			r.resource_type as "resourceType"
+		  from um_resource r
+		 where  r.valid_ind = '1'
+		 	and r.show_all_user != '1'
+		   <if test="parentId != null and parentId != ''">
+					and r.parent_id=#{parentId}
+			</if>
+			order by r.menu_index
+	</select>
+	
+	<!-- 查询菜单资源  -->
+	<select id="queryMenuResourceByRole" parameterType="map" resultMap="BaseResultVo">
+		select distinct 
+				r.resource_id as "resourceId", 
+				r.resource_name as "resourceName",
+				r.parent_id as "parentId",
+				r.menu_index as "menuIndex",
+				r.menu_level as "menuLevel",
+				r.resource_type as "resourceType"
+		  from um_resource r
+		  left join um_role_resource re on re.resource_id=r.resource_id
+		 where r.valid_ind = '1'
+		   <if test="validInd != null and validInd != ''">
+		   		 and re.valid_ind=#{validInd}
+		   </if>
+	  		<if test="parentId != null and parentId != ''">
+				and r.parent_id=#{parentId}
+			</if>
+			<if test="roleCode != null and roleCode != ''">
+				and re.role_code=#{roleCode}
+			</if>
+			order by r.menu_index
+	</select>
+	
+		<!-- 查询菜单资源  -->
+	<select id="queryMenuResourceAllByRole" parameterType="map" resultType="map">
+		  select distinct res.resource_id as resourceId,
+	          res.RESOURCE_CODE as resourceCode,
+	          res.resource_name as resourceName, 
+	          res.resource_type as resourceType, 
+	          res.sys_code as sysCode, 
+	          res.parent_id as parentId, 
+	          res.url as urls, 
+	          res.menu_index as menuIndex,
+	          res.valid_ind as validInd,
+	          res.resource_css as resourceCss,
+	          res.resource_icon as resourceIcon, 
+	          res.MENU_LEVEL as mlevel
+          from 
+	          um_role_resource rr, 
+	          um_resource res 
+          where 
+	        res.resource_id = rr.resource_id 
+	        and res.valid_ind = 1 
+	        and rr.valid_ind = '1'
+          	and rr.role_code in 
+          	<foreach item="tempId" collection="role" open="(" separator="," close=")"> 
+        			${tempId} 
+           </foreach>
+	</select>
+
+	<!-- 分页查询按钮 -->
+	<select id="queryButtPage" parameterType="map" resultMap="BaseResultMap">
+		select * from (
+			select a.*,rownum rn from (
+			select
+				r1.resource_id as "resourceId", 
+				r1.resource_name as "resourceName",
+				r1.parent_id as "parentId",
+				r1.URL as "url",
+				r1.VALID_IND as "validInd",
+				r1.RESOURCE_CODE as "resourceCode",
+				r2.RESOURCE_NAME||'||'||r2.URL as "parentName"
+				from um_resource r1
+				left join um_resource r2 on r1.PARENT_ID=r2.RESOURCE_ID 
+			<where>
+				and r1.resource_type = 2
+			<if test="parentId != null and parentId != ''">
+				and r1.PARENT_ID = #{parentId,jdbcType=VARCHAR}
+			</if>
+			<if test="sysCode != null and sysCode != ''">
+				and r1.SYS_CODE = #{sysCode,jdbcType=VARCHAR}
+			</if>
+			<if test="validInd != null and validInd != ''">
+				and r1.VALID_IND = #{validInd,jdbcType=CHAR}
+			</if>
+			<if test="resourceName != null and resourceName != ''">
+				and r1.RESOURCE_NAME like '%'||trim(#{resourceName})||'%'
+			</if>
+			</where>
+			order by r1.UPDATED_DATE desc,r1.resource_id desc
+			) a where rownum &lt;= #{endpoint}
+		) where rn &gt;= #{startpoint}
+	</select>
+	<!-- 统计条件查询按钮的个数 -->
+	<select id="queryButtCount" parameterType="map" resultType="Long">
+			select
+				count(1)
+				from um_resource r1
+				left join um_resource r2 on r1.PARENT_ID=r2.RESOURCE_ID 
+			<where>
+				and r1.resource_type = 2
+			<if test="parentId != null and parentId != ''">
+				and r1.PARENT_ID = #{parentId,jdbcType=VARCHAR}
+			</if>
+			<if test="sysCode != null and sysCode != ''">
+				and r1.SYS_CODE = #{sysCode,jdbcType=VARCHAR}
+			</if>
+			<if test="validInd != null and validInd != ''">
+				and r1.VALID_IND = #{validInd,jdbcType=CHAR}
+			</if>
+			<if test="resourceName != null and resourceName != ''">
+				and r1.RESOURCE_NAME like '%'||trim(#{resourceName})||'%'
+			</if>
+			</where>
+	</select>
+	
+	<!-- 查询出所有用户都展示的菜单 -->
+	<select id="findShowAllUserMenus" parameterType="map" resultType="map">
+		select distinct r.resource_id as "resourceId",
+	       r.resource_name as "resourceName",
+	       r.resource_type as "resourceType",
+	       r.sys_code as "sysCode",
+	       r.parent_id as "parentId",
+	       r.url as "url",
+	       r.menu_index as "menuIndex",
+	       r.valid_ind as "validInd",
+	       r.resource_css as "resourceCss",
+	       r.resource_icon as "resourceIcon",
+	       r.menu_level as "menuLevel"
+	  from um_resource r
+		 where  r.resource_type = 1
+		 and   r.show_all_user = '1'
+		 and   r.valid_ind = 1
+		 order by r.menu_index
+	</select>
+	
+	<!-- 根据系统编码查询角色 -->
+	<select id="queryRoleBySysCode" resultType="map" parameterType="java.lang.String" >
+	    select sys_code as "sysCode",role_code as "roleCode",role_cname as "roleCname"
+			from UM_ROLE
+			where SYS_CODE = #{sysCode,jdbcType=VARCHAR} and VALID_IND='1'
+	</select>
+	
+	<!-- 根据资源ID查询资源的根路径 -->
+	<select id="findParentPath" resultType="map" parameterType="java.lang.String">
+		select SYS_CONNECT_BY_PATH(resource_name,'>') as "parentName" from UM_RESOURCE
+		 start with resource_id=#{resourceId}
+		 connect by  prior  parent_id=resource_id
+	</select>
+</mapper>

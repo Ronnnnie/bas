@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.ContractDao" >
+  	<resultMap id="ContractResultMap" type="java.util.HashMap">
+		<id column="ID" property="id" javaType="java.lang.String" jdbcType="VARCHAR" />
+  		<result column="SERIALNO" property="serialNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BUSINESSDATE" property="businessDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KEEPACCOUNTS_DATE" property="keepAccountsDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="MAKECOLLECTIONS_DATE" property="makeCollectionsDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PRODUCT_SUBTYPE" property="productSubType" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BUSINESSSUM1" property="businessSum" jdbcType="INTEGER" javaType="java.lang.Integer" />
+		<result column="CAPITALSIDE" property="capitalSide" jdbcType="VARCHAR" javaType="java.lang.String" />
+		<result column="CITY" property="city" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CLIENT_NAME" property="clientName" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CONTRACT_COUNT" property="contractCount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 		<result column="MONEY_COUNT" property="moneyCount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 	</resultMap>
+ 	
+ 	 <resultMap id="ContarctVO" type="com.billionsfinance.bas.entity.ContractVO">
+		<id column="ID" property="id" javaType="java.lang.String" jdbcType="VARCHAR" />
+  		<result column="SERIALNO" property="serialNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BUSINESSDATE" property="businessDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KEEPACCOUNTS_DATE" property="keepAccountsDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="MAKECOLLECTIONS_DATE" property="makeCollectionsDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PRODUCT_SUBTYPE" property="productSubType" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BUSINESSSUM1" property="businessSum" jdbcType="INTEGER" javaType="java.lang.Integer" />
+		<result column="CAPITALSIDE" property="capitalSide" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CLIENT_NAME" property="clientName" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 	</resultMap>
+	
+	<select id="queryBusinessDetail" resultMap="ContractResultMap">
+      SELECT * FROM (
+			  SELECT A.*,ROWNUM RN FROM (
+				SELECT 	RFP.ID,
+					  	RFP.SERIALNO,
+					  	RFP.BUSINESSDATE,
+					  	RFP.KEEPACCOUNTS_DATE,
+					  	RFP.MAKECOLLECTIONS_DATE,
+					  	RFP.PRODUCT_SUBTYPE,
+					  	RFP.BUSINESSSUM1,
+					  	RFP.CAPITALSIDE,
+					  	RFP.CLIENT_NAME,
+					  	RFP.CITY
+				   FROM RPT_FINANCE_PUTOUT20160926 RFP
+				      <include refid="BusinessDetail_Where_Sql" />
+				   GROUP BY
+				   	  RFP.ID,
+		              RFP.SERIALNO,
+		              RFP.BUSINESSDATE,
+		              RFP.KEEPACCOUNTS_DATE,
+		              RFP.MAKECOLLECTIONS_DATE,
+		              RFP.PRODUCT_SUBTYPE,
+		              RFP.BUSINESSSUM1,
+		              RFP.CAPITALSIDE,
+		              RFP.CLIENT_NAME,
+		              RFP.CITY
+	                 ) A WHERE ROWNUM &lt;= #{endpoint} 
+			  ) WHERE RN &gt;= #{startpoint} 
+	</select>
+	
+	<select id="queryBusinessDetailId" resultMap="ContractResultMap">
+		SELECT 	RFP.ID,
+			  	RFP.SERIALNO,
+			  	RFP.BUSINESSDATE,
+			  	RFP.KEEPACCOUNTS_DATE,
+			  	RFP.MAKECOLLECTIONS_DATE,
+			  	RFP.PRODUCT_SUBTYPE,
+			  	RFP.BUSINESSSUM1,
+			  	RFP.CAPITALSIDE,
+			  	RFP.CLIENT_NAME,
+			  	RFP.CITY
+		   FROM RPT_FINANCE_PUTOUT20160926 RFP
+		<include refid="BusinessDetail_Where_Sql" />
+	</select>
+	
+	<!-- 匹配合同汇总  -->
+	<select id="queryBusinessDetailCount" parameterType="map" resultMap="ContractResultMap">
+		SELECT COUNT(1) AS CONTRACT_COUNT,SUM(BUSINESSSUM1) AS MONEY_COUNT FROM RPT_FINANCE_PUTOUT20160926 RFP
+		<include refid="BusinessDetail_Where_Sql" />
+	</select>
+	
+	<update id="updateContract"  parameterType="com.billionsfinance.bas.entity.ContractVO" >
+		UPDATE RPT_FINANCE_PUTOUT20160926 RFP SET RFP.SERIALNO =
+		#{serialNo,jdbcType=VARCHAR},RFP.BUSINESSDATE =
+		#{businessDate,jdbcType=VARCHAR},RFP.KEEPACCOUNTS_DATE =
+		#{keepAccountsDate,jdbcType=VARCHAR},RFP.MAKECOLLECTIONS_DATE =
+		#{makeCollectionsDate,jdbcType=VARCHAR},RFP.PRODUCT_SUBTYPE =
+		#{productSubType,jdbcType=VARCHAR},RFP.CAPITALSIDE =
+		#{capitalSide,jdbcType=VARCHAR},RFP.BUSINESSSUM1 =
+		#{businessSum,jdbcType=INTEGER},RFP.CLIENT_NAME =
+		#{clientName,jdbcType=VARCHAR} WHERE RFP.ID = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<insert id="createContract" parameterType="com.billionsfinance.bas.entity.ContractVO" >
+		INSERT INTO RPT_FINANCE_PUTOUT20160926
+			(ID,SERIALNO,BUSINESSDATE,KEEPACCOUNTS_DATE,
+				MAKECOLLECTIONS_DATE,PRODUCT_SUBTYPE,
+					BUSINESSSUM1,CAPITALSIDE,CLIENT_NAME,CITY)
+		VALUES
+			(#{id,jdbcType=VARCHAR},#{serialNo,jdbcType=VARCHAR},#{businessDate,jdbcType=VARCHAR},#{keepAccountsDate,jdbcType=VARCHAR},
+				#{makeCollectionsDate,jdbcType=VARCHAR},#{productSubType,jdbcType=VARCHAR},
+					#{businessSum,jdbcType=INTEGER},#{capitalSide,jdbcType=VARCHAR},#{clientName,jdbcType=VARCHAR},#{city,jdbcType=VARCHAR})
+	</insert>
+	
+	<!-- 查询业务明细条件的sql -->
+	<sql id="BusinessDetail_Where_Sql">
+    	<where> 
+		<if test="id != null and id != ''">
+			AND RFP.ID = #{id,jdbcType=VARCHAR}
+		</if>
+		<if test="idArray != null and idArray != ''">
+			AND RFP.ID in 
+			<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">  
+ 			#{item}  
+			</foreach>  
+		</if>
+		<if test="serialNo != null and serialNo != ''">
+			<!-- AND '%${serialNo,jdbcType=VARCHAR}%' LIKE RFP.SERIALNO -->
+			AND RFP.SERIALNO = #{serialNo,jdbcType=VARCHAR}
+		</if>
+		<if test="array != null and array != ''">
+			AND RFP.SERIALNO in 
+			<foreach item="item" index="index" collection="array" open="(" separator="," close=")">  
+ 			#{item}  
+			</foreach>  
+		</if>
+		<if test="startBusinessDate != null and startBusinessDate != ''">
+			AND RFP.BUSINESSDATE &gt;= #{startBusinessDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endBusinessDate != null and endBusinessDate != ''">
+			AND RFP.BUSINESSDATE &lt;= #{endBusinessDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startKeepAccountsDate != null and startKeepAccountsDate != ''">
+			AND RFP.KEEPACCOUNTS_DATE &gt;= #{startKeepAccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endKeepAccountsDate != null and endKeepAccountsDate != ''">
+			AND RFP.KEEPACCOUNTS_DATE &lt;= #{endKeepAccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startMakeCollectionsDate != null and startMakeCollectionsDate != ''">
+			AND RFP.MAKECOLLECTIONS_DATE &gt;= #{startMakeCollectionsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endMakeCollectionsDate != null and endMakeCollectionsDate != ''">
+			AND RFP.MAKECOLLECTIONS_DATE &lt;= #{endMakeCollectionsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="productSubType != null and productSubType != ''">
+			AND RFP.PRODUCT_SUBTYPE = #{productSubType,jdbcType=VARCHAR}
+		</if>
+		<if test="capitalSide != null and capitalSide != ''">
+			AND RFP.CAPITALSIDE = #{capitalSide,jdbcType=VARCHAR}
+		</if>
+		<if test="city != null and city != ''">
+			AND RFP.CITY = #{city,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<insert id="importContract" parameterType="java.util.List" >
+		INSERT INTO RPT_FINANCE_PUTOUT20160926(
+			ID,
+			SERIALNO,
+			BUSINESSDATE,
+			KEEPACCOUNTS_DATE,
+			MAKECOLLECTIONS_DATE,
+			PRODUCT_SUBTYPE,
+			BUSINESSSUM1,
+			CAPITALSIDE,
+			CLIENT_NAME,
+			CITY
+		)
+		SELECT D.* FROM(
+		<foreach collection="list" item="item" index="index" separator="union all">
+			SELECT 
+				#{item.id,jdbcType=VARCHAR},
+				#{item.serialNo,jdbcType=VARCHAR},
+				#{item.businessDate,jdbcType=VARCHAR},
+				#{item.keepAccountsDate,jdbcType=VARCHAR},
+				#{item.makeCollectionsDate,jdbcType=VARCHAR},
+				#{item.productSubType,jdbcType=VARCHAR},
+				#{item.businessSum,jdbcType=INTEGER},
+				#{item.capitalSide,jdbcType=VARCHAR},
+				#{item.clientName,jdbcType=VARCHAR},
+				#{item.city,jdbcType=VARCHAR}
+			FROM DUAL
+		</foreach>
+		) D	
+	</insert>
+	
+	<update id="payConfirm">
+		UPDATE RPT_FINANCE_PUTOUT20160926 SET MAKECOLLECTIONS_DATE = #{updateDate,jdbcType=VARCHAR}
+		WHERE KEEPACCOUNTS_DATE IS NULL AND ID IN 
+		(SELECT RFP.ID 
+		 FROM RPT_FINANCE_PUTOUT20160926 RFP
+		 <include refid="BusinessDetail_Where_Sql"/>
+		 )
+	</update>
+	
+	<update id="accountingMark">
+		UPDATE RPT_FINANCE_PUTOUT20160926 SET KEEPACCOUNTS_DATE = #{updateDate,jdbcType=VARCHAR}
+		WHERE ID IN 
+		(SELECT RFP.ID 
+		 FROM RPT_FINANCE_PUTOUT20160926 RFP
+		 <include refid="BusinessDetail_Where_Sql"/>
+		 )
+	</update>
+	
+</mapper>

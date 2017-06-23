@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.OverdueUnDao" >
+ 	
+ 	 <resultMap id="OverdueUnMap" type="java.util.HashMap">
+ 		<result column="SERIALNO" property="serialNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="INACCOUNTDATE" property="inAccountDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="REGISTRATIONDATE" property="registrationDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="ACCORDDATE" property="accordDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="SURETYPE" property="sureType" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="BUSINESSMODEL" property="businessModel" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PRODUCTID" property="productId" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SUBPRODUCTTYPE" property="subProductType" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CITY" property="city" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CITYCODE" property="cityCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYTYPE" property="payType" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DELIVERYDATE" property="deliveryDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DCDATE" property="dcDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SHDATE" property="shDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="TBDATE" property="tbDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="LPDATE" property="lpDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DEBOURS" property="debours" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ASSETBELONG" property="assetBelong" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="GUARANTEEPARTY" property="guaranteeParty" jdbcType="VARCHAR" javaType="java.lang.String" />
+		<result column="PAYPRINCIPALAMT" property="payprinciPalamt" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYINTEAMT" property="payInteamt" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="A2" property="a2" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="A7" property="a7" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A12" property="a12" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A18" property="a18" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A22" property="a22" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="PAYPRINCIPALAMTSUM" property="payprinciPalamtSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYINTEAMTSUM" property="payInteamtSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="A2SUM" property="a2Sum" jdbcType="VARCHAR" javaType="java.lang.Double" />
+ 		<result column="A7SUM" property="a7Sum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A12SUM" property="a12Sum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A18SUM" property="a18Sum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A22SUM" property="a22Sum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="AMOUNT" property="amount" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="OVERDUEDAYS" property="overdueDays" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 		<result column="OVERDUEREMARK" property="overdueRemark" jdbcType="INTEGER" javaType="java.lang.String" />
+ 		<result column="CLASSFY" property="classFy" jdbcType="INTEGER" javaType="java.lang.String" />
+ 		<result column="SEQID" property="seqId" jdbcType="INTEGER" javaType="java.lang.String" />
+ 		<result column="INACCOUNTSTATUS" property="inAccountStatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CONTRACTCOUNT" property="contractCount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 		<result column="MONEYCOUNT" property="moneyCount" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="CLIENTNAME" property="clientname" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="MATURITYDATE" property="maturitydate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SNO" property="sno" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="RNO" property="rno" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SA_ID" property="sa_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PRODUCTCATEGORY" property="productcategory" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PROVINCE" property="province" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CREDITPERSON" property="creditperson" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CDATE" property="cdate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CANCELTYPE" property="canceltype" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		
+ 	</resultMap>
+	
+	<select id="queryOverdueUnDetail" resultMap="OverdueUnMap">
+		SELECT * FROM (
+			SELECT A.*,ROWNUM RN FROM (
+				 SELECT	ZUD.INACCOUNTDATE,
+				 		ZUD.INACCOUNTSTATUS,
+				  		ZUD.ACCORDDATE,
+				  		ZUD.REGISTRATIONDATE,
+				 		ZUD.SERIALNO,
+				  		ZUD.SURETYPE,
+				  		ZUD.BUSINESSMODEL,
+				 		ZUD.PRODUCTID,
+				 		ZUD.SUBPRODUCTTYPE,
+				 		ZUD.CITY,
+				 		ZUD.CITYCODE,
+				 		ZUD.PAYTYPE,
+				 		ZUD.PAYDATE,
+				 		NVL(ZUD.SEQID,0) AS SEQID,
+				 		ZUD.DELIVERYDATE,
+				 		ZUD.DCDATE,
+				 		ZUD.SHDATE,
+				 		ZUD.LPDATE,
+						(select itemname from creditperson_code where itemno=DEBOURS) DEBOURS,
+						(select itemname from creditperson_code where itemno=ASSETBELONG) ASSETBELONG,
+						(select itemname from creditperson_code where itemno=GUARANTEEPARTY) GUARANTEEPARTY,
+						NVL(ZUD.PAYPRINCIPALAMT,0) AS PAYPRINCIPALAMT,
+				 		NVL(ZUD.PAYINTEAMT,0) AS PAYINTEAMT,
+				 		NVL(ZUD.A2,0) AS A2,
+				 		NVL(ZUD.A7,0) AS A7,
+				 		NVL(ZUD.A12,0) AS A12,
+				 		NVL(ZUD.A18,0) AS A18,
+				 		NVL(ZUD.A22,0) AS A22,
+				 		(ZUD.PAYPRINCIPALAMT + ZUD.PAYINTEAMT + ZUD.A2 + ZUD.A7 + ZUD.A12 + ZUD.A18 + ZUD.A22) AS AMOUNT,
+				 		ZUD.OVERDUEDAYS,
+				 		ZUD.OVERDUEREMARK,
+				 		ZUD.CLASSFY,
+				 		ZUD.CLIENTNAME,
+				 		ZUD.MATURITYDATE,
+				 		ZUD.SNO,
+				 		ZUD.RNO,
+				 		ZUD.SA_ID,
+				 		ZUD.PRODUCTCATEGORY,
+				 		ZUD.PROVINCE,
+				 		ZUD.CREDITPERSON,
+				 		ZUD.CDATE,
+				 		NVL(ZUD.CANCELTYPE,'N') CANCELTYPE,
+				 		ZUD.TBDATE
+				 FROM ZJJS_UNDUE_DAILY ZUD
+				 <include refid="OverdueUn_Where_Sql" />
+				)   A WHERE ROWNUM &lt;= #{endpoint}
+			  ) WHERE RN &gt;= #{startpoint}
+	</select>
+	
+	<select id="queryOverdueUnGather" resultMap="OverdueUnMap">
+	SELECT * FROM (
+			SELECT A.*,ROWNUM RN FROM (
+				SELECT ZUD.INACCOUNTDATE,
+				 	   ZUD.INACCOUNTSTATUS,
+				       ZUD.ACCORDDATE,
+				       ZUD.SURETYPE,
+				       ZUD.BUSINESSMODEL,
+				       ZUD.SUBPRODUCTTYPE,
+				       ZUD.DELIVERYDATE,
+				       ZUD.DCDATE,
+				       ZUD.SHDATE,
+				       ZUD.LPDATE,
+					   (select itemname from creditperson_code where itemno=DEBOURS) DEBOURS,
+		 			   (select itemname from creditperson_code where itemno=ASSETBELONG) ASSETBELONG,
+		 			   (select itemname from creditperson_code where itemno=GUARANTEEPARTY) GUARANTEEPARTY,
+				       NVL(ZUD.PAYPRINCIPALAMT,0) AS PAYPRINCIPALAMT,
+				 	   NVL(ZUD.PAYINTEAMT,0) AS PAYINTEAMT,
+				 	   NVL(ZUD.A2,0) AS A2,
+				 	   NVL(ZUD.A7,0) AS A7,
+				 	   NVL(ZUD.A12,0) AS A12,
+				 	   NVL(ZUD.A18,0) AS A18,
+				 	   NVL(ZUD.A22,0) AS A22,
+				       (ZUD.PAYPRINCIPALAMT + ZUD.PAYINTEAMT + ZUD.A2 + ZUD.A7 + ZUD.A12 + ZUD.A18 + ZUD.A22) AMOUNT,
+				       ZUD.OVERDUEDAYS,
+				       ZUD.OVERDUEREMARK,
+				       ZUD.CLASSFY
+				  FROM zjjs_undue_summary ZUD
+				  <include refid="OverdueUn_Where_Sql" />
+				)   A WHERE ROWNUM &lt;= #{endpoint} 
+			  ) WHERE RN &gt;= #{startpoint}
+	</select>
+	
+	<select id="queryOverdueUnContract" parameterType="com.billionsfinance.bas.entity.OverdueUnVO" resultMap="OverdueUnMap">
+		 SELECT	ZUD.INACCOUNTDATE,
+		  		ZUD.ACCORDDATE,
+		  		ZUD.REGISTRATIONDATE,
+		 		ZUD.SERIALNO,
+		  		ZUD.SURETYPE,
+		  		ZUD.BUSINESSMODEL,
+		 		ZUD.PRODUCTID,
+		 		ZUD.SUBPRODUCTTYPE,
+		 		ZUD.CITY,
+		 		ZUD.CITYCODE,
+		 		ZUD.PAYTYPE,
+		 		ZUD.SEQID,
+		 		ZUD.DELIVERYDATE,
+		 		ZUD.DCDATE,
+		 		ZUD.SHDATE,
+		 		ZUD.LPDATE,
+				(select itemname from creditperson_code where itemno=DEBOURS) DEBOURS,
+		 		(select itemname from creditperson_code where itemno=ASSETBELONG) ASSETBELONG,
+		 		(select itemname from creditperson_code where itemno=GUARANTEEPARTY) GUARANTEEPARTY,
+				NVL(ZUD.PAYPRINCIPALAMT,0) AS PAYPRINCIPALAMT,
+		 		NVL(ZUD.PAYINTEAMT,0) AS PAYINTEAMT,
+		 		NVL(ZUD.A2,0) AS A2,
+		 		NVL(ZUD.A7,0) AS A7,
+		 		NVL(ZUD.A12,0) AS A12,
+		 		NVL(ZUD.A18,0) AS A18,
+		 		NVL(ZUD.A22,0) AS A22,
+		 		(ZUD.PAYPRINCIPALAMT + ZUD.PAYINTEAMT + ZUD.A2 + ZUD.A7 + ZUD.A12 + ZUD.A18 + ZUD.A22) AS AMOUNT,
+		 		ZUD.OVERDUEDAYS,
+		 		ZUD.OVERDUEREMARK,
+		 		ZUD.CLASSFY,
+		 		ZUD.INACCOUNTSTATUS,
+		 		ZUD.CLIENTNAME,
+		 		ZUD.MATURITYDATE,
+		 		ZUD.SNO,
+				ZUD.RNO,
+				ZUD.SA_ID,
+				ZUD.PRODUCTCATEGORY,
+				ZUD.PROVINCE,
+				ZUD.CREDITPERSON,
+				ZUD.CDATE,
+				NVL(ZUD.CANCELTYPE,'N') CANCELTYPE,
+				ZUD.TBDATE
+		 FROM ZJJS_UNDUE_DAILY ZUD
+		 <include refid="OverdueUn_Where_Sql" />
+	</select>
+	
+	<select id="queryOverdueUnDetailFindAll" resultMap="OverdueUnMap">
+	 	 SELECT	ZUD.INACCOUNTDATE,
+	 	 		ZUD.INACCOUNTSTATUS,
+		  		ZUD.REGISTRATIONDATE,
+		  		ZUD.ACCORDDATE,
+		 		ZUD.SERIALNO,
+		  		ZUD.SURETYPE,
+		  		ZUD.BUSINESSMODEL,
+		 		ZUD.PRODUCTID,
+		 		ZUD.SUBPRODUCTTYPE,
+		 		ZUD.CITY,
+		 		ZUD.CITYCODE,
+		 		ZUD.PAYTYPE,
+		 		NVL(ZUD.SEQID,0) AS SEQID,
+		 		ZUD.DELIVERYDATE,
+		 		ZUD.DCDATE,
+		 		ZUD.SHDATE,
+		 		ZUD.LPDATE,
+		 		(select itemname from creditperson_code where itemno=DEBOURS) DEBOURS,
+		 		(select itemname from creditperson_code where itemno=ASSETBELONG) ASSETBELONG,
+		 		(select itemname from creditperson_code where itemno=GUARANTEEPARTY) GUARANTEEPARTY,
+				NVL(ZUD.PAYPRINCIPALAMT,0) AS PAYPRINCIPALAMT,
+		 		NVL(ZUD.PAYINTEAMT,0) AS PAYINTEAMT,
+		 		NVL(ZUD.A2,0) AS A2,
+		 		NVL(ZUD.A7,0) AS A7,
+		 		NVL(ZUD.A12,0) AS A12,
+		 		NVL(ZUD.A18,0) AS A18,
+		 		NVL(ZUD.A22,0) AS A22,
+		 		(ZUD.PAYPRINCIPALAMT + ZUD.PAYINTEAMT + ZUD.A2 + ZUD.A7 + ZUD.A12 + ZUD.A18 + ZUD.A22) AS AMOUNT,
+		 		ZUD.OVERDUEDAYS,
+		 		ZUD.OVERDUEREMARK,
+		 		ZUD.CLASSFY
+		 FROM ZJJS_UNDUE_DAILY ZUD
+		 <include refid="OverdueUn_Where_Sql" />
+	</select>
+	
+	<select id="overdueUnDetailExport" resultMap="OverdueUnMap">
+	 	 SELECT	ZUD.INACCOUNTDATE,
+	 	 		ZUD.INACCOUNTSTATUS,
+		  		ZUD.REGISTRATIONDATE,
+		  		ZUD.ACCORDDATE,
+		 		ZUD.SERIALNO,
+		  		ZUD.SURETYPE,
+		  		ZUD.BUSINESSMODEL,
+		 		ZUD.PRODUCTID,
+		 		ZUD.SUBPRODUCTTYPE,
+		 		ZUD.CITY,
+		 		ZUD.CITYCODE,
+				(
+		            CASE WHEN PAYTYPE = '0055' THEN '提前还款' 
+		            	 WHEN PAYTYPE = '0055H' THEN '提前还款' 
+		            ELSE '正常还款' END
+		        ) AS PAYTYPE,
+		 		NVL(ZUD.SEQID,0) AS SEQID,
+		 		ZUD.DELIVERYDATE,
+		 		ZUD.DCDATE,
+		 		ZUD.SHDATE,
+		 		ZUD.LPDATE,
+				(select itemname from creditperson_code where itemno=ASSETBELONG) as ASSETBELONG, 
+		        (select itemname from creditperson_code where itemno=GUARANTEEPARTY) as GUARANTEEPARTY, 
+		        (select itemname from creditperson_code where itemno=DEBOURS) as DEBOURS, 
+				NVL(ZUD.PAYPRINCIPALAMT,0) AS PAYPRINCIPALAMT,
+		 		NVL(ZUD.PAYINTEAMT,0) AS PAYINTEAMT,
+		 		NVL(ZUD.A2,0) AS A2,
+		 		NVL(ZUD.A7,0) AS A7,
+		 		NVL(ZUD.A12,0) AS A12,
+		 		NVL(ZUD.A18,0) AS A18,
+		 		NVL(ZUD.A22,0) AS A22,
+		 		(ZUD.PAYPRINCIPALAMT + ZUD.PAYINTEAMT + ZUD.A2 + ZUD.A7 + ZUD.A12 + ZUD.A18 + ZUD.A22) AS AMOUNT,
+		 		ZUD.OVERDUEDAYS,
+		 		ZUD.OVERDUEREMARK,
+		 		ZUD.CLASSFY
+		 FROM ZJJS_UNDUE_DAILY ZUD
+		 <include refid="OverdueUn_Where_Sql" />
+	</select>
+	
+	<select id="queryOverdueUnGatherFindAll" resultMap="OverdueUnMap">
+  	    SELECT 
+  	       ZUD.INACCOUNTDATE,
+  	       ZUD.INACCOUNTSTATUS,
+	       ZUD.ACCORDDATE,
+	       ZUD.SURETYPE,
+	       ZUD.BUSINESSMODEL,
+	       ZUD.SUBPRODUCTTYPE,
+	       ZUD.DELIVERYDATE,
+	       ZUD.DCDATE,
+	       ZUD.SHDATE,
+	       ZUD.LPDATE,
+			(select itemname from creditperson_code where itemno=ASSETBELONG) as ASSETBELONG, 
+	        (select itemname from creditperson_code where itemno=GUARANTEEPARTY) as GUARANTEEPARTY, 
+	        (select itemname from creditperson_code where itemno=DEBOURS) as DEBOURS, 
+	       NVL(ZUD.PAYPRINCIPALAMT,0) AS PAYPRINCIPALAMT,
+ 		   NVL(ZUD.PAYINTEAMT,0) AS PAYINTEAMT,
+ 		   NVL(ZUD.A2,0) AS A2,
+ 		   NVL(ZUD.A7,0) AS A7,
+ 		   NVL(ZUD.A12,0) AS A12,
+ 		   NVL(ZUD.A18,0) AS A18,
+ 		   NVL(ZUD.A22,0) AS A22,
+	       (ZUD.PAYPRINCIPALAMT + ZUD.PAYINTEAMT + ZUD.A2 + ZUD.A7 + ZUD.A12 + ZUD.A18 + ZUD.A22) AMOUNT,
+	       ZUD.OVERDUEDAYS,
+	       ZUD.OVERDUEREMARK,
+	       ZUD.CLASSFY
+	  FROM zjjs_undue_summary ZUD
+	 <include refid="OverdueUn_Where_Sql" />
+	</select>
+	
+	<!-- 查询业务明细条件的sql -->
+	<sql id="OverdueUn_Where_Sql">
+    	<where> 
+		<if test="seqId != null and seqId != '' and seqId != 0">
+			AND ZUD.SEQID = #{seqId,jdbcType=VARCHAR}
+		</if>
+		<if test="serialNo != null and serialNo != ''">
+			AND ZUD.SERIALNO = #{serialNo,jdbcType=VARCHAR}
+		</if>
+		<if test="startInAccountDate != null and startInAccountDate != ''">
+			AND ZUD.INACCOUNTDATE &gt;= #{startInAccountDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endInAccountDate != null and endInAccountDate != ''">
+			AND ZUD.INACCOUNTDATE &lt;= #{endInAccountDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startRegistrationDate != null and startRegistrationDate != ''">
+			AND ZUD.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endRegistrationDate != null and endRegistrationDate != ''">
+			AND ZUD.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startShouldAlsoDate != null and startShouldAlsoDate != ''">
+			AND ZUD.PAYDATE &gt;= #{startShouldAlsoDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endShouldAlsoDate != null and endShouldAlsoDate != ''">
+			AND ZUD.PAYDATE &lt;= #{endShouldAlsoDate,jdbcType=VARCHAR}
+		</if>
+		<if test="businessModel != null and businessModel != ''">
+			AND ZUD.BUSINESSMODEL = #{businessModel,jdbcType=VARCHAR}
+		</if>
+		<if test="subProductType != null and subProductType != ''">
+			AND ZUD.SUBPRODUCTTYPE = #{subProductType,jdbcType=VARCHAR}
+		</if>
+		<if test="city != null and city != ''">
+			AND ZUD.CITY = #{city,jdbcType=VARCHAR}
+		</if>
+		<if test="creditperson != null and creditperson != ''">
+			AND ZUD.CREDITPERSON = #{creditperson,jdbcType=VARCHAR}
+		</if>
+		<if test="assetBelong != null and assetBelong != ''">
+			AND ZUD.ASSETBELONG = #{assetBelong,jdbcType=VARCHAR}
+		</if>
+		<if test="guaranteeParty != null and guaranteeParty != ''">
+			AND ZUD.GUARANTEEPARTY = #{guaranteeParty,jdbcType=VARCHAR}
+		</if>
+		<if test="classFy != null and classFy != ''">
+			AND ZUD.CLASSFY = #{classFy,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<sql id="JZ_Where_Sql">
+    	<where> 
+    		AND (ZUD.INACCOUNTSTATUS IN ('0','2') OR ZUD.INACCOUNTSTATUS IS NULL)
+		<if test="seqId != null and seqId != '' and seqId != 0">
+			AND ZUD.SEQID = #{seqId,jdbcType=VARCHAR}
+		</if>
+		<if test="serialNo != null and serialNo != ''">
+			AND ZUD.SERIALNO = #{serialNo,jdbcType=VARCHAR}
+		</if>
+		<if test="startInAccountDate != null and startInAccountDate != ''">
+			AND ZUD.INACCOUNTDATE &gt;= #{startInAccountDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endInAccountDate != null and endInAccountDate != ''">
+			AND ZUD.INACCOUNTDATE &lt;= #{endInAccountDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startRegistrationDate != null and startRegistrationDate != ''">
+			AND ZUD.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endRegistrationDate != null and endRegistrationDate != ''">
+			AND ZUD.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startShouldAlsoDate != null and startShouldAlsoDate != ''">
+			AND ZUD.PAYDATE &gt;= #{startShouldAlsoDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endShouldAlsoDate != null and endShouldAlsoDate != ''">
+			AND ZUD.PAYDATE &lt;= #{endShouldAlsoDate,jdbcType=VARCHAR}
+		</if>
+		<if test="businessModel != null and businessModel != ''">
+			AND ZUD.BUSINESSMODEL = #{businessModel,jdbcType=VARCHAR}
+		</if>
+		<if test="subProductType != null and subProductType != ''">
+			AND ZUD.SUBPRODUCTTYPE = #{subProductType,jdbcType=VARCHAR}
+		</if>
+		<if test="city != null and city != ''">
+			AND ZUD.CITY = #{city,jdbcType=VARCHAR}
+		</if>
+		<if test="creditperson != null and creditperson != ''">
+			AND ZUD.CREDITPERSON = #{creditperson,jdbcType=VARCHAR}
+		</if>
+		<if test="assetBelong != null and assetBelong != ''">
+			AND ZUD.ASSETBELONG = #{assetBelong,jdbcType=VARCHAR}
+		</if>
+		<if test="guaranteeParty != null and guaranteeParty != ''">
+			AND ZUD.GUARANTEEPARTY = #{guaranteeParty,jdbcType=VARCHAR}
+		</if>
+		<if test="classFy != null and classFy != ''">
+			AND ZUD.CLASSFY = #{classFy,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<sql id="CX_Where_Sql">
+    	<where> 
+    		AND ZUD.INACCOUNTSTATUS = 1
+		<if test="seqId != null and seqId != '' and seqId != 0">
+			AND ZUD.SEQID = #{seqId,jdbcType=VARCHAR}
+		</if>
+		<if test="serialNo != null and serialNo != ''">
+			AND ZUD.SERIALNO = #{serialNo,jdbcType=VARCHAR}
+		</if>
+		<if test="startInAccountDate != null and startInAccountDate != ''">
+			AND ZUD.INACCOUNTDATE &gt;= #{startInAccountDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endInAccountDate != null and endInAccountDate != ''">
+			AND ZUD.INACCOUNTDATE &lt;= #{endInAccountDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startRegistrationDate != null and startRegistrationDate != ''">
+			AND ZUD.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endRegistrationDate != null and endRegistrationDate != ''">
+			AND ZUD.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startShouldAlsoDate != null and startShouldAlsoDate != ''">
+			AND ZUD.PAYDATE &gt;= #{startShouldAlsoDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endShouldAlsoDate != null and endShouldAlsoDate != ''">
+			AND ZUD.PAYDATE &lt;= #{endShouldAlsoDate,jdbcType=VARCHAR}
+		</if>
+		<if test="businessModel != null and businessModel != ''">
+			AND ZUD.BUSINESSMODEL = #{businessModel,jdbcType=VARCHAR}
+		</if>
+		<if test="subProductType != null and subProductType != ''">
+			AND ZUD.SUBPRODUCTTYPE = #{subProductType,jdbcType=VARCHAR}
+		</if>
+		<if test="city != null and city != ''">
+			AND ZUD.CITY = #{city,jdbcType=VARCHAR}
+		</if>
+		<if test="creditperson != null and creditperson != ''">
+			AND ZUD.CREDITPERSON = #{creditperson,jdbcType=VARCHAR}
+		</if>
+		<if test="assetBelong != null and assetBelong != ''">
+			AND ZUD.ASSETBELONG = #{assetBelong,jdbcType=VARCHAR}
+		</if>
+		<if test="guaranteeParty != null and guaranteeParty != ''">
+			AND ZUD.GUARANTEEPARTY = #{guaranteeParty,jdbcType=VARCHAR}
+		</if>
+		<if test="classFy != null and classFy != ''">
+			AND ZUD.CLASSFY = #{classFy,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<!-- 根据条件获取匹配明细合同个数  -->
+	<select id="queryOverdueUnDetailCount" parameterType="map" resultMap="OverdueUnMap">
+		SELECT 
+		     COUNT(1) AS CONTRACTCOUNT,
+		     SUM(NVL(ZUD.PAYPRINCIPALAMT,0)) AS PAYPRINCIPALAMTSUM,
+		     SUM(NVL(ZUD.PAYINTEAMT,0)) AS PAYINTEAMTSUM,
+		     SUM(NVL(ZUD.A2,0)) AS A2SUM,
+		     SUM(NVL(ZUD.A7,0)) AS A7SUM,
+		     SUM(NVL(ZUD.A12,0)) AS A12SUM,
+		     SUM(NVL(ZUD.A18,0)) AS A18SUM,
+		     SUM(NVL(ZUD.A22,0)) AS A22SUM,
+		     SUM((NVL(ZUD.PAYPRINCIPALAMT,0) + NVL(ZUD.PAYINTEAMT,0) + NVL(ZUD.A2,0) + NVL(ZUD.A7,0) + NVL(ZUD.A12,0) +NVL(ZUD.A18,0) + NVL(ZUD.A22,0))) AS MONEYCOUNT
+        FROM ZJJS_UNDUE_DAILY ZUD
+		<include refid="OverdueUn_Where_Sql" />
+	</select>
+	
+	<!-- 根据条件获取匹配汇总合同个数  -->
+	<select id="queryOverdueUnGatherCount" parameterType="map" resultMap="OverdueUnMap">
+		SELECT COUNT(1) AS CONTRACTCOUNT,
+		       SUM(NVL(PAYPRINCIPALAMT,0)) AS PAYPRINCIPALAMTSUM,
+		       SUM(NVL(PAYINTEAMT,0)) AS PAYINTEAMTSUM,
+		       SUM(NVL(A2,0)) AS A2SUM,
+		       SUM(NVL(A7,0)) AS A7SUM,
+		       SUM(NVL(A12,0)) AS A12SUM,
+		       SUM(NVL(A18,0)) AS A18SUM,
+		       SUM(NVL(A22,0)) AS A22SUM,
+		       SUM((NVL(PAYPRINCIPALAMT,0) + NVL(PAYINTEAMT,0) + NVL(A2,0) + NVL(A7,0) + NVL(A12,0) +NVL(A18,0) + NVL(A22,0))) AS MONEYCOUNT
+	   FROM zjjs_undue_summary ZUD
+	   <include refid="OverdueUn_Where_Sql"/>
+	</select>
+	
+	<update id="accountingMark">
+		UPDATE ZJJS_UNDUE_DAILY ZUD SET 
+			INACCOUNTDATE = #{updateDate,jdbcType=VARCHAR},
+			INACCOUNTBY = #{inAccountBy,jdbcType=VARCHAR},
+			INACCOUNTREMARK = #{inAccountRemark,jdbcType=VARCHAR},
+			INACCOUNTSTATUS = '1'
+		<include refid="JZ_Where_Sql"/>
+	</update>
+	
+	<update id="selectAccountingMark">
+		UPDATE ZJJS_UNDUE_DAILY ZUD SET 
+			INACCOUNTDATE = #{updateDate,jdbcType=VARCHAR},
+			INACCOUNTBY = #{inAccountBy,jdbcType=VARCHAR},
+			INACCOUNTREMARK = #{inAccountRemark,jdbcType=VARCHAR},
+			INACCOUNTSTATUS = '1'
+		<include refid="JZ_Where_Sql"/>
+	</update>
+	
+	<update id="cancelAccountingMark">
+		UPDATE ZJJS_UNDUE_DAILY ZUD SET 
+			INACCOUNTDATE = '',
+			INACCOUNTSTATUS = 2,
+			INACCOUNTREMARK = '记账撤销'
+		<include refid="CX_Where_Sql"/>
+	</update>
+	
+</mapper>

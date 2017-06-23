@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.RansomDetailDao" >
+ 	
+ 	 <resultMap id="RansomDetailMap" type="java.util.HashMap">
+  		<result column="KEEPACCOUNTSDATE" property="keepaccountsDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="KEEPACCOUNTSSTATUS" property="keepAccountsStatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="SERIALNUMBER" property="serialNumber" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="SEQID" property="seqId" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="LOANNO" property="loanNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CONTRACTNO" property="contractNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CLIENTNAME" property="clientName" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CITY" property="city" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CAPITALSIDE" property="capitalSide" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PRODUCTTYPE" property="productType" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PRODUCTSUBTYPE" property="productSubType" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="REGISTERDATE" property="registerDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CONTRACTDUEDATE" property="contractDueDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="TRANSFERDATE" property="transferDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="TRANSFERPRINCIPAL" property="transferPrincipal" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="ATONEFORDATE" property="atoneForDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="OVERDUEFATALISM" property="overDueFatalism" jdbcType="VARCHAR" javaType="java.lang.Double" />
+ 		<result column="PAYDATE" property="payDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYSTATUS" property="payStatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ASSETBELONG" property="assetBelong" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="GUARANTEEPARTY" property="guaranteeParty" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PRINCIPALREMAININGSUM" property="principalRemainingSum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="OVERDUEPRINCIPAL" property="overDuePrincipal" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="OVERDUEINTEREST" property="overDueInterest" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="TOTALPREMIUM" property="totalPremium" jdbcType="VARCHAR" javaType="java.lang.Double" />
+ 		<result column="PREMIUM" property="premium" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="ATONEFORAMOUNT" property="atoneForAmount" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PRINCIPALREMAININGSUMCOUNT" property="principalRemainingSumCount" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="OVERDUEPRINCIPALSUM" property="overDuePrincipalSum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="OVERDUEINTERESTSUM" property="overDueInterestSum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="TOTALPREMIUMSUM" property="totalPremiumSum" jdbcType="VARCHAR" javaType="java.lang.Double" />
+ 		<result column="PREMIUMSUM" property="premiumSum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="ATONEFORAMOUNTSUM" property="atoneForAmountSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="APPROVESTATUS" property="approveStatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="APPROVETIME" property="approveTime" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CONTRACTCOUNT" property="contractCount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 		<result column="MONEYCOUNT" property="moneyCount" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 	</resultMap>
+	
+	<select id="queryRepaymentDetail" resultMap="RansomDetailMap">
+		SELECT * FROM (
+			SELECT A.*,ROWNUM RN FROM (
+				 SELECT ZSBR.KEEPACCOUNTSDATE,
+				 		ZSBR.KEEPACCOUNTSSTATUS,
+						ZSBR.SERIALNUMBER,
+						NVL(ZSBR.SEQID,0) AS SEQID,
+						ZSBR.LOANNO,
+						ZSBR.CONTRACTNO,
+						ZSBR.CLIENTNAME,
+						ZSBR.CITY,
+						ZSBR.CAPITALSIDE, 
+						ZSBR.PRODUCTTYPE,
+						ZSBR.PRODUCTSUBTYPE,
+						ZSBR.REGISTERDATE,
+						ZSBR.CONTRACTDUEDATE,
+						ZSBR.TRANSFERDATE,
+						ZSBR.TRANSFERPRINCIPAL,
+						ZSBR.TOTALPREMIUM,
+						ZSBR.ATONEFORDATE,
+						ZSBR.OVERDUEFATALISM,
+						ZSBR.PAYDATE,
+						ZSBR.ASSETBELONG,
+						ZSBR.GUARANTEEPARTY,
+						ZSBR.PRINCIPALREMAININGSUM,
+						NVL(ZSBR.OVERDUEPRINCIPAL,0) AS OVERDUEPRINCIPAL,
+						NVL(ZSBR.OVERDUEINTEREST,0) AS OVERDUEINTEREST,
+						NVL(ZSBR.PREMIUM,0) AS PREMIUM,
+						ZSBR.ATONEFORAMOUNT,
+						ZSBR.APPROVETIME,
+						ZSBR.APPROVESTATUS,
+						ZSBR.PAYSTATUS
+						<!-- CASE WHEN ZSBR.APPROVESTATUS = 1 THEN '已审核' WHEN ZSBR.APPROVESTATUS = 0 THEN '未审核' ELSE NULL END AS APPROVESTATUS,
+						CASE WHEN ZSBR.PAYSTATUS = 1 THEN '已支付' WHEN ZSBR.PAYSTATUS = 0 THEN '未支付' ELSE NULL END AS PAYSTATUS -->
+				  FROM ZJJS_SH_BANKROLL_RECKON ZSBR
+				 <include refid="RansomDetail_Where_Sql" />
+				)   A WHERE ROWNUM &lt;= #{endpoint} 
+			  ) WHERE RN &gt;= #{startpoint} 			  
+	</select>
+	
+	<select id="queryRepaymentDetailById" resultType="com.billionsfinance.bas.entity.ClientRepaymentVO">
+		 SELECT ZSBR.KEEPACCOUNTSDATE,
+				ZSBR.KEEPACCOUNTSSTATUS,
+				ZSBR.SERIALNUMBER,
+				NVL(ZSBR.SEQID,0) AS SEQID,
+				ZSBR.LOANNO,
+				ZSBR.CONTRACTNO,
+				ZSBR.CLIENTNAME,
+				ZSBR.CITY,
+				ZSBR.CAPITALSIDE, 
+				ZSBR.PRODUCTTYPE,
+				ZSBR.PRODUCTSUBTYPE,
+				ZSBR.REGISTERDATE,
+				ZSBR.CONTRACTDUEDATE,
+				ZSBR.TRANSFERDATE,
+				ZSBR.TRANSFERPRINCIPAL,
+				ZSBR.TOTALPREMIUM,
+				ZSBR.ATONEFORDATE,
+				ZSBR.OVERDUEFATALISM,
+				ZSBR.PAYDATE,
+				ZSBR.ASSETBELONG,
+				ZSBR.GUARANTEEPARTY,
+				ZSBR.PRINCIPALREMAININGSUM,
+				NVL(ZSBR.OVERDUEPRINCIPAL,0) AS OVERDUEPRINCIPAL,
+				NVL(ZSBR.OVERDUEINTEREST,0) AS OVERDUEINTEREST,
+				NVL(ZSBR.PREMIUM,0) AS PREMIUM,
+				ZSBR.ATONEFORAMOUNT,
+				ZSBR.APPROVETIME,
+				ZSBR.APPROVESTATUS,
+				ZSBR.PAYSTATUS
+				<!-- CASE WHEN ZSBR.APPROVESTATUS = 1 THEN '已审核' WHEN ZSBR.APPROVESTATUS = 0 THEN '未审核' ELSE NULL END AS APPROVESTATUS,
+				CASE WHEN ZSBR.PAYSTATUS = 1 THEN '已支付' WHEN ZSBR.PAYSTATUS = 0 THEN '未支付' ELSE NULL END AS PAYSTATUS -->
+		  FROM ZJJS_SH_BANKROLL_RECKON ZSBR
+		 <include refid="RansomDetail_Where_Sql" />
+	</select>
+	
+	<select id="queryRepaymentDetailFindAll" resultMap="RansomDetailMap">
+		 SELECT ZSBR.KEEPACCOUNTSDATE,
+				ZSBR.KEEPACCOUNTSSTATUS,
+				ZSBR.SERIALNUMBER,
+				NVL(ZSBR.SEQID,0) AS SEQID,
+				ZSBR.LOANNO,
+				ZSBR.CONTRACTNO,
+				ZSBR.CLIENTNAME,
+				ZSBR.CITY,
+				ZSBR.CAPITALSIDE, 
+				ZSBR.PRODUCTTYPE,
+				ZSBR.PRODUCTSUBTYPE,
+				ZSBR.REGISTERDATE,
+				ZSBR.CONTRACTDUEDATE,
+				ZSBR.TRANSFERDATE,
+				ZSBR.TRANSFERPRINCIPAL,
+				ZSBR.TOTALPREMIUM,
+				ZSBR.ATONEFORDATE,
+				ZSBR.OVERDUEFATALISM,
+				ZSBR.PAYDATE,
+				ZSBR.ASSETBELONG,
+				ZSBR.GUARANTEEPARTY,
+				ZSBR.PRINCIPALREMAININGSUM,
+				NVL(ZSBR.OVERDUEPRINCIPAL,0) AS OVERDUEPRINCIPAL,
+				NVL(ZSBR.OVERDUEINTEREST,0) AS OVERDUEINTEREST,
+				NVL(ZSBR.PREMIUM,0) AS PREMIUM,
+				ZSBR.ATONEFORAMOUNT,
+				ZSBR.APPROVETIME,
+				ZSBR.APPROVESTATUS,
+				ZSBR.PAYSTATUS
+				<!-- CASE WHEN ZSBR.APPROVESTATUS = 1 THEN '已审核' WHEN ZSBR.APPROVESTATUS = 0 THEN '未审核' ELSE NULL END AS APPROVESTATUS,
+				CASE WHEN ZSBR.PAYSTATUS = 1 THEN '已支付' WHEN ZSBR.PAYSTATUS = 0 THEN '未支付' ELSE NULL END AS PAYSTATUS -->
+		  FROM ZJJS_SH_BANKROLL_RECKON ZSBR
+		 <include refid="RansomDetail_Where_Sql" />
+	</select>
+	
+
+	<sql id="RansomDetail_Where_Sql">
+    	<where> 
+		<if test=" contractNo != null and contractNo != ''">
+			AND ZSBR.CONTRACTNO = #{contractNo,jdbcType=VARCHAR}
+		</if>
+		<if test=" seqId != null and seqId != '' and seqId !=0">
+			AND ZSBR.SEQID = #{seqId,jdbcType=VARCHAR}
+		</if>
+		<if test=" startKeepaccountsDate != null and startKeepaccountsDate != ''">
+			AND ZSBR.KEEPACCOUNTSDATE &gt;= #{startKeepaccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endKeepaccountsDate != null and endKeepaccountsDate != ''">
+			AND ZSBR.KEEPACCOUNTSDATE &lt;= #{endKeepaccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" startAtoneForDate != null and startAtoneForDate != ''">
+			AND ZSBR.ATONEFORDATE &gt;= #{startAtoneForDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endAtoneForDate != null and endAtoneForDate != ''">
+			AND ZSBR.ATONEFORDATE &lt;= #{endAtoneForDate,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<sql id="JZ_Where_Sql">
+    	<where> 
+    		AND ZSBR.PAYSTATUS = 1
+    		AND (ZSBR.KEEPACCOUNTSSTATUS IN ('0','2') OR ZSBR.KEEPACCOUNTSSTATUS IS NULL)
+		<if test=" contractNo != null and contractNo != ''">
+			AND ZSBR.CONTRACTNO = #{contractNo,jdbcType=VARCHAR}
+		</if>
+		<if test=" seqId != null and seqId != '' and seqId !=0">
+			AND ZSBR.SEQID = #{seqId,jdbcType=VARCHAR}
+		</if>
+		<if test=" startKeepaccountsDate != null and startKeepaccountsDate != ''">
+			AND ZSBR.KEEPACCOUNTSDATE &gt;= #{startKeepaccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endKeepaccountsDate != null and endKeepaccountsDate != ''">
+			AND ZSBR.KEEPACCOUNTSDATE &lt;= #{endKeepaccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" startAtoneForDate != null and startAtoneForDate != ''">
+			AND ZSBR.ATONEFORDATE &gt;= #{startAtoneForDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endAtoneForDate != null and endAtoneForDate != ''">
+			AND ZSBR.ATONEFORDATE &lt;= #{endAtoneForDate,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<sql id="CX_Where_Sql">
+    	<where> 
+    		AND ZSBR.KEEPACCOUNTSSTATUS = 1
+		<if test=" contractNo != null and contractNo != ''">
+			AND ZSBR.CONTRACTNO = #{contractNo,jdbcType=VARCHAR}
+		</if>
+		<if test=" seqId != null and seqId != ''  and seqId !=0">
+			AND ZSBR.SEQID = #{seqId,jdbcType=VARCHAR}
+		</if>
+		<if test=" startKeepaccountsDate != null and startKeepaccountsDate != ''">
+			AND ZSBR.KEEPACCOUNTSDATE &gt;= #{startKeepaccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endKeepaccountsDate != null and endKeepaccountsDate != ''">
+			AND ZSBR.KEEPACCOUNTSDATE &lt;= #{endKeepaccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" startAtoneForDate != null and startAtoneForDate != ''">
+			AND ZSBR.ATONEFORDATE &gt;= #{startAtoneForDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endAtoneForDate != null and endAtoneForDate != ''">
+			AND ZSBR.ATONEFORDATE &lt;= #{endAtoneForDate,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<!-- 匹配合同个数 总金额  -->
+	<select id="queryRepaymentDetailCount" parameterType="java.util.HashMap" resultMap="RansomDetailMap">
+		SELECT COUNT(1) AS CONTRACTCOUNT,SUM(PRINCIPALREMAININGSUM) AS MONEYCOUNT,SUM(PRINCIPALREMAININGSUM) AS PRINCIPALREMAININGSUMCOUNT,SUM(OVERDUEPRINCIPAL) AS OVERDUEPRINCIPALSUM,SUM(OVERDUEINTEREST) AS OVERDUEINTERESTSUM,SUM(TOTALPREMIUM) AS TOTALPREMIUMSUM,SUM(PREMIUM) AS PREMIUMSUM,SUM(ATONEFORAMOUNT) AS ATONEFORAMOUNTSUM FROM ZJJS_SH_BANKROLL_RECKON ZSBR
+		<include refid="RansomDetail_Where_Sql" />
+	</select>
+	
+	<!-- 记账确认 -->
+	<update id="accountingMark">
+		UPDATE ZJJS_SH_BANKROLL_RECKON ZSBR SET 
+			KEEPACCOUNTSSTATUS = 1,
+			KEEPACCOUNTSDATE = #{updateDate,jdbcType=VARCHAR},
+			KEEPACCOUNTSREMARK = #{keepaccountsRemark,jdbcType=VARCHAR},
+			KEEPACCOUNTSBY = #{keepaccountsBy,jdbcType=VARCHAR}
+		<include refid="JZ_Where_Sql" />
+	</update>
+	
+	<!-- 记账撤销 -->
+	<update id="cancelAccountingMark">
+		UPDATE ZJJS_SH_BANKROLL_RECKON ZSBR SET 
+			KEEPACCOUNTSSTATUS = 2,
+			KEEPACCOUNTSDATE = '',
+			KEEPACCOUNTSREMARK = '记账撤销'
+		<include refid="CX_Where_Sql" />
+	</update>
+	
+	<!-- 审核 -->
+	<update id="contractApprove">
+		UPDATE ZJJS_SH_BANKROLL_RECKON ZSBR SET
+		APPROVEREMARK = #{approveRemark,jdbcType=VARCHAR},
+		APPROVETIME = #{approveTime,jdbcType=VARCHAR},
+		APPROVEBY = #{approveBy,jdbcType=VARCHAR},
+		APPROVESTATUS = '1'
+		<include refid="RansomDetail_Where_Sql" />
+	</update>
+	
+</mapper>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.AccountTotalCheckingAccountDao" >
+ 	
+ 	 <resultMap id="AccountTotalCheckingAccountMap" type="java.util.HashMap">
+  		<result column="DATASOURCE" property="datasource" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CHECKNUMBER" property="checknumber" jdbcType="NUMERIC" javaType="java.lang.Integer" />
+ 		<result column="CHECKDATE" property="checkdate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		
+ 		<result column="NORMAL_WITHHOLD_BACK" property="normal_withhold_back" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="PRE_WITHHOLD_BACK" property="pre_withhold_back" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+  		<result column="TEMP_WITHHOLD_BACK" property="temp_withhold_back" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="TEMP_WITHHOLD_BACK_HANG" property="temp_withhold_back_hang" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="ACTIVE_DEPOSIT" property="active_deposit" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="ACTIVE_DEPOSIT_HANG" property="active_deposit_hang" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="PUSH_TOTAL" property="push_total" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="TODAY_DEPOSIT_BALANCE" property="today_deposit_balance" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="TM1_DEPOSIT_BALANCE" property="tm1_deposit_balance" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		
+ 		<result column="NORMAL_WITHHOLD_BACKSUM" property="normal_withhold_backSum" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="PRE_WITHHOLD_BACKSUM" property="pre_withhold_backSum" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+  		<result column="TEMP_WITHHOLD_BACKSUM" property="temp_withhold_backSum" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="TEMP_WITHHOLD_BACK_HANGSUM" property="temp_withhold_back_hangSum" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="ACTIVE_DEPOSITSUM" property="active_depositSum" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="ACTIVE_DEPOSIT_HANGSUM" property="active_deposit_hangSum" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="PUSH_TOTALSUM" property="push_totalSum" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="TODAY_DEPOSIT_BALANCESUM" property="today_deposit_balanceSum" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="TM1_DEPOSIT_BALANCESUM" property="tm1_deposit_balanceSum" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="CONTRACTCOUNT" property="contractCount" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="MONEYCOUNT" property="moneyCount" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 	</resultMap>
+	
+	<select id="queryAccountTotalCheckingAccount" resultMap="AccountTotalCheckingAccountMap">
+		SELECT * FROM (
+			SELECT A.*,ROWNUM RN FROM (
+				 SELECT ZCCR.DATASOURCE,
+						ZCCR.CHECKNUMBER,
+						ZCCR.CHECKDATE,
+						ZCCR.NORMAL_WITHHOLD_BACK,
+						ZCCR.PRE_WITHHOLD_BACK,
+						ZCCR.TEMP_WITHHOLD_BACK,
+						ZCCR.TEMP_WITHHOLD_BACK_HANG,
+						ZCCR.ACTIVE_DEPOSIT,
+						ZCCR.ACTIVE_DEPOSIT_HANG,
+						ZCCR.PUSH_TOTAL,
+						ZCCR.TODAY_DEPOSIT_BALANCE,
+						ZCCR.TM1_DEPOSIT_BALANCE
+				  FROM ZD_CHECK_CREDIT_REPAYMENT ZCCR
+				 <include refid="AccountTotalCheckingAccount_Where_Sql" />
+		 			ORDER BY ZCCR.CHECKDATE DESC,ZCCR.DATASOURCE DESC
+				)   A WHERE ROWNUM &lt;= #{endpoint} 
+			  ) WHERE RN &gt;= #{startpoint} 			
+	</select>
+	
+	<select id="queryAccountTotalCheckingAccountFindAll" resultMap="AccountTotalCheckingAccountMap" parameterType="com.billionsfinance.bas.entity.AccountTotalCheckingAccountVO">
+ 		 SELECT (CASE 
+ 		 			WHEN DATASOURCE = 'CFC' THEN '哈消金'
+ 		 			WHEN DATASOURCE = 'AS_HXJ' THEN '佰仟哈消金'
+ 		 		ELSE DATASOURCE END) AS DATASOURCE,
+				ZCCR.CHECKNUMBER,
+				ZCCR.CHECKDATE,
+				ZCCR.NORMAL_WITHHOLD_BACK,
+				ZCCR.PRE_WITHHOLD_BACK,
+				ZCCR.TEMP_WITHHOLD_BACK,
+				ZCCR.TEMP_WITHHOLD_BACK_HANG,
+				ZCCR.ACTIVE_DEPOSIT,
+				ZCCR.ACTIVE_DEPOSIT_HANG,
+				ZCCR.PUSH_TOTAL,
+				ZCCR.TODAY_DEPOSIT_BALANCE,
+				ZCCR.TM1_DEPOSIT_BALANCE
+		   FROM ZD_CHECK_CREDIT_REPAYMENT ZCCR
+		 <include refid="AccountTotalCheckingAccount_Where_Sql" />
+		 ORDER BY ZCCR.CHECKDATE DESC,ZCCR.DATASOURCE DESC
+	</select>
+	
+
+	<sql id="AccountTotalCheckingAccount_Where_Sql">
+    	<where> 
+		<if test=" startcheckdate != null and startcheckdate != ''">
+			AND ZCCR.CHECKDATE &gt;= #{startcheckdate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endcheckdate != null and endcheckdate != ''">
+			AND ZCCR.CHECKDATE &lt;= #{endcheckdate,jdbcType=VARCHAR}
+		</if>
+		<if test=" datasource != null and datasource != ''">
+			AND ZCCR.DATASOURCE = #{datasource,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	
+	<!-- 匹配合同个数 总金额  -->
+	<select id="queryAccountTotalCheckingAccountTotal" parameterType="java.util.HashMap" resultMap="AccountTotalCheckingAccountMap">
+		SELECT COUNT(DISTINCT ZCCR.CHECKNUMBER) AS CONTRACTCOUNT,
+        SUM(CASE WHEN ZCCR.DATASOURCE='CFC' THEN 1 ELSE -1 END * NVL(ZCCR.NORMAL_WITHHOLD_BACK,0)) AS NORMAL_WITHHOLD_BACKSUM,
+        SUM(CASE WHEN ZCCR.DATASOURCE='CFC' THEN 1 ELSE -1 END * NVL(ZCCR.PRE_WITHHOLD_BACK,0)) AS PRE_WITHHOLD_BACKSUM,
+        SUM(CASE WHEN ZCCR.DATASOURCE='CFC' THEN 1 ELSE -1 END * NVL(ZCCR.TEMP_WITHHOLD_BACK,0)) AS TEMP_WITHHOLD_BACKSUM,
+        SUM(CASE WHEN ZCCR.DATASOURCE='CFC' THEN 1 ELSE -1 END * NVL(ZCCR.TEMP_WITHHOLD_BACK_HANG,0)) AS TEMP_WITHHOLD_BACK_HANGSUM,
+        SUM(CASE WHEN ZCCR.DATASOURCE='CFC' THEN 1 ELSE -1 END * NVL(ZCCR.ACTIVE_DEPOSIT,0)) AS ACTIVE_DEPOSITSUM,
+        SUM(CASE WHEN ZCCR.DATASOURCE='CFC' THEN 1 ELSE -1 END * NVL(ZCCR.ACTIVE_DEPOSIT_HANG,0)) AS ACTIVE_DEPOSIT_HANGSUM,
+        SUM(CASE WHEN ZCCR.DATASOURCE='CFC' THEN 1 ELSE -1 END * NVL(ZCCR.PUSH_TOTAL,0)) AS PUSH_TOTALSUM,
+        SUM(CASE WHEN ZCCR.DATASOURCE='CFC' THEN 1 ELSE -1 END * NVL(ZCCR.TODAY_DEPOSIT_BALANCE,0)) AS TODAY_DEPOSIT_BALANCESUM,
+        SUM(CASE WHEN ZCCR.DATASOURCE='CFC' THEN 1 ELSE -1 END * NVL(ZCCR.TM1_DEPOSIT_BALANCE,0)) AS TM1_DEPOSIT_BALANCESUM
+       	FROM ZD_CHECK_CREDIT_REPAYMENT ZCCR
+		<include refid="AccountTotalCheckingAccount_Where_Sql" />
+	</select>
+</mapper>

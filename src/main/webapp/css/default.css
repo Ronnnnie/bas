@@ -1,0 +1,276 @@
+body {
+	margin: 1px;
+	padding: 1px;
+	font-family: "宋体";
+	font-size: 12px;
+}
+
+.navigation {
+	font-size: 12px;
+	font-family: "宋体";
+	color: #416AA3;
+	font-weight: bold;
+	padding: 8px 0px
+}
+
+.selectbutton {
+	border: 1px solid #99bbe8; 
+	height: 24px;
+	line-height: 20px;
+}
+
+.select {
+	 border:1px solid #99bbe8;
+	 float: left;
+	 display: inline;
+	 height:24px;
+ }
+ 
+.select .sd {
+	 border:1px solid #f9f9f9; 
+	 width:120px;
+	 height: 20px;
+	 overflow:hidden;
+	 float: left;
+}
+
+.select .sd select {
+	 display:block; 
+	 border:1px solid #f9f9f9; 
+	 width:124px;
+	 float:none;
+	 margin: -2px;
+	 padding: 2px;
+}
+
+.operatebutton {
+	background: url(../images/button.jpg) no-repeat;
+	width: 69px;
+	height: 26px;
+	border: none
+}
+.text30 {
+	width: 30px;
+	border: 1px solid #99bbe8;
+	height: 24px;
+	line-height: 20px;
+}
+.text60 {
+	width: 60px;
+	border: 1px solid #99bbe8;
+	height: 24px;
+	line-height: 20px;
+}
+
+.text120 {
+	width: 120px;
+	border: 1px solid #99bbe8;
+	height: 24px;
+	line-height: 20px;
+}
+
+.text150 {
+	width: 150px;
+	border: 1px solid #99bbe8;
+	height: 24px;
+	line-height: 20px;
+}
+
+.text260 {
+	width: 260px;
+	border: 1px solid #99bbe8;
+	height: 24px;
+	line-height: 20px;
+}
+
+input.flat_u_ro {
+	PADDING-RIGHT: 1px;
+	PADDING-LEFT: 1px;
+	FONT-SIZE: 9pt;
+	PADDING-BOTTOM: 1px;
+	WIDTH: auto;
+	HEIGHT:	24px;
+	PADDING-TOP: 3px;
+	FONT-FAMILY: Verdana;
+	BORDER: 1px solid #99bbe8;
+}
+
+input.flat_u {
+	WIDTH: auto;
+	border: 1px solid #99bbe8;
+	height: 24px;
+	line-height: 20px;
+}
+
+.text90 {
+	width: 90px;
+	border: 1px solid #99bbe8;
+	height: 24px;
+	line-height: 20px;
+}
+
+.text180 {
+	width: 180px;
+	border: 1px solid #99bbe8;
+	height: 24px;
+	line-height: 20px;
+}
+.text270 {
+	width: 270px;
+	border: 1px solid #99bbe8;
+	height: 24px;
+	line-height: 20px;
+}
+.text360 {
+	width: 360px;
+	border: 1px solid #99bbe8;
+	height: 24px;
+	line-height: 20px;
+}
+.textArea {
+	width: 360px;
+	border: 1px solid #99bbe8;
+	height: 60px;
+	line-height: 20px;
+}
+
+.tablebar {
+	background: url(../images/listtitBg.jpg) repeat-x;
+	height: 26px;
+	border-right: 1px solid #99bbe8;
+	border-top: 1px solid #99bbe8;
+	border-left: 1px solid #99bbe8;
+	font-family: "宋体";
+	font-size: 12px;
+}
+
+.addicon {
+	height: 14px;
+	padding-top: 3px
+}
+
+.addicon a {
+	color: black;
+	text-decoration: none;
+}
+
+.tip {
+	background: #FDFFCE none repeat scroll 0%;
+	border: 1px solid #FFBA43;
+	padding: 10px;;
+	width: 350px;
+}
+
+table td.title {
+	text-align: right;
+	font-family: "宋体";
+	font-size: 12px; 
+	height:30px;
+	line-height:30px;
+}
+
+.button-parent {
+	background: url(../images/button.jpg) repeat-x;
+}
+
+table.tablesorter {
+	font-family: "宋体";
+	background:#dcdcdc;
+	font-size: 12px;
+	width: 100%;
+	text-align: center;
+	border: 1px solid #99bbe8;
+}
+
+table.tablesorter thead tr th,table.tablesorter tfoot tr th,th {
+	background-color: #EFEFEF;
+	padding: 4px; 
+}
+
+table.tablesorter thead tr .header {
+	background-image: url(../images/bg.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+}
+
+table.tablesorter tbody td {
+	color: #3D3D3D;
+	padding: 4px;
+	background-color: #FFF;
+	vertical-align: center;
+}
+
+table.tablesorter thead tr .headerSortUp {
+	background-image: url(../images/asc.gif);
+}
+
+table.tablesorter thead tr .headerSortDown {
+	background-image: url(../images/desc.gif);
+}
+
+table.tablesorter thead tr .headerSortDown,table.tablesorter thead tr .headerSortUp {
+	background-color: #8dbdd8;
+}
+
+table.tablesorter a {
+	font-size: 12px;
+	color: #097FD1;
+	font-weight:500;
+}
+
+table.page {
+	font-family: "宋体";
+	font-size: 12px;
+	line-height: 14px
+}
+
+table.page a {
+	color: #15428b;
+}
+
+
+table tr.curr_beha_bgcolor td{
+	cursor:hand;
+	background-color: #99bbe8;
+}
+
+table tr.beha_bgcolor td {
+	background-color: white;
+}
+
+.tabledeatil {
+	font-family: "宋体";
+	background:#fff; 
+	border:1px solid #8db2e3; 
+	font-size:12px;
+	width: 100%;
+}
+
+.title2{
+	background:#d2e0f2;
+	text-align: right;
+}
+
+.text{
+	background:#eef5ff;
+}
+
+tr {
+	height: 24px;
+}
+
+.four {
+	font:bold 12px; 
+	color:#000; 
+	margin-right:5px;
+}
+
+.div1{ text-align:center; margin-top:10px}
+
+.textSearch {
+	width: 40px;
+	border: 1px solid #99bbe8;
+	height: 20px;
+	line-height: 20px;
+}

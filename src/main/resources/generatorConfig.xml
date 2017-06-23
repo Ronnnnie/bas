@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration >
+  <classPathEntry location="C:\Users\lin.tang\.m2\repository\ojdbc\ojdbc\14\ojdbc-14.jar" />  
+  <context id="context1" >
+    <commentGenerator >  
+            <property name="suppressAllComments" value="false"/><!-- 是否取消注释 -->  
+            <property name="suppressDate" value="TRUE" /> <!-- 是否生成注释代时间戳-->  
+    </commentGenerator> 
+    <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" 
+    connectionURL="jdbc:oracle:thin:@10.80.6.157:1521:testdb3" userId="SITBAS_XFD_TMK" password="pHKcXSMa8WMJ" />
+    
+    <javaModelGenerator targetPackage="com.billionsfinance.bas.entity.model" targetProject="bqjr_bas" />
+    <sqlMapGenerator targetPackage="com.billionsfinance.bas.dao.mapper" targetProject="bqjr_bas" />
+    <javaClientGenerator targetPackage="com.billionsfinance.bas.dao" targetProject="bqjr_bas" type="XMLMAPPER" />
+    <table schema="SITBAS_XFD_TMK" tableName="cw_voucher_Model" >
+      <!-- <columnOverride column="???" property="???" /> -->
+    </table>
+  </context>
+</generatorConfiguration>

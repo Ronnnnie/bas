@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.RepaymentDetailDao" >
+ 	
+ 	 <resultMap id="RepaymentDetailMap" type="java.util.HashMap">
+ 		<result column="SERIALNO" property="serialNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="DUEDATE" property="duedate" jdbcType="DATE" javaType="java.util.Date" />
+  		<result column="KEEPACCOUNTSDATE" property="keepaccountsdate" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="KEEPACCOUNTSSTATUS" property="keepAccountsStatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="REGISTRATIONDATE" property="registrationDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="SEQID" property="seqId" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CLIENTNAME" property="clientName" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CITY" property="city" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PRODUCTID" property="productId" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SUBPRODUCTTYPE" property="subProductType" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ASSETBELONG" property="assetBelong" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="GUARANTEEPARTY" property="guaranteeParty" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYTYPE" property="payType" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYDATE" property="payDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYPRINCIPALAMT" property="payPrincipalamt" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="PAYINTEAMT" property="payInteAmt" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A11" property="stampDuty" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="PAYAMT" property="payAmt" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="PAYPRINCIPALAMTSUM" property="payPrincipalamtSum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="PAYINTEAMTSUM" property="payInteAmtSum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="STAMPDUTYSUM" property="stampDutySum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="PAYAMTSUM" property="payAmtSum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="APPROVETIME" property="approveTime" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="APPROVESTATUS" property="approveStatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYSTATUS" property="payStatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CONTRACTCOUNT" property="contractCount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 		<result column="MONEYCOUNT" property="moneyCount" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="ACCORDDATE" property="accorddate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="MATURITYDATE" property="maturitydate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SNO" property="sno" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="RNO" property="rno" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SA_ID" property="sa_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PRODUCTCATEGORY" property="productcategory" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SURETYPE" property="suretype" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BUSINESSMODEL" property="businessmodel" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PROVINCE" property="province" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CITYCODE" property="citycode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CREDITPERSON" property="creditperson" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CONTRACTLIFE" property="contractlife" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CDATE" property="cdate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CANCELTYPE" property="canceltype" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DELIVERYDATE" property="deliverydate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DCDATE" property="dcdate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SHDATE" property="shdate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="TBDATE" property="tbdate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="LPDATE" property="lpdate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DEBOURS" property="debours" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 	</resultMap>
+	
+	<select id="queryRepaymentDetail" resultMap="RepaymentDetailMap">
+		SELECT * FROM (
+			SELECT A.*,ROWNUM RN FROM (
+				 SELECT ZPD.REGISTRATIONDATE,
+						NVL(ZPD.SEQID,0) AS SEQID,
+						ZPD.SERIALNO,
+						ZPD.CLIENTNAME,
+						ZPD.CITY,
+						ZPD.PRODUCTID,
+						ZPD.SUBPRODUCTTYPE,
+						ZPD.ASSETBELONG,
+						ZPD.GUARANTEEPARTY,
+						ZPD.PAYTYPE,
+						ZPD.PAYDATE,
+						NVL(ZPD.PAYPRINCIPALAMT,0.00) AS PAYPRINCIPALAMT,
+						NVL(ZPD.PAYINTEAMT,0.00) AS PAYINTEAMT,
+						NVL(ZPD.A11,0.00) AS A11,
+						NVL(ZPD.PAYAMT,0.00) AS PAYAMT,
+						ZPD.ACCORDDATE,
+						ZPD.SNO,
+						ZPD.RNO,
+						ZPD.SA_ID,
+						ZPD.MATURITYDATE,
+						ZPD.PRODUCTCATEGORY,
+						ZPD.SURETYPE,
+						ZPD.BUSINESSMODEL,
+						ZPD.PROVINCE,
+						ZPD.CITYCODE,
+						ZPD.CREDITPERSON,
+						ZPD.CONTRACTLIFE,
+						ZPD.CDATE,
+						NVL(ZPD.CANCELTYPE,'N') CANCELTYPE,
+						ZPD.DELIVERYDATE,
+						ZPD.DCDATE,
+						ZPD.SHDATE,
+						ZPD.TBDATE,
+						ZPD.LPDATE,
+						ZPD.DEBOURS,
+						ZPD.DUEDATE,
+						ZPD.KEEPACCOUNTSDATE,
+						ZPD.KEEPACCOUNTSSTATUS,
+						ZPD.APPROVETIME,
+						ZPD.APPROVESTATUS,
+						ZPD.PAYSTATUS
+				  FROM ZJJS_BELONG_XT ZPD
+				 <include refid="RepaymentDetail_Where_Sql" />
+				)   A WHERE ROWNUM &lt;= #{endpoint} 
+			  ) WHERE RN &gt;= #{startpoint} 			  
+	</select>
+	
+	<select id="queryRepaymentDetailFindAll" resultMap="RepaymentDetailMap" parameterType="com.billionsfinance.bas.entity.RepaymentDetailVO">
+		 SELECT ZPD.REGISTRATIONDATE,
+				NVL(ZPD.SEQID,0) AS SEQID,
+				ZPD.SERIALNO,
+				ZPD.CLIENTNAME,
+				ZPD.CITY,
+				ZPD.PRODUCTID,
+				ZPD.SUBPRODUCTTYPE,
+				ZPD.ASSETBELONG,
+				ZPD.GUARANTEEPARTY,
+				(
+		            CASE WHEN PAYTYPE = '0055' THEN '提前还款' 
+		            	 WHEN PAYTYPE = '0055H' THEN '提前还款' 
+		            ELSE '正常还款' END
+		        ) AS PAYTYPE,
+				ZPD.PAYDATE,
+				NVL(ZPD.PAYPRINCIPALAMT,0.00) AS PAYPRINCIPALAMT,
+				NVL(ZPD.PAYINTEAMT,0.00) AS PAYINTEAMT,
+				NVL(ZPD.A11,0.00) AS A11,
+				NVL(ZPD.PAYAMT,0.00) AS PAYAMT,
+				ZPD.ACCORDDATE,
+				ZPD.SNO,
+				ZPD.RNO,
+				ZPD.SA_ID,
+				ZPD.MATURITYDATE,
+				ZPD.PRODUCTCATEGORY,
+				ZPD.SURETYPE,
+				ZPD.BUSINESSMODEL,
+				ZPD.PROVINCE,
+				ZPD.CITYCODE,
+				ZPD.CREDITPERSON,
+				ZPD.CONTRACTLIFE,
+				ZPD.CDATE,
+				(
+		            CASE WHEN CANCELTYPE = 'Y' THEN '是' 
+		            ELSE '否' END
+		        ) AS CANCELTYPE,
+				ZPD.DELIVERYDATE,
+				ZPD.DCDATE,
+				ZPD.SHDATE,
+				ZPD.TBDATE,
+				ZPD.LPDATE,
+				ZPD.DEBOURS,
+				ZPD.DUEDATE,
+				ZPD.KEEPACCOUNTSDATE,
+				ZPD.KEEPACCOUNTSSTATUS,
+				ZPD.APPROVETIME,
+				ZPD.APPROVESTATUS,
+				ZPD.PAYSTATUS
+		  FROM ZJJS_BELONG_XT ZPD
+		 <include refid="RepaymentDetail_Where_Sql" />
+	</select>
+	
+
+	<sql id="RepaymentDetail_Where_Sql">
+    	<where> 
+		<if test=" seqId != null and seqId != ''">
+			AND ZPD.SEQID = #{seqId,jdbcType=VARCHAR}
+		</if>
+		<if test=" serialNo != null and serialNo != ''">
+			AND ZPD.SERIALNO = #{serialNo,jdbcType=VARCHAR}
+		</if>
+		<if test=" subProductType != null and subProductType != ''">
+			AND ZPD.SUBPRODUCTTYPE = #{subProductType,jdbcType=INTEGER}
+		</if>
+		<if test=" payType != null and payType != ''">
+			AND decode(PAYTYPE,'0055','0','0055H','0','1') = #{payType,jdbcType=VARCHAR}
+		</if>
+		<if test=" approveStatus != null and approveStatus != ''">
+			AND ZPD.APPROVESTATUS = #{approveStatus,jdbcType=INTEGER}
+		</if>
+		<if test=" payStatus != null and payStatus != ''">
+			AND ZPD.PAYSTATUS = #{payStatus,jdbcType=INTEGER}
+		</if>
+		<if test=" assetBelong != null and assetBelong != ''">
+			AND ZPD.ASSETBELONG = #{assetBelong,jdbcType=INTEGER}
+		</if>
+		<if test=" startDueDate != null and startDueDate != ''">
+			AND ZPD.DUEDATE &gt;= to_date(#{startDueDate,jdbcType=DATE},'yyyy/MM/dd')
+		</if>
+		<if test=" endDueDate != null and endDueDate != ''">
+			AND ZPD.DUEDATE &lt;= to_date(#{endDueDate,jdbcType=DATE},'yyyy/MM/dd')
+		</if>
+		<if test=" startPayDate != null and startPayDate != ''">
+			AND ZPD.PAYDATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endPayDate != null and endPayDate != ''">
+			AND ZPD.PAYDATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" startRegistrationDate != null and startRegistrationDate != ''">
+			AND ZPD.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endRegistrationDate != null and endRegistrationDate != ''">
+			AND ZPD.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="assetBelong != null and assetBelong != ''">
+			AND ZPD.ASSETBELONG = #{assetBelong,jdbcType=VARCHAR}
+		</if>
+		<if test="payPrincipalamt != null and payPrincipalamt != ''">
+			AND ZPD.PAYPRINCIPALAMT = #{payPrincipalamt,jdbcType=VARCHAR}
+		</if>
+		<if test="payInteAmt != null and payInteAmt != ''">
+			AND ZPD.PAYINTEAMT = #{payInteAmt,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<sql id="JZ_Where_Sql">
+    	<where> 
+    		AND ZPD.PAYSTATUS = 1
+    		AND (ZPD.KEEPACCOUNTSSTATUS IN ('0','2') OR ZPD.KEEPACCOUNTSSTATUS IS NULL)
+		<if test=" seqId != null and seqId != ''">
+			AND ZPD.SEQID = #{seqId,jdbcType=VARCHAR}
+		</if>
+		<if test=" serialNo != null and serialNo != ''">
+			AND ZPD.SERIALNO = #{serialNo,jdbcType=VARCHAR}
+		</if>
+		<if test=" subProductType != null and subProductType != ''">
+			AND ZPD.SUBPRODUCTTYPE = #{subProductType,jdbcType=INTEGER}
+		</if>
+		<if test=" payType != null and payType != ''">
+			AND decode(PAYTYPE,'0055','0','0055H','0','1') = #{payType,jdbcType=VARCHAR}
+		</if>
+		<if test=" approveStatus != null and approveStatus != ''">
+			AND ZPD.APPROVESTATUS = #{approveStatus,jdbcType=INTEGER}
+		</if>
+		<if test=" payStatus != null and payStatus != ''">
+			AND ZPD.PAYSTATUS = #{payStatus,jdbcType=INTEGER}
+		</if>
+		<if test=" assetBelong != null and assetBelong != ''">
+			AND ZPD.ASSETBELONG = #{assetBelong,jdbcType=INTEGER}
+		</if>
+		<if test=" startDueDate != null and startDueDate != ''">
+			AND ZPD.DUEDATE &gt;= to_date(#{startDueDate,jdbcType=DATE},'yyyy/MM/dd')
+		</if>
+		<if test=" endDueDate != null and endDueDate != ''">
+			AND ZPD.DUEDATE &lt;= to_date(#{endDueDate,jdbcType=DATE},'yyyy/MM/dd')
+		</if>
+		<if test=" startPayDate != null and startPayDate != ''">
+			AND ZPD.PAYDATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endPayDate != null and endPayDate != ''">
+			AND ZPD.PAYDATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" startRegistrationDate != null and startRegistrationDate != ''">
+			AND ZPD.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endRegistrationDate != null and endRegistrationDate != ''">
+			AND ZPD.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="assetBelong != null and assetBelong != ''">
+			AND ZPD.ASSETBELONG = #{assetBelong,jdbcType=VARCHAR}
+		</if>
+		<if test="payPrincipalamt != null and payPrincipalamt != ''">
+			AND ZPD.PAYPRINCIPALAMT = #{payPrincipalamt,jdbcType=VARCHAR}
+		</if>
+		<if test="payInteAmt != null and payInteAmt != ''">
+			AND ZPD.PAYINTEAMT = #{payInteAmt,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<sql id="CX_Where_Sql">
+    	<where> 
+    		AND ZPD.KEEPACCOUNTSSTATUS = 1
+		<if test=" seqId != null and seqId != ''">
+			AND ZPD.SEQID = #{seqId,jdbcType=VARCHAR}
+		</if>
+		<if test=" serialNo != null and serialNo != ''">
+			AND ZPD.SERIALNO = #{serialNo,jdbcType=VARCHAR}
+		</if>
+		<if test=" subProductType != null and subProductType != ''">
+			AND ZPD.SUBPRODUCTTYPE = #{subProductType,jdbcType=INTEGER}
+		</if>
+		<if test=" payType != null and payType != ''">
+			AND decode(PAYTYPE,'0055','0','0055H','0','1') = #{payType,jdbcType=VARCHAR}
+		</if>
+		<if test=" assetBelong != null and assetBelong != ''">
+			AND ZPD.ASSETBELONG = #{assetBelong,jdbcType=INTEGER}
+		</if>
+		<if test=" approveStatus != null and approveStatus != ''">
+			AND ZPD.APPROVESTATUS = #{approveStatus,jdbcType=INTEGER}
+		</if>
+		<if test=" payStatus != null and payStatus != ''">
+			AND ZPD.PAYSTATUS = #{payStatus,jdbcType=INTEGER}
+		</if>
+		<if test=" startDueDate != null and startDueDate != ''">
+			AND ZPD.DUEDATE &gt;= to_date(#{startDueDate,jdbcType=DATE},'yyyy/MM/dd')
+		</if>
+		<if test=" endDueDate != null and endDueDate != ''">
+			AND ZPD.DUEDATE &lt;= to_date(#{endDueDate,jdbcType=DATE},'yyyy/MM/dd')
+		</if>
+		<if test=" startPayDate != null and startPayDate != ''">
+			AND ZPD.PAYDATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endPayDate != null and endPayDate != ''">
+			AND ZPD.PAYDATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" startRegistrationDate != null and startRegistrationDate != ''">
+			AND ZPD.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endRegistrationDate != null and endRegistrationDate != ''">
+			AND ZPD.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<!-- 匹配合同个数 总金额  -->
+	<select id="queryRepaymentDetailCount" parameterType="java.util.HashMap" resultMap="RepaymentDetailMap">
+		SELECT COUNT(1) AS CONTRACTCOUNT,SUM(PAYAMT) AS MONEYCOUNT,SUM(PAYPRINCIPALAMT) AS PAYPRINCIPALAMTSUM,SUM(PAYINTEAMT) AS PAYINTEAMTSUM,SUM(A11) AS STAMPDUTYSUM,SUM(PAYAMT) AS PAYAMTSUM 
+		FROM ZJJS_BELONG_XT ZPD
+		<include refid="RepaymentDetail_Where_Sql" />
+	</select>
+	
+	<!-- 记账确认 -->
+	<update id="accountingMark">
+		UPDATE ZJJS_BELONG_XT ZPD SET 
+			KEEPACCOUNTSSTATUS = 1,
+			KEEPACCOUNTSBY = #{keepaccountsBy,jdbcType=VARCHAR},
+			KEEPACCOUNTSDATE = #{keepaccountsdate,jdbcType=VARCHAR},
+			KEEPACCOUNTSREMARK = #{keepaccountsRemark,jdbcType=VARCHAR}
+		<include refid="JZ_Where_Sql" />
+	</update>
+	<!-- 记账撤销 -->
+	<update id="cancelAccountingMark">
+		UPDATE ZJJS_BELONG_XT ZPD SET 
+			KEEPACCOUNTSSTATUS = 2,
+			KEEPACCOUNTSDATE = '',
+			KEEPACCOUNTSREMARK = '记账撤销'
+		<include refid="CX_Where_Sql" />
+	</update>
+	
+	<!-- 审核 -->
+	<update id="contractApprove">
+		UPDATE ZJJS_BELONG_XT ZPD SET
+			APPROVEREMARK = #{approveRemark,jdbcType=VARCHAR},
+			APPROVEBY = #{approveBy,jdbcType=VARCHAR},
+			APPROVETIME = #{approveTime,jdbcType=VARCHAR},
+			APPROVESTATUS = '1'
+		<include refid="RepaymentDetail_Where_Sql" />
+	</update>
+	
+</mapper>

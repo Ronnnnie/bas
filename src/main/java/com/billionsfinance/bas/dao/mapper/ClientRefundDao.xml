@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.ClientRefundDao" >
+ 	
+ 	 <resultMap id="ClientRefundMap" type="java.util.HashMap">
+		<id column="ID" property="id" javaType="java.lang.String" jdbcType="VARCHAR" />
+  		<result column="SERIALNO" property="serialNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="PERIODS" property="periods" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="BUSINESSDATE" property="businessDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KEEPACCOUNTS_DATE" property="keepAccountsDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAY_DATE" property="payDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="MAKECOLLECTIONS_DATE" property="makeCollectionsDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PRODUCT_SUBTYPE" property="productSubType" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BUSINESSSUM" property="businessSum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="DEDUCTION_KH_SERVICE_FEE" property="deductionKHServiceFee" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 		<result column="DEDUCTION_SH_SERVICE_FEE" property="deductionSHServiceFee" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 		<result column="RETURN_SUM" property="returnSum" jdbcType="INTEGER" javaType="java.lang.Double" />
+		<result column="CAPITALSIDE" property="capitalSide" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KH_NAME" property="khName" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SH_NAME" property="shName" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SH_ID" property="shId" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CITY" property="city" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CONTRACT_STATUS" property="contractStatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CONTRACT_COUNT" property="contractCount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 		<result column="MONEY_COUNT" property="moneyCount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 	</resultMap>
+	
+	<select id="queryBusinessDetail" resultMap="ClientRefundMap">
+		SELECT * FROM (
+			SELECT A.*,ROWNUM RN FROM (
+			   SELECT CRT.ID,
+				      CRT.SERIALNO,
+				      CRT.BUSINESSDATE,
+				      CRT.KEEPACCOUNTS_DATE,
+				      CRT.PAY_DATE,
+				      CRT.MAKECOLLECTIONS_DATE,
+				      CRT.PERIODS,
+				      CRT.BUSINESSSUM,
+				      CRT.DEDUCTION_KH_SERVICE_FEE,
+				      CRT.DEDUCTION_SH_SERVICE_FEE,
+				      CRT.RETURN_SUM,
+				      CRT.PRODUCT_SUBTYPE,
+				      CRT.CAPITALSIDE,
+				      CRT.KH_NAME,
+				      CRT.SH_NAME,
+				      CRT.SH_ID,
+				      CRT.CITY,
+				      CRT.CONTRACT_STATUS
+				 FROM CLIENT_REFUND_T CRT
+				 <include refid="ClientRefund_Where_Sql" />
+				)   A WHERE ROWNUM &lt;= #{endpoint} 
+			  ) WHERE RN &gt;= #{startpoint} 			  
+	</select>
+	
+	<select id="queryBusinessDetailId" resultMap="ClientRefundMap">
+	   SELECT CRT.ID,
+		      CRT.SERIALNO,
+		      CRT.BUSINESSDATE,
+		      CRT.KEEPACCOUNTS_DATE,
+		      CRT.PAY_DATE,
+		      CRT.MAKECOLLECTIONS_DATE,
+		      CRT.PERIODS,
+		      CRT.BUSINESSSUM,
+		      CRT.DEDUCTION_KH_SERVICE_FEE,
+		      CRT.DEDUCTION_SH_SERVICE_FEE,
+		      CRT.RETURN_SUM,
+		      CRT.PRODUCT_SUBTYPE,
+		      CRT.CAPITALSIDE,
+		      CRT.KH_NAME,
+		      CRT.SH_NAME,
+		      CRT.SH_ID,
+		      CRT.CITY,
+		      CRT.CONTRACT_STATUS
+		 FROM CLIENT_REFUND_T CRT
+		<include refid="ClientRefund_Where_Sql" />
+	</select>
+	
+	<!-- 查询业务明细条件的sql -->
+	<sql id="ClientRefund_Where_Sql">
+    	<where> 
+		<if test="id != null and id != ''">
+			AND CRT.ID = #{id,jdbcType=VARCHAR}
+		</if>
+		<if test="idArray != null and idArray != ''">
+			AND CRT.ID in 
+			<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">  
+ 			#{item}  
+			</foreach>  
+		</if>
+ 		<if test="serialNo != null and serialNo != '' and array == null">
+			AND CRT.SERIALNO = #{serialNo,jdbcType=VARCHAR}
+		</if>
+		<if test="array != null and array != ''">
+			AND CRT.SERIALNO in 
+			<foreach item="item" index="index" collection="array" open="(" separator="," close=")">  
+ 			#{item}  
+			</foreach>  
+		</if>
+		<if test="startBusinessDate != null and startBusinessDate != ''">
+			AND CRT.BUSINESSDATE &gt;= #{startBusinessDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endBusinessDate != null and endBusinessDate != ''">
+			AND CRT.BUSINESSDATE &lt;= #{endBusinessDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startKeepAccountsDate != null and startKeepAccountsDate != ''">
+			AND CRT.KEEPACCOUNTS_DATE &gt;= #{startKeepAccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endKeepAccountsDate != null and endKeepAccountsDate != ''">
+			AND CRT.KEEPACCOUNTS_DATE &lt;= #{endKeepAccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startPayDate != null and startPayDate != ''">
+			AND CRT.PAY_DATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endPayDate != null and endPayDate != ''">
+			AND CRT.PAY_DATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="productSubType != null and productSubType != ''">
+			AND CRT.PRODUCT_SUBTYPE = #{productSubType,jdbcType=VARCHAR}
+		</if>
+		<if test="capitalSide != null and capitalSide != ''">
+			AND CRT.CAPITALSIDE = #{capitalSide,jdbcType=VARCHAR}
+		</if>
+		<if test="city != null and city != ''">
+			AND CRT.CITY = #{city,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<!-- 根据条件获取匹配合同个数  -->
+	<select id="queryBusinessDetailCount" parameterType="map" resultMap="ClientRefundMap">
+		SELECT COUNT(1) AS CONTRACT_COUNT,SUM(BUSINESSSUM) AS MONEY_COUNT FROM CLIENT_REFUND_T CRT
+		<include refid="ClientRefund_Where_Sql" />
+	</select>
+	
+	<update id="updateContract"  parameterType="com.billionsfinance.bas.entity.ClientRefundVO" >
+		UPDATE CLIENT_REFUND_T CRT  SET CRT.SERIALNO =
+		#{serialNo,jdbcType=VARCHAR},CRT.BUSINESSDATE =
+		#{businessDate,jdbcType=VARCHAR},CRT.KEEPACCOUNTS_DATE =
+		#{keepAccountsDate,jdbcType=VARCHAR},CRT.PAY_DATE =
+		#{payDate,jdbcType=VARCHAR},CRT.MAKECOLLECTIONS_DATE =
+		#{makeCollectionsDate,jdbcType=VARCHAR},CRT.PRODUCT_SUBTYPE =
+		#{productSubType,jdbcType=VARCHAR},CRT.CAPITALSIDE =
+		#{capitalSide,jdbcType=VARCHAR},CRT.BUSINESSSUM =
+		#{businessSum,jdbcType=INTEGER},CRT.DEDUCTION_KH_SERVICE_FEE = 
+		#{deductionKHServiceFee,jdbcType=INTEGER},CRT.DEDUCTION_SH_SERVICE_FEE = 
+		#{deductionSHServiceFee,jdbcType=INTEGER},CRT.RETURN_SUM = 
+		#{returnSum,jdbcType=INTEGER},CRT.PERIODS = 
+		#{periods,jdbcType=INTEGER},CRT.CONTRACT_STATUS = 
+		#{contractStatus,jdbcType=VARCHAR},CRT.KH_NAME =
+		#{khName,jdbcType=VARCHAR}, CRT.SH_NAME =
+		#{shName,jdbcType=VARCHAR}, CRT.SH_ID =
+		#{shId,jdbcType=VARCHAR}, CRT.CITY =
+		#{city,jdbcType=VARCHAR}
+		WHERE CRT.ID = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<delete id="deleteBusinessDetail" parameterType="java.lang.String">
+		DELETE FROM CLIENT_REFUND_T WHERE ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	
+	<insert id="importContract" parameterType="java.util.List" >
+		INSERT INTO CLIENT_REFUND_T CRT(
+			  CRT.ID,
+		      CRT.SERIALNO,
+		      CRT.BUSINESSDATE,
+		      CRT.KEEPACCOUNTS_DATE,
+		      CRT.PAY_DATE,
+		      CRT.MAKECOLLECTIONS_DATE,
+		      CRT.PERIODS,
+		      CRT.BUSINESSSUM,
+		      CRT.DEDUCTION_KH_SERVICE_FEE,
+		      CRT.DEDUCTION_SH_SERVICE_FEE,
+		      CRT.RETURN_SUM,
+		      CRT.CONTRACT_STATUS,
+		      CRT.PRODUCT_SUBTYPE,
+		      CRT.CAPITALSIDE,
+		      CRT.KH_NAME,
+		      CRT.SH_NAME,
+		      CRT.SH_ID,
+		      CRT.CITY
+		)
+		SELECT D.* FROM(
+		<foreach collection="list" item="item" index="index" separator="union all">
+			SELECT
+				#{item.id,jdbcType=VARCHAR},
+				#{item.serialNo,jdbcType=VARCHAR},
+				#{item.businessDate,jdbcType=VARCHAR},
+				#{item.keepAccountsDate,jdbcType=VARCHAR},
+				#{item.payDate,jdbcType=VARCHAR},
+				#{item.makeCollectionsDate,jdbcType=VARCHAR},
+				#{item.periods,jdbcType=INTEGER},
+				#{item.businessSum,jdbcType=INTEGER},
+				#{item.deductionKHServiceFee,jdbcType=INTEGER},
+				#{item.deductionSHServiceFee,jdbcType=INTEGER},
+				#{item.returnSum,jdbcType=INTEGER},
+				#{item.contractStatus,jdbcType=VARCHAR},
+				#{item.productSubType,jdbcType=VARCHAR},
+				#{item.capitalSide,jdbcType=VARCHAR},
+				#{item.khName,jdbcType=VARCHAR},
+				#{item.shName,jdbcType=VARCHAR},
+				#{item.shId,jdbcType=VARCHAR},
+				#{item.city,jdbcType=VARCHAR}
+			FROM DUAL
+		</foreach>
+		) D
+	</insert>
+	
+	<update id="payConfirm">
+		UPDATE CLIENT_REFUND_T SET MAKECOLLECTIONS_DATE = #{updateDate,jdbcType=VARCHAR}
+		WHERE KEEPACCOUNTS_DATE IS NULL AND ID IN 
+		(SELECT CRT.ID 
+		 FROM CLIENT_REFUND_T CRT
+		 <include refid="ClientRefund_Where_Sql"/>
+		 )
+	</update>
+	
+	<update id="accountingMark">
+		UPDATE CLIENT_REFUND_T SET KEEPACCOUNTS_DATE = #{updateDate,jdbcType=VARCHAR}
+		WHERE ID IN 
+		(SELECT CRT.ID 
+		 FROM CLIENT_REFUND_T CRT
+		 <include refid="ClientRefund_Where_Sql"/>
+		 )
+	</update>
+	
+	
+</mapper>

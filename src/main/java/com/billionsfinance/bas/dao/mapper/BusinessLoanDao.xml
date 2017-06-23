@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.BusinessLoanDao" >
+ 	
+ 	 <resultMap id="BusinessLoanVO" type="java.util.HashMap">
+		<id column="ID" property="id" javaType="java.lang.String" jdbcType="VARCHAR" />
+  		<result column="SERIALNO" property="serialNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BUSINESSDATE" property="businessDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KEEPACCOUNTS_DATE" property="keepAccountsDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAY_DATE" property="payDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="MAKECOLLECTIONS_DATE" property="makeCollectionsDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PRODUCT_SUBTYPE" property="productSubType" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BUSINESSSUM" property="businessSum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="DEDUCTION_KH_SERVICE_FEE" property="deductionKHServiceFee" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 		<result column="DEDUCTION_SH_SERVICE_FEE" property="deductionSHServiceFee" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 		<result column="PAY_SUM" property="paySum" jdbcType="INTEGER" javaType="java.lang.Integer" />
+		<result column="CAPITALSIDE" property="capitalSide" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KH_NAME" property="khName" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SH_NAME" property="shName" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SH_ID" property="shId" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CITY" property="city" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CONTRACT_COUNT" property="contractCount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 		<result column="MONEY_COUNT" property="moneyCount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 	</resultMap>
+	
+	<select id="queryBusinessDetail" resultMap="BusinessLoanVO">
+		SELECT * FROM (
+			SELECT A.*,ROWNUM RN FROM (
+			   SELECT BLT.ID,
+				      BLT.SERIALNO,
+				      BLT.BUSINESSDATE,
+				      BLT.KEEPACCOUNTS_DATE,
+				      BLT.PAY_DATE,
+				      BLT.MAKECOLLECTIONS_DATE,
+				      BLT.PRODUCT_SUBTYPE,
+				      BLT.BUSINESSSUM,
+				      BLT.DEDUCTION_KH_SERVICE_FEE,
+				      BLT.DEDUCTION_SH_SERVICE_FEE,
+				      BLT.PAY_SUM,
+				      BLT.CAPITALSIDE,
+				      BLT.KH_NAME,
+				      BLT.SH_NAME,
+				      BLT.SH_ID,
+				      BLT.CITY
+				 FROM BQ_LOAN_T BLT
+				 <include refid="BusinessLoan_Where_Sql" />
+				)   A WHERE ROWNUM &lt;= #{endpoint} 
+			  ) WHERE RN &gt;= #{startpoint} 			  
+	</select>
+	
+	<select id="queryBusinessDetailById" resultMap="BusinessLoanVO">
+		  SELECT 
+		      BLT.ID,
+		      BLT.SERIALNO,
+		      BLT.BUSINESSDATE,
+		      BLT.KEEPACCOUNTS_DATE,
+		      BLT.PAY_DATE,
+		      BLT.MAKECOLLECTIONS_DATE,
+		      BLT.PRODUCT_SUBTYPE,
+		      BLT.BUSINESSSUM,
+		      BLT.DEDUCTION_KH_SERVICE_FEE,
+		      BLT.DEDUCTION_SH_SERVICE_FEE,
+		      BLT.PAY_SUM,
+		      BLT.CAPITALSIDE,
+		      BLT.KH_NAME,
+		      BLT.SH_NAME,
+		      BLT.SH_ID,
+		      BLT.CITY
+		     FROM BQ_LOAN_T BLT
+	      WHERE ID = #{id,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 根据条件获取匹配合同个数  -->
+	<select id="queryBusinessDetailCount" parameterType="map" resultMap="BusinessLoanVO">
+		SELECT COUNT(1) AS CONTRACT_COUNT,SUM(BUSINESSSUM) AS MONEY_COUNT FROM BQ_LOAN_T BLT
+		<include refid="BusinessLoan_Where_Sql" />
+	</select>
+	
+	<update id="updateContract"  parameterType="com.billionsfinance.bas.entity.BusinessLoanVO" >
+		UPDATE BQ_LOAN_T RFP SET RFP.SERIALNO =
+		#{serialNo,jdbcType=VARCHAR},RFP.BUSINESSDATE =
+		#{businessDate,jdbcType=VARCHAR},RFP.KEEPACCOUNTS_DATE =
+		#{keepAccountsDate,jdbcType=VARCHAR},RFP.PAY_DATE =
+		#{payDate,jdbcType=VARCHAR},RFP.PRODUCT_SUBTYPE =
+		#{productSubType,jdbcType=VARCHAR},RFP.CAPITALSIDE =
+		#{capitalSide,jdbcType=VARCHAR},RFP.BUSINESSSUM =
+		#{businessSum,jdbcType=INTEGER},RFP.DEDUCTION_KH_SERVICE_FEE = 
+		#{deductionKHServiceFee,jdbcType=INTEGER},RFP.DEDUCTION_SH_SERVICE_FEE = 
+		#{deductionSHServiceFee,jdbcType=INTEGER},RFP.PAY_SUM = 
+		#{paySum,jdbcType=INTEGER},	RFP.KH_NAME =
+		#{khName,jdbcType=VARCHAR}, RFP.SH_NAME =
+		#{shName,jdbcType=VARCHAR}, RFP.SH_ID =
+		#{shId,jdbcType=VARCHAR}, RFP.CITY =
+		#{city,jdbcType=VARCHAR}, RFP.MAKECOLLECTIONS_DATE = 
+		#{makeCollectionsDate,jdbcType=VARCHAR}
+		WHERE RFP.ID = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<insert id="createContract" parameterType="com.billionsfinance.bas.entity.BusinessLoanVO" >
+		INSERT INTO BQ_LOAN_T
+			(ID,SERIALNO,BUSINESSDATE,KEEPACCOUNTS_DATE,
+				PAY_DATE,PRODUCT_SUBTYPE,CAPITALSIDE,BUSINESSSUM,
+					DEDUCTION_KH_SERVICE_FEE,DEDUCTION_SH_SERVICE_FEE,
+						PAY_SUM,KH_NAME,SH_NAME,SH_ID,CITY)
+		VALUES
+			(#{id,jdbcType=VARCHAR},#{serialNo,jdbcType=VARCHAR},#{businessDate,jdbcType=VARCHAR},#{keepAccountsDate,jdbcType=VARCHAR},
+				#{payDate,jdbcType=VARCHAR},#{productSubType,jdbcType=VARCHAR},#{capitalSide,jdbcType=VARCHAR},
+					#{businessSum,jdbcType=INTEGER},#{deductionKHServiceFee,jdbcType=INTEGER},#{deductionSHServiceFee,jdbcType=INTEGER},
+						#{paySum,jdbcType=INTEGER},#{khName,jdbcType=VARCHAR},#{shName,jdbcType=VARCHAR},#{shId,jdbcType=VARCHAR},#{city,jdbcType=VARCHAR})
+	</insert>
+	
+	<!-- 查询业务明细条件的sql -->
+	<sql id="BusinessLoan_Where_Sql">
+    	<where> 
+		<if test="id != null and id != ''">
+			AND BLT.ID = #{id,jdbcType=VARCHAR}
+		</if>
+		<if test="idArray != null and idArray != ''">
+			AND BLT.ID in 
+			<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">  
+ 			#{item}  
+			</foreach>  
+		</if>
+ 		<if test="serialNo != null and serialNo != '' and array == null">
+			AND BLT.SERIALNO = #{serialNo,jdbcType=VARCHAR}
+		</if>
+		<if test="array != null and array != ''">
+			AND BLT.SERIALNO in 
+			<foreach item="item" index="index" collection="array" open="(" separator="," close=")">  
+ 			#{item}  
+			</foreach>  
+		</if>
+		<if test="startBusinessDate != null and startBusinessDate != ''">
+			AND BLT.BUSINESSDATE &gt;= #{startBusinessDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endBusinessDate != null and endBusinessDate != ''">
+			AND BLT.BUSINESSDATE &lt;= #{endBusinessDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startKeepAccountsDate != null and startKeepAccountsDate != ''">
+			AND BLT.KEEPACCOUNTS_DATE &gt;= #{startKeepAccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endKeepAccountsDate != null and endKeepAccountsDate != ''">
+			AND BLT.KEEPACCOUNTS_DATE &lt;= #{endKeepAccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startPayDate != null and startPayDate != ''">
+			AND BLT.PAY_DATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endPayDate != null and endPayDate != ''">
+			AND BLT.PAY_DATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="productSubType != null and productSubType != ''">
+			AND BLT.PRODUCT_SUBTYPE = #{productSubType,jdbcType=VARCHAR}
+		</if>
+		<if test="capitalSide != null and capitalSide != ''">
+			AND BLT.CAPITALSIDE = #{capitalSide,jdbcType=VARCHAR}
+		</if>
+		<if test="city != null and city != ''">
+			AND BLT.CITY = #{city,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	<!-- 查询业务汇总条件的sql -->
+	<sql id="BusinessGather_Where_Sql">
+    	<where> 
+		<if test="startKeepAccountsDate != null and startKeepAccountsDate != ''">
+			AND RFP.KEEPACCOUNTS_DATE &gt;= #{startKeepAccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endKeepAccountsDate != null and endKeepAccountsDate != ''">
+			AND RFP.KEEPACCOUNTS_DATE &lt;= #{endKeepAccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startMakeCollectionsDate != null and startMakeCollectionsDate != ''">
+			AND RFP.MAKECOLLECTIONS_DATE &gt;= #{startMakeCollectionsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endMakeCollectionsDate != null and endMakeCollectionsDate != ''">
+			AND RFP.MAKECOLLECTIONS_DATE &lt;= #{endMakeCollectionsDate,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<!-- 查询资金明细条件的sql -->
+	<sql id="BankrollDetail_Where_Sql">
+    	<where> 
+      	<if test="serialNo != null and serialNo != ''">
+			AND RFP.SERIALNO = #{serialNo,jdbcType=VARCHAR}
+		</if>
+		<if test="startBusinessDate != null and startBusinessDate != ''">
+			AND RFP.BUSINESSDATE &gt;= #{startBusinessDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endBusinessDate != null and endBusinessDate != ''">
+			AND RFP.BUSINESSDATE &lt;= #{endBusinessDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startMakeCollectionsDate != null and startMakeCollectionsDate != ''">
+			AND RFP.MAKECOLLECTIONS_DATE &gt;= #{startMakeCollectionsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endMakeCollectionsDate != null and endMakeCollectionsDate != ''">
+			AND RFP.MAKECOLLECTIONS_DATE &lt;= #{endMakeCollectionsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="capitalSide != null and capitalSide != ''">
+			AND RFP.CAPITALSIDE = #{capitalSide,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+
+	<insert id="importContract" parameterType="java.util.List" >
+		INSERT INTO BQ_LOAN_T(
+			ID,
+			SERIALNO,
+			BUSINESSDATE,
+			KEEPACCOUNTS_DATE,
+			PAY_DATE,
+			PRODUCT_SUBTYPE,
+			CAPITALSIDE,
+			BUSINESSSUM,
+			DEDUCTION_KH_SERVICE_FEE,
+			DEDUCTION_SH_SERVICE_FEE,
+			PAY_SUM,
+			KH_NAME,
+			SH_NAME,
+			SH_ID,
+			CITY
+		)
+		SELECT D.* FROM(
+		<foreach collection="list" item="item" index="index" separator="union all">
+			SELECT
+				#{item.id,jdbcType=VARCHAR},
+				#{item.serialNo,jdbcType=VARCHAR},
+				#{item.businessDate,jdbcType=VARCHAR},
+				#{item.keepAccountsDate,jdbcType=VARCHAR},
+				#{item.payDate,jdbcType=VARCHAR},
+				#{item.productSubType,jdbcType=VARCHAR},
+				#{item.capitalSide,jdbcType=VARCHAR},
+				#{item.businessSum,jdbcType=INTEGER},
+				#{item.deductionKHServiceFee,jdbcType=INTEGER},
+				#{item.deductionSHServiceFee,jdbcType=INTEGER},
+				#{item.paySum,jdbcType=INTEGER},
+				#{item.khName,jdbcType=VARCHAR},
+				#{item.shName,jdbcType=VARCHAR},
+				#{item.shId,jdbcType=VARCHAR},
+				#{item.city,jdbcType=VARCHAR}
+			FROM DUAL
+		</foreach>
+		) D
+		
+	</insert>
+	
+	<delete id="deleteBusinessDetail" parameterType="java.lang.String">
+		DELETE FROM BQ_LOAN_T WHERE ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	
+	<update id="updateBusinessDetail">
+		UPDATE BQ_LOAN_T SET 
+		SERIALNO = #{serialNo,jdbcType=VARCHAR},
+		BUSINESSDATE = #{businessDate,jdbcType=VARCHAR},
+		KEEPACCOUNTS_DATE = #{keepAccountsDate,jdbcType=VARCHAR},
+		PAY_DATE = #{payDate,jdbcType=VARCHAR},
+		MAKECOLLECTIONS_DATE = #{makeCollectionsDate,jdbcType=VARCHAR},
+		PRODUCT_SUBTYPE = #{productSubType,jdbcType=VARCHAR},
+		BUSINESSSUM = #{businessSum,jdbcType=INTEGER},
+		DEDUCTION_KH_SERVICE_FEE = #{deductionKHServiceFee,jdbcType=INTEGER},
+		DEDUCTION_SH_SERVICE_FEE = #{deductionSHServiceFee,jdbcType=INTEGER},
+		PAY_SUM = #{paySum,jdbcType=INTEGER},
+		CAPITALSIDE = #{capitalSide,jdbcType=VARCHAR},
+		KH_NAME = #{khName,jdbcType=VARCHAR},
+		SH_NAME = #{shName,jdbcType=VARCHAR},
+		SH_ID = #{shId,jdbcType=VARCHAR},
+		CITY = #{city,jdbcType=VARCHAR}
+		WHERE ID = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="payConfirm">
+		UPDATE BQ_LOAN_T SET MAKECOLLECTIONS_DATE = #{makeCollectionsDate,jdbcType=VARCHAR}
+		WHERE KEEPACCOUNTS_DATE IS NULL AND ID IN 
+		(SELECT BLT.ID 
+		 FROM BQ_LOAN_T BLT
+		 <include refid="BusinessLoan_Where_Sql"/>
+		 )
+	</update>
+	
+	<update id="accountingMark">
+		UPDATE BQ_LOAN_T SET KEEPACCOUNTS_DATE = #{makeCollectionsDate,jdbcType=VARCHAR}
+		WHERE ID IN 
+		(SELECT BLT.ID 
+		 FROM BQ_LOAN_T BLT
+		 <include refid="BusinessLoan_Where_Sql"/>
+		 )
+	</update>
+	
+	<select id="queryBusinessDetailId" resultMap="BusinessLoanVO">
+	   SELECT BLT.ID,
+		      BLT.SERIALNO,
+		      BLT.BUSINESSDATE,
+		      BLT.KEEPACCOUNTS_DATE,
+		      BLT.PAY_DATE,
+		      BLT.MAKECOLLECTIONS_DATE,
+		      BLT.PRODUCT_SUBTYPE,
+		      BLT.BUSINESSSUM,
+		      BLT.DEDUCTION_KH_SERVICE_FEE,
+		      BLT.DEDUCTION_SH_SERVICE_FEE,
+		      BLT.PAY_SUM,
+		      BLT.CAPITALSIDE,
+		      BLT.KH_NAME,
+		      BLT.SH_NAME,
+		      BLT.SH_ID,
+		      BLT.CITY
+		 FROM BQ_LOAN_T BLT
+		<include refid="BusinessLoan_Where_Sql" />
+	</select>
+</mapper>

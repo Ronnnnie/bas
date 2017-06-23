@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.TrustAllotDetailDao" >
+ 	
+ 	 <resultMap id="TrustAllotDetailMap" type="java.util.HashMap">
+  		<result column="SERIALNO" property="serialNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="ASSETBELONG" property="assetBelong" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PRODUCTID" property="productId" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYDATE" property="payDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYPRINCIPALAMT" property="payPrincipalamt" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="PAYINTEAMT" property="payInteAmt" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="PAYAMT" property="payAmt" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="PAYTIME" property="payTime" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KEEPACCOUNTSREMARK" property="keepaccountsRemark" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CONTRACTCOUNT" property="contractCount" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="MONEYCOUNT" property="moneyCount" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 	</resultMap>
+	
+	<select id="queryTrustAllotDetail" resultMap="TrustAllotDetailMap">
+		SELECT * FROM (
+			SELECT A.*,ROWNUM RN FROM (
+				SELECT ZPD.SERIALNO,
+				       ZPD.ASSETBELONG,
+				       ZPD.PAYDATE,
+				       ZPD.PRODUCTID,
+				       ZPD.PAYPRINCIPALAMT,
+				       ZPD.PAYINTEAMT,
+				       ZPD.PAYAMT,
+				       ZPD.PAYTIME,
+				       ZPD.KEEPACCOUNTSREMARK
+				  FROM ZJJS_PAY_DAILY ZPD
+				 <include refid="TrustAllotDetail_Where_Sql" />
+				)   A WHERE ROWNUM &lt;= #{endpoint} 
+			  ) WHERE RN &gt;= #{startpoint} 			  
+	</select>
+	
+	<select id="queryTrustAllotDetailById" resultType="com.billionsfinance.bas.entity.TrustAllotDetailVO">
+		SELECT ZPD.SERIALNO AS serialNo,
+		       ZPD.ASSETBELONG AS assetBelong,
+		       ZPD.PAYDATE AS payDate,
+		       ZPD.PRODUCTID AS productId,
+		       ZPD.PAYPRINCIPALAMT AS payPrincipalamt,
+		       ZPD.PAYINTEAMT AS payInteAmt,
+		       ZPD.PAYAMT AS payAmt,
+		       ZPD.PAYTIME AS payTime,
+		       ZPD.KEEPACCOUNTSREMARK AS keepaccountsRemark
+		  FROM ZJJS_PAY_DAILY ZPD
+		 <include refid="TrustAllotDetail_Where_Sql" />
+	</select>
+	
+
+	<sql id="TrustAllotDetail_Where_Sql">
+    	<where> 
+		<if test=" serialNo != null and serialNo != ''">
+			AND ZPD.SERIALNO = #{serialNo,jdbcType=VARCHAR}
+		</if>
+		<if test=" assetBelong != null and assetBelong != ''">
+			AND ZPD.ASSETBELONG = #{assetBelong,jdbcType=VARCHAR}
+		</if>
+		<if test=" startPayDate != null and startPayDate != ''">
+			AND ZPD.PAYDATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endPayDate != null and endPayDate != ''">
+			AND ZPD.PAYDATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" startPayTime != null and startPayTime != ''">
+			AND ZPD.PAYTIME &gt;= #{startPayTime,jdbcType=VARCHAR}
+		</if>
+		<if test=" endPayTime != null and endPayTime != ''">
+			AND ZPD.PAYTIME &lt;= #{endPayTime,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<!-- 匹配合同个数 总金额  -->
+	<select id="queryTrustAllotDetailCount" parameterType="java.util.HashMap" resultMap="TrustAllotDetailMap">
+		SELECT COUNT(1) AS CONTRACTCOUNT,SUM(PAYAMT) AS MONEYCOUNT FROM ZJJS_PAY_DAILY ZPD
+		<include refid="TrustAllotDetail_Where_Sql" />
+	</select>
+	
+	<!-- 记账确认 -->
+	<update id="accountingMark">
+		UPDATE ZJJS_PAY_DAILY SET PAYTIME = #{updateDate,jdbcType=VARCHAR}
+		WHERE SERIALNO IN 
+		(SELECT ZPD.SERIALNO FROM ZJJS_PAY_DAILY ZPD
+			<include refid="TrustAllotDetail_Where_Sql" />
+		 )
+	</update>
+	
+</mapper>

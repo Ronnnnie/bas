@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.ReceivedPaymentsDao" >
+ 	
+ 	 <resultMap id="ReceivedPaymentsMap" type="java.util.HashMap">
+  		<result column="SERIALNO" property="serialNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="REGISTRATIONDATE" property="registrationDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="SEQID" property="seqId" jdbcType="INTEGER" javaType="java.lang.Double" />
+  		<result column="SUBPRODUCTTYPE" property="subProductType" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KEEPACCOUNTSDATE" property="keepAccountsDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="KEEPACCOUNTSSTATUS" property="keepAccountsStatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DELIVERYDATE" property="transferDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SHDATE" property="shDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DCDATE" property="dcDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+		<result column="CAPITALSIDE" property="capitalSide" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CITY" property="city" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYDATE" property="payDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ACTUALPAYDATE" property="actualPayDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ASSETBELONG" property="assetBelong" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CREDITPERSON" property="fundProviders" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="GUARANTEEPARTY" property="guaranteeParty" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYPRINCIPALAMT" property="actualPayPrincipalAmt" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="PAYINTEAMT" property="actualPayinteAmt" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A2" property="a2" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A7" property="a7" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A9" property="a9" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A10" property="a10" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A11" property="a11" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A12" property="a12" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A17" property="a17" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A18" property="a18" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A19" property="a19" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="PAYPRINCIPALAMTSUM" property="actualPayPrincipalAmtSum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="PAYINTEAMTSUM" property="actualPayinteAmtSum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A2SUM" property="a2Sum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A7SUM" property="a7Sum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A9SUM" property="a9Sum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A10SUM" property="a10Sum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A11SUM" property="a11Sum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A12SUM" property="a12Sum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A17SUM" property="a17Sum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A18SUM" property="a18Sum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="A19SUM" property="a19Sum" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="CONTRACT_COUNT" property="contractCount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 		<result column="MONEY_COUNT" property="moneyCount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 		<result column="ACCORDDATE" property="accorddate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CLIENTNAME" property="clientname" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="MATURITYDATE" property="maturitydate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SNO" property="sno" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="RNO" property="rno" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SA_ID" property="sa_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PRODUCTCATEGORY" property="productcategory" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SURETYPE" property="suretype" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BUSINESSMODEL" property="businessmodel" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PRODUCTID" property="producttype" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PROVINCE" property="province" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CITYCODE" property="citycode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CONTRACTLIFE" property="contractlife" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CDATE" property="cdate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="OVERDUEDAYS" property="overduedays" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CANCELTYPE" property="canceltype" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="TBDATE" property="tbdate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="LPDATE" property="lpdate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DEBOURS" property="debours" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BXHXDATE" property="bxhxDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="FYHXDATE" property="fyhxDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 	</resultMap>
+	
+	<select id="queryReceivedPaymentsDetail" resultMap="ReceivedPaymentsMap">
+		SELECT * FROM (
+			SELECT A.*,ROWNUM RN FROM (
+			    SELECT ZHPD.SERIALNO,
+				       ZHPD.REGISTRATIONDATE,
+				       ZHPD.KEEPACCOUNTSDATE,
+				       ZHPD.KEEPACCOUNTSSTATUS,
+				       NVL(ZHPD.SEQID,0) AS SEQID,
+				       ZHPD.DELIVERYDATE,
+				       ZHPD.SHDATE,
+				       ZHPD.DCDATE,
+				       ZHPD.PAYDATE,
+				       ZHPD.ACTUALPAYDATE,
+				       ZHPD.SUBPRODUCTTYPE,
+				       ZHPD.ASSETBELONG,
+				       ZHPD.CREDITPERSON,
+				       ZHPD.GUARANTEEPARTY,
+				       NVL(ZHPD.PAYPRINCIPALAMT,0) AS PAYPRINCIPALAMT,
+				       NVL(ZHPD.PAYINTEAMT,0) AS PAYINTEAMT,
+				       NVL(ZHPD.A2,0) AS A2,
+				       NVL(ZHPD.A7,0) AS A7,
+				       NVL(ZHPD.A9,0) AS A9,
+				       NVL(ZHPD.A10,0) AS A10,
+				       NVL(ZHPD.A11,0) AS A11,
+				       NVL(ZHPD.A12,0) AS A12,
+				       NVL(ZHPD.A17,0) AS A17,
+				       NVL(ZHPD.A18,0) AS A18,
+				       NVL(ZHPD.A19,0) AS A19,
+				       ZHPD.CITY,
+				       ZHPD.ACCORDDATE,
+				       ZHPD.CLIENTNAME,
+				       ZHPD.MATURITYDATE,
+				       ZHPD.SNO,
+				       ZHPD.RNO,
+				       ZHPD.SA_ID,
+				       ZHPD.PRODUCTCATEGORY,
+				       ZHPD.SURETYPE,
+				       ZHPD.BUSINESSMODEL,
+				       ZHPD.PRODUCTID,
+				       ZHPD.PROVINCE,
+				       ZHPD.CITYCODE,
+				       ZHPD.CONTRACTLIFE,
+				       ZHPD.CDATE,
+				       ZHPD.OVERDUEDAYS,
+				       NVL(ZHPD.CANCELTYPE,'N') CANCELTYPE,
+				       ZHPD.TBDATE,
+			  		   ZHPD.LPDATE,
+			  		   ZHPD.DEBOURS,
+			  		   ZHPD.BXHXDATE,
+			  		   ZHPD.FYHXDATE
+				  FROM ZJJS_ACTUALPAY_DAILY ZHPD
+				 <include refid="ReceivedPaymentsDetail_Where_Sql" />
+				)   A WHERE ROWNUM &lt;= #{endpoint} 
+			  ) WHERE RN &gt;= #{startpoint} 			  
+	</select>
+	
+	<select id="queryReceivedPaymentsGather" resultMap="ReceivedPaymentsMap">
+		SELECT * FROM (
+			SELECT A.*,ROWNUM RN FROM (
+			   SELECT ZHPD.KEEPACCOUNTSDATE,
+				      ZHPD.SUBPRODUCTTYPE,
+				 	  ZHPD.CITY,
+				      ZHPD.ASSETBELONG,
+				      ZHPD.CREDITPERSON,
+				      ZHPD.GUARANTEEPARTY,
+				 	  NVL(ZHPD.PAYPRINCIPALAMT,0) AS PAYPRINCIPALAMT,
+			          NVL(ZHPD.PAYINTEAMT,0) AS PAYINTEAMT,
+			          NVL(ZHPD.A2,0) AS A2,
+			          NVL(ZHPD.A7,0) AS A7,
+			          NVL(ZHPD.A9,0) AS A9,
+			          NVL(ZHPD.A10,0) AS A10,
+			          NVL(ZHPD.A11,0) AS A11,
+			          NVL(ZHPD.A12,0) AS A12,
+			          NVL(ZHPD.A17,0) AS A17,
+			          NVL(ZHPD.A18,0) AS A18,
+			          NVL(ZHPD.A19,0) AS A19
+				  FROM zjjs_actualpay_summary ZHPD
+				  <include refid="ReceivedPaymentsGather_Where_Sql" />
+				)   A WHERE ROWNUM &lt;= #{endpoint} 
+			  ) WHERE RN &gt;= #{startpoint}
+	</select>
+	
+	<select id="queryReceivedPaymentsGatherFindAll" resultMap="ReceivedPaymentsMap">
+	   SELECT ZHPD.KEEPACCOUNTSDATE,
+		      ZHPD.SUBPRODUCTTYPE,
+		 	  ZHPD.CITY,
+			(select itemname from creditperson_code where itemno=ASSETBELONG) as ASSETBELONG, 
+	        (select itemname from creditperson_code where itemno=CREDITPERSON) as CREDITPERSON, 
+		 	  NVL(ZHPD.PAYPRINCIPALAMT,0) AS PAYPRINCIPALAMT,
+	          NVL(ZHPD.PAYINTEAMT,0) AS PAYINTEAMT,
+	          NVL(ZHPD.A2,0) AS A2,
+	          NVL(ZHPD.A7,0) AS A7,
+	          NVL(ZHPD.A9,0) AS A9,
+	          NVL(ZHPD.A10,0) AS A10,
+	          NVL(ZHPD.A11,0) AS A11,
+	          NVL(ZHPD.A12,0) AS A12,
+	          NVL(ZHPD.A17,0) AS A17,
+	          NVL(ZHPD.A18,0) AS A18,
+	          NVL(ZHPD.A19,0) AS A19
+		  FROM zjjs_actualpay_summary ZHPD
+		  <include refid="ReceivedPaymentsGather_Where_Sql" />
+	</select>
+	
+	<select id="queryReceivedPaymentsId" resultMap="ReceivedPaymentsMap">
+  	   SELECT ZHPD.SERIALNO,
+		      ZHPD.REGISTRATIONDATE,
+		      ZHPD.KEEPACCOUNTSDATE,
+		      ZHPD.KEEPACCOUNTSSTATUS,
+		      ZHPD.SEQID,
+		      ZHPD.DELIVERYDATE,
+		      ZHPD.SHDATE,
+		      ZHPD.DCDATE,
+		      ZHPD.PAYDATE,
+		      ZHPD.ACTUALPAYDATE,
+		      ZHPD.SUBPRODUCTTYPE,
+		      ZHPD.ASSETBELONG,
+		      ZHPD.CREDITPERSON,
+		 	  NVL(ZHPD.PAYPRINCIPALAMT,0) AS PAYPRINCIPALAMT,
+	          NVL(ZHPD.PAYINTEAMT,0) AS PAYINTEAMT,
+	          NVL(ZHPD.A2,0) AS A2,
+	          NVL(ZHPD.A7,0) AS A7,
+	          NVL(ZHPD.A9,0) AS A9,
+	          NVL(ZHPD.A10,0) AS A10,
+	          NVL(ZHPD.A11,0) AS A11,
+	          NVL(ZHPD.A12,0) AS A12,
+	          NVL(ZHPD.A17,0) AS A17,
+	          NVL(ZHPD.A18,0) AS A18,
+	          NVL(ZHPD.A19,0) AS A19,
+		 	  ZHPD.CITY,
+		 	  ZHPD.ACCORDDATE,
+		 	  ZHPD.CLIENTNAME,
+		 	  ZHPD.MATURITYDATE,
+		 	  ZHPD.SNO,
+			  ZHPD.RNO,
+			  ZHPD.SA_ID,
+			  ZHPD.PRODUCTCATEGORY,
+			  ZHPD.SURETYPE,
+			  ZHPD.BUSINESSMODEL,
+			  ZHPD.PRODUCTID,
+			  ZHPD.PROVINCE,
+			  ZHPD.CITYCODE,
+			  ZHPD.CONTRACTLIFE,
+			  ZHPD.CDATE,
+			  ZHPD.OVERDUEDAYS,
+			  (
+	            CASE WHEN CANCELTYPE = 'Y' THEN '是' 
+	            WHEN CANCELTYPE = 'N' THEN '否' 
+	            WHEN CANCELTYPE IS NULL THEN '否'
+	            ELSE CANCELTYPE END
+	          )
+	          AS CANCELTYPE,
+			  ZHPD.TBDATE,
+			  ZHPD.LPDATE,
+			  ZHPD.DEBOURS,
+  		      ZHPD.BXHXDATE,
+  		      ZHPD.FYHXDATE
+		 FROM ZJJS_ACTUALPAY_DAILY ZHPD
+		<include refid="ReceivedPaymentsDetail_Where_Sql" />
+	</select>
+	
+	<select id="receivedPaymentsExport" resultMap="ReceivedPaymentsMap">
+  	   SELECT ZHPD.SERIALNO,
+		      ZHPD.REGISTRATIONDATE,
+		      ZHPD.KEEPACCOUNTSDATE,
+		      ZHPD.KEEPACCOUNTSSTATUS,
+		      ZHPD.SEQID,
+		      ZHPD.DELIVERYDATE,
+		      ZHPD.SHDATE,
+		      ZHPD.DCDATE,
+		      ZHPD.PAYDATE,
+		      ZHPD.ACTUALPAYDATE,
+		      ZHPD.SUBPRODUCTTYPE,
+			(select itemname from creditperson_code where itemno=ASSETBELONG) as ASSETBELONG, 
+	        (select itemname from creditperson_code where itemno=GUARANTEEPARTY) as GUARANTEEPARTY, 
+	        (select itemname from creditperson_code where itemno=DEBOURS) as DEBOURS, 
+	        (select itemname from creditperson_code where itemno=CREDITPERSON) as CREDITPERSON, 
+		 	  NVL(ZHPD.PAYPRINCIPALAMT,0) AS PAYPRINCIPALAMT,
+	          NVL(ZHPD.PAYINTEAMT,0) AS PAYINTEAMT,
+	          NVL(ZHPD.A2,0) AS A2,
+	          NVL(ZHPD.A7,0) AS A7,
+	          NVL(ZHPD.A9,0) AS A9,
+	          NVL(ZHPD.A10,0) AS A10,
+	          NVL(ZHPD.A11,0) AS A11,
+	          NVL(ZHPD.A12,0) AS A12,
+	          NVL(ZHPD.A17,0) AS A17,
+	          NVL(ZHPD.A18,0) AS A18,
+	          NVL(ZHPD.A19,0) AS A19,
+		 	  ZHPD.CITY,
+		 	  ZHPD.ACCORDDATE,
+		 	  ZHPD.CLIENTNAME,
+		 	  ZHPD.MATURITYDATE,
+		 	  ZHPD.SNO,
+			  ZHPD.RNO,
+			  ZHPD.SA_ID,
+			  ZHPD.PRODUCTCATEGORY,
+			  ZHPD.SURETYPE,
+			  ZHPD.BUSINESSMODEL,
+			  ZHPD.PRODUCTID,
+			  ZHPD.PROVINCE,
+			  ZHPD.CITYCODE,
+			  ZHPD.CONTRACTLIFE,
+			  ZHPD.CDATE,
+			  ZHPD.OVERDUEDAYS,
+			  (
+	            CASE WHEN CANCELTYPE = 'Y' THEN '是' 
+	            WHEN CANCELTYPE = 'N' THEN '否' 
+	            WHEN CANCELTYPE IS NULL THEN '否'
+	            ELSE CANCELTYPE END
+	          )
+	          AS CANCELTYPE,
+			  ZHPD.TBDATE,
+			  ZHPD.LPDATE,
+  		      ZHPD.BXHXDATE,
+  		      ZHPD.FYHXDATE
+		 FROM ZJJS_ACTUALPAY_DAILY ZHPD
+		<include refid="ReceivedPaymentsDetail_Where_Sql" />
+	</select>
+	
+	<!-- 查询业务明细条件的sql -->
+	<sql id="ReceivedPaymentsDetail_Where_Sql">
+    	<where> 
+ 		<if test="seqId != null and seqId != ''">
+			AND ZHPD.SEQID = #{seqId,jdbcType=VARCHAR}
+		</if>
+ 		<if test="serialNo != null and serialNo != ''">
+			AND ZHPD.SERIALNO = #{serialNo,jdbcType=VARCHAR}
+		</if>
+		<if test="startKeepAccountsDate != null and startKeepAccountsDate != ''">
+			AND ZHPD.KEEPACCOUNTSDATE &gt;= #{startKeepAccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endKeepAccountsDate != null and endKeepAccountsDate != ''">
+			AND ZHPD.KEEPACCOUNTSDATE &lt;= #{endKeepAccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startRegistrationDate != null and startRegistrationDate != ''">
+			AND ZHPD.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endRegistrationDate != null and endRegistrationDate != ''">
+			AND ZHPD.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startShouldAlsoDate != null and startShouldAlsoDate != ''">
+			AND ZHPD.ACTUALPAYDATE &gt;= #{startShouldAlsoDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endShouldAlsoDate != null and endShouldAlsoDate != ''">
+			AND ZHPD.ACTUALPAYDATE &lt;= #{endShouldAlsoDate,jdbcType=VARCHAR}
+		</if>
+		<if test="businessModel != null and businessModel != ''">
+			AND ZHPD.BUSINESSMODEL = #{businessModel,jdbcType=VARCHAR}
+		</if>
+		<if test="subProductType != null and subProductType != ''">
+			AND ZHPD.SUBPRODUCTTYPE = #{subProductType,jdbcType=VARCHAR}
+		</if>
+		<if test="city != null and city != ''">
+			AND ZHPD.CITY = #{city,jdbcType=VARCHAR}
+		</if>
+		<if test="creditperson != null and creditperson != ''">
+			AND ZHPD.CREDITPERSON = #{creditperson,jdbcType=VARCHAR}
+		</if>
+		<if test="assetBelong != null and assetBelong != ''">
+			AND ZHPD.ASSETBELONG = #{assetBelong,jdbcType=VARCHAR}
+		</if>
+		<if test="guaranteeParty != null and guaranteeParty != ''">
+			AND ZHPD.GUARANTEEPARTY = #{guaranteeParty,jdbcType=VARCHAR}
+		</if>
+		<if test="actualPayPrincipalAmt != null and actualPayPrincipalAmt != ''">
+			AND ZHPD.PAYPRINCIPALAMT = #{actualPayPrincipalAmt,jdbcType=VARCHAR}
+		</if>
+		<if test="actualPayinteAmt != null and actualPayinteAmt != ''">
+			AND ZHPD.PAYINTEAMT = #{actualPayinteAmt,jdbcType=VARCHAR}
+		</if>
+		<if test="cancelType != null and cancelType != ''">
+			AND NVL(ZHPD.CANCELTYPE,'N') = #{cancelType,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<sql id="JZ_Where_Sql">
+    	<where> 
+    		AND (ZHPD.KEEPACCOUNTSSTATUS IN ('0','2') OR ZHPD.KEEPACCOUNTSSTATUS IS NULL)
+ 		<if test="seqId != null and seqId != ''">
+			AND ZHPD.SEQID = #{seqId,jdbcType=VARCHAR}
+		</if>
+ 		<if test="serialNo != null and serialNo != ''">
+			AND ZHPD.SERIALNO = #{serialNo,jdbcType=VARCHAR}
+		</if>
+		<if test="startKeepAccountsDate != null and startKeepAccountsDate != ''">
+			AND ZHPD.KEEPACCOUNTSDATE &gt;= #{startKeepAccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endKeepAccountsDate != null and endKeepAccountsDate != ''">
+			AND ZHPD.KEEPACCOUNTSDATE &lt;= #{endKeepAccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startRegistrationDate != null and startRegistrationDate != ''">
+			AND ZHPD.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endRegistrationDate != null and endRegistrationDate != ''">
+			AND ZHPD.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startShouldAlsoDate != null and startShouldAlsoDate != ''">
+			AND ZHPD.ACTUALPAYDATE &gt;= #{startShouldAlsoDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endShouldAlsoDate != null and endShouldAlsoDate != ''">
+			AND ZHPD.ACTUALPAYDATE &lt;= #{endShouldAlsoDate,jdbcType=VARCHAR}
+		</if>
+		<if test="businessModel != null and businessModel != ''">
+			AND ZHPD.BUSINESSMODEL = #{businessModel,jdbcType=VARCHAR}
+		</if>
+		<if test="subProductType != null and subProductType != ''">
+			AND ZHPD.SUBPRODUCTTYPE = #{subProductType,jdbcType=VARCHAR}
+		</if>
+		<if test="city != null and city != ''">
+			AND ZHPD.CITY = #{city,jdbcType=VARCHAR}
+		</if>
+		<if test="creditperson != null and creditperson != ''">
+			AND ZHPD.CREDITPERSON = #{creditperson,jdbcType=VARCHAR}
+		</if>
+		<if test="assetBelong != null and assetBelong != ''">
+			AND ZHPD.ASSETBELONG = #{assetBelong,jdbcType=VARCHAR}
+		</if>
+		<if test="guaranteeParty != null and guaranteeParty != ''">
+			AND ZHPD.GUARANTEEPARTY = #{guaranteeParty,jdbcType=VARCHAR}
+		</if>
+		<if test="actualPayPrincipalAmt != null and actualPayPrincipalAmt != ''">
+			AND ZHPD.PAYPRINCIPALAMT = #{actualPayPrincipalAmt,jdbcType=VARCHAR}
+		</if>
+		<if test="actualPayinteAmt != null and actualPayinteAmt != ''">
+			AND ZHPD.PAYINTEAMT = #{actualPayinteAmt,jdbcType=VARCHAR}
+		</if>
+		<if test="cancelType != null and cancelType != ''">
+			AND NVL(ZHPD.CANCELTYPE,'N') = #{cancelType,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<sql id="CX_Where_Sql">
+    	<where>
+    		AND ZHPD.KEEPACCOUNTSSTATUS = 1
+ 		<if test="seqId != null and seqId != ''">
+			AND ZHPD.SEQID = #{seqId,jdbcType=VARCHAR}
+		</if>
+ 		<if test="serialNo != null and serialNo != ''">
+			AND ZHPD.SERIALNO = #{serialNo,jdbcType=VARCHAR}
+		</if>
+		<if test="startKeepAccountsDate != null and startKeepAccountsDate != ''">
+			AND ZHPD.KEEPACCOUNTSDATE &gt;= #{startKeepAccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endKeepAccountsDate != null and endKeepAccountsDate != ''">
+			AND ZHPD.KEEPACCOUNTSDATE &lt;= #{endKeepAccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startRegistrationDate != null and startRegistrationDate != ''">
+			AND ZHPD.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endRegistrationDate != null and endRegistrationDate != ''">
+			AND ZHPD.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="subProductType != null and subProductType != ''">
+			AND ZHPD.SUBPRODUCTTYPE = #{subProductType,jdbcType=VARCHAR}
+		</if>
+		<if test="assetBelong != null and assetBelong != ''">
+			AND ZHPD.ASSETBELONG = #{assetBelong,jdbcType=VARCHAR}
+		</if>
+		<if test="cancelType != null and cancelType != ''">
+			AND NVL(ZHPD.CANCELTYPE,'N') = #{cancelType,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<sql id="ReceivedPaymentsGather_Where_Sql">
+    	<where> 
+ 		<if test="startKeepAccountsDate != null and startKeepAccountsDate != ''">
+			AND ZHPD.KEEPACCOUNTSDATE &gt;= #{startKeepAccountsDate,jdbcType=VARCHAR}
+		</if>
+ 		<if test="endKeepAccountsDate != null and endKeepAccountsDate != ''">
+			AND ZHPD.KEEPACCOUNTSDATE &lt;= #{endKeepAccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startShouldAlsoDate != null and startShouldAlsoDate != ''">
+			AND ZHPD.ACTUALPAYDATE &gt;= #{startShouldAlsoDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endShouldAlsoDate != null and endShouldAlsoDate != ''">
+			AND ZHPD.ACTUALPAYDATE &lt;= #{endShouldAlsoDate,jdbcType=VARCHAR}
+		</if>
+		<if test="businessModel != null and businessModel != ''">
+			AND ZHPD.BUSINESSMODEL = #{businessModel,jdbcType=VARCHAR}
+		</if>
+		<if test="subProductType != null and subProductType != ''">
+			AND ZHPD.SUBPRODUCTTYPE = #{subProductType,jdbcType=VARCHAR}
+		</if>
+		<if test="city != null and city != ''">
+			AND ZHPD.CITY = #{city,jdbcType=VARCHAR}
+		</if>
+		<if test="creditperson != null and creditperson != ''">
+			AND ZHPD.CREDITPERSON = #{creditperson,jdbcType=VARCHAR}
+		</if>
+		<if test="assetBelong != null and assetBelong != ''">
+			AND ZHPD.ASSETBELONG = #{assetBelong,jdbcType=VARCHAR}
+		</if>
+		<if test="guaranteeParty != null and guaranteeParty != ''">
+			AND ZHPD.GUARANTEEPARTY = #{guaranteeParty,jdbcType=VARCHAR}
+		</if>
+		<if test="cancelType != null and cancelType != ''">
+			AND NVL(ZHPD.CANCELTYPE,'N') = #{cancelType,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<!-- 根据条件获取匹配合同个数  -->
+	<select id="queryReceivedPaymentsDetailCount" parameterType="map" resultMap="ReceivedPaymentsMap">
+	    SELECT COUNT(1) AS CONTRACT_COUNT,
+	        SUM(NVL(ZHPD.PAYPRINCIPALAMT,0)) AS PAYPRINCIPALAMTSUM,
+	        SUM(NVL(ZHPD.PAYINTEAMT,0)) AS PAYINTEAMTSUM,
+	        SUM(NVL(ZHPD.A2,0)) AS A2SUM,
+	        SUM(NVL(ZHPD.A7,0)) AS A7SUM,
+	        SUM(NVL(ZHPD.A9,0)) AS A9SUM,
+	        SUM(NVL(ZHPD.A10,0)) AS A10SUM,
+	        SUM(NVL(ZHPD.A11,0)) AS A11SUM,
+	        SUM(NVL(ZHPD.A12,0)) AS A12SUM,
+	        SUM(NVL(ZHPD.A17,0)) AS A17SUM,
+	        SUM(NVL(ZHPD.A18,0)) AS A18SUM,
+	        SUM(NVL(ZHPD.A19,0)) AS A19SUM
+	   FROM ZJJS_ACTUALPAY_DAILY ZHPD
+		<include refid="ReceivedPaymentsDetail_Where_Sql"/>
+	</select>
+	
+	<!-- 根据条件获取匹配合同个数  -->
+	<select id="queryReceivedPaymentsGatherCount" parameterType="map" resultMap="ReceivedPaymentsMap">
+	 SELECT COUNT(1) AS CONTRACT_COUNT,
+	        SUM(NVL(ZHPD.PAYPRINCIPALAMT,0)) AS PAYPRINCIPALAMTSUM,
+	        SUM(NVL(ZHPD.PAYINTEAMT,0)) AS PAYINTEAMTSUM,
+	        SUM(NVL(ZHPD.A2,0)) AS A2SUM,
+	        SUM(NVL(ZHPD.A7,0)) AS A7SUM,
+	        SUM(NVL(ZHPD.A9,0)) AS A9SUM,
+	        SUM(NVL(ZHPD.A10,0)) AS A10SUM,
+	        SUM(NVL(ZHPD.A11,0)) AS A11SUM,
+	        SUM(NVL(ZHPD.A12,0)) AS A12SUM,
+	        SUM(NVL(ZHPD.A17,0)) AS A17SUM,
+	        SUM(NVL(ZHPD.A18,0)) AS A18SUM,
+	        SUM(NVL(ZHPD.A19,0)) AS A19SUM 
+	   FROM zjjs_actualpay_summary ZHPD
+		<include refid="ReceivedPaymentsGather_Where_Sql"/>
+	</select>
+	
+	<update id="accountingMark">
+		UPDATE ZJJS_ACTUALPAY_DAILY ZHPD SET 
+				KEEPACCOUNTSDATE = #{updateDate,jdbcType=VARCHAR},
+				KEEPACCOUNTSSTATUS = '1'
+		<include refid="JZ_Where_Sql"/>
+	</update>
+	
+	<update id="cancelAccountingMark">
+		UPDATE ZJJS_ACTUALPAY_DAILY ZHPD SET
+			KEEPACCOUNTSDATE = '',
+			KEEPACCOUNTSSTATUS = 2
+		<include refid="CX_Where_Sql"/>
+	</update>
+	
+	
+</mapper>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.RepaymentDetailCheckAccountDao" >
+ 	
+ 	 <resultMap id="RepaymentDetailCheckAccountMap" type="java.util.HashMap">
+  		<result column="DATASOURCE" property="datasource" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CHECKNUMBER" property="checknumber" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CHECKDATE" property="checkdate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SERIALNO" property="serialno" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="REGISTRATIONDATE" property="registrationdate" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="SUBPRODUCTTYPE" property="subproducttype" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYTYPE" property="paytype" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DCDATE" property="dcdate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SHDATE" property="shdate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ASSETBELONG" property="assetbelong" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYPRINCIPALAMT" property="payprincipalamt" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="PAYINTEAMT" property="payinteamt" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="A2" property="a2" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="A7" property="a7" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="A9" property="a9" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="A10" property="a10" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="A11" property="a11" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+  		<result column="A12" property="a12" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+  		<result column="A17" property="a17" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="A18" property="a18" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="A19" property="a19" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="A22" property="a22" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="PAYAMT" property="payamt" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="CONTRACTCOUNT" property="contractCount" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="MONEYCOUNT" property="moneyCount" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		
+ 		<result column="PAYPRINCIPALAMTSUM" property="payprincipalamtsum" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="PAYINTEAMTSUM" property="payinteamtsum" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="A2SUM" property="a2sum" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="A7SUM" property="a7sum" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="A9SUM" property="a9sum" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="A10SUM" property="a10sum" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="A11SUM" property="a11sum" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+  		<result column="A12SUM" property="a12sum" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+  		<result column="A17SUM" property="a17sum" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="A18SUM" property="a18sum" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="A19SUM" property="a19sum" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 		<result column="A22SUM" property="a22sum" jdbcType="NUMERIC" javaType="java.math.BigDecimal" />
+ 	</resultMap>
+	
+	<select id="queryRepaymentDetailCheckAccount" resultMap="RepaymentDetailCheckAccountMap">
+		SELECT * FROM (
+			SELECT A.*,ROWNUM RN FROM (
+				 SELECT ZCRD.DATASOURCE,
+						ZCRD.CHECKNUMBER,
+						ZCRD.CHECKDATE,
+						ZCRD.SERIALNO,
+						ZCRD.REGISTRATIONDATE,
+						ZCRD.SUBPRODUCTTYPE,
+						ZCRD.PAYTYPE,
+						ZCRD.DCDATE,
+						ZCRD.SHDATE,
+						ZCRD.ASSETBELONG,
+						ZCRD.PAYPRINCIPALAMT,
+						ZCRD.PAYINTEAMT,
+						ZCRD.A2,
+						ZCRD.A7,
+						ZCRD.A9,
+						ZCRD.A10,
+						ZCRD.A11,
+						ZCRD.A12,
+						ZCRD.A17,
+						ZCRD.A18,
+						ZCRD.A19,
+						ZCRD.A22,
+						ZCRD.PAYAMT
+				  FROM ZD_CHECK_REPAYMENT_DETAIL ZCRD
+				 <include refid="RepaymentDetailCheckAccount_Where_Sql" />
+				  ORDER BY ZCRD.CHECKDATE DESC,ZCRD.DATASOURCE DESC
+				)   A WHERE ROWNUM &lt;= #{endpoint} 
+			  ) WHERE RN &gt;= #{startpoint} 			  
+	</select>
+	
+	<select id="queryRepaymentDetailCheckAccountFindAll" resultMap="RepaymentDetailCheckAccountMap" parameterType="com.billionsfinance.bas.entity.RepaymentDetailCheckAccountVO">
+ 		 SELECT (CASE 
+ 		 			WHEN DATASOURCE = 'CFC' THEN '哈消金'
+ 		 			WHEN DATASOURCE = 'AS_HXJ' THEN '佰仟哈消金'
+ 		 		ELSE DATASOURCE END) AS DATASOURCE,
+				ZCRD.CHECKNUMBER,
+				ZCRD.CHECKDATE,
+				ZCRD.SERIALNO,
+				ZCRD.REGISTRATIONDATE,
+				ZCRD.SUBPRODUCTTYPE,
+				(
+	            CASE 
+		            WHEN PAYTYPE = '0055' THEN '提前还款'
+		            WHEN PAYTYPE = '0055H' THEN '提前还款' 
+	            ELSE '正常还款' END
+		        )
+		        AS PAYTYPE, 
+				ZCRD.DCDATE,
+				ZCRD.SHDATE,
+				(select itemname from creditperson_code where itemno=ASSETBELONG) as ASSETBELONG, 
+				ZCRD.PAYPRINCIPALAMT,
+				ZCRD.PAYINTEAMT,
+				ZCRD.A2,
+				ZCRD.A7,
+				ZCRD.A9,
+				ZCRD.A10,
+				ZCRD.A11,
+				ZCRD.A12,
+				ZCRD.A17,
+				ZCRD.A18,
+				ZCRD.A19,
+				ZCRD.A22,
+				ZCRD.PAYAMT
+		  FROM ZD_CHECK_REPAYMENT_DETAIL ZCRD
+		 <include refid="RepaymentDetailCheckAccount_Where_Sql" />
+		 ORDER BY ZCRD.CHECKDATE DESC,ZCRD.DATASOURCE DESC
+	</select>
+	
+
+	<sql id="RepaymentDetailCheckAccount_Where_Sql">
+    	<where> 
+		<if test=" startcheckdate != null and startcheckdate != ''">
+			AND ZCRD.CHECKDATE &gt;= #{startcheckdate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endcheckdate != null and endcheckdate != ''">
+			AND ZCRD.CHECKDATE &lt;= #{endcheckdate,jdbcType=VARCHAR}
+		</if>
+		<if test=" datasource != null and datasource != ''">
+			AND ZCRD.DATASOURCE = #{datasource,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	
+	<!-- 匹配合同个数 总金额  -->
+	<select id="queryRepaymentDetailCheckAccountTotal" parameterType="java.util.HashMap" resultMap="RepaymentDetailCheckAccountMap">
+		SELECT
+			COUNT(1) AS CONTRACTCOUNT,
+			SUM(CASE WHEN ZCRD.DATASOURCE='CFC' THEN 1 ELSE -1 END * NVL(ZCRD.PAYPRINCIPALAMT,0)) AS PAYPRINCIPALAMTSUM,
+			SUM(CASE WHEN ZCRD.DATASOURCE='CFC' THEN 1 ELSE -1 END * NVL(ZCRD.PAYINTEAMT,0)) AS PAYINTEAMTSUM,
+			SUM(CASE WHEN ZCRD.DATASOURCE='CFC' THEN 1 ELSE -1 END * NVL(ZCRD.A2,0)) AS A2SUM,
+			SUM(CASE WHEN ZCRD.DATASOURCE='CFC' THEN 1 ELSE -1 END * NVL(ZCRD.A7,0)) AS A7SUM,
+			SUM(CASE WHEN ZCRD.DATASOURCE='CFC' THEN 1 ELSE -1 END * NVL(ZCRD.A9,0)) AS A9SUM,
+			SUM(CASE WHEN ZCRD.DATASOURCE='CFC' THEN 1 ELSE -1 END * NVL(ZCRD.A10,0)) AS A10SUM,
+			SUM(CASE WHEN ZCRD.DATASOURCE='CFC' THEN 1 ELSE -1 END * NVL(ZCRD.A11,0)) AS A11SUM,
+			SUM(CASE WHEN ZCRD.DATASOURCE='CFC' THEN 1 ELSE -1 END * NVL(ZCRD.A12,0)) AS A12SUM,
+			SUM(CASE WHEN ZCRD.DATASOURCE='CFC' THEN 1 ELSE -1 END * NVL(ZCRD.A17,0)) AS A17SUM,
+			SUM(CASE WHEN ZCRD.DATASOURCE='CFC' THEN 1 ELSE -1 END * NVL(ZCRD.A18,0)) AS A18SUM,
+			SUM(CASE WHEN ZCRD.DATASOURCE='CFC' THEN 1 ELSE -1 END * NVL(ZCRD.A19,0)) AS A19SUM,
+			SUM(CASE WHEN ZCRD.DATASOURCE='CFC' THEN 1 ELSE -1 END * NVL(ZCRD.A22,0)) AS A22SUM
+		FROM ZD_CHECK_REPAYMENT_DETAIL ZCRD
+		<include refid="RepaymentDetailCheckAccount_Where_Sql" />
+	</select>
+	
+</mapper>

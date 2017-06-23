@@ -1,0 +1,28 @@
+em.error {
+	background: url("../images/unchecked.gif") no-repeat 0px 0px;
+	padding-left: 16px;
+	font:12px "宋体"; color:#f00; padding-top:2px; margin-left:5px;
+}
+
+em.success {
+	background: url("../images/checked.gif") no-repeat 0px 0px;
+	padding-left: 16px;
+}
+
+#warning {
+	display: none;
+}
+
+input.error { border: 1px solid red; }
+
+label.error {
+  background:url("../images/unchecked.gif") no-repeat 0px 0px;
+  padding-left: 16px;
+  padding-bottom: 2px;
+  font-weight: bold;
+  color: #EA5200;
+}
+
+label.checked {
+  background:url("../images/checked.gif") no-repeat 0px 0px;
+}

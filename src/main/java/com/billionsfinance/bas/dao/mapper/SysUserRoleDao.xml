@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.SysUserRoleDao" >
+	<resultMap id="BaseResultMap" type="java.util.HashMap">
+		<id column="USER_ROLE_ID" property="userRoleId" javaType="java.lang.String" jdbcType="VARCHAR" />
+ 		<result column="USER_CODE" property="userCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ROLE_CODE" property="roleCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CREATED_USER" property="createdUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CREATED_DATE" property="createdDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+		<result column="UPDATED_USER" property="updatedUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="UPDATED_DATE" property="updatedDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+ 		<result column="VALID_IND" property="validInd" jdbcType="CHAR" javaType="java.lang.String" />
+  	</resultMap>
+	
+	<resultMap id="BaseResultVo" type="com.billionsfinance.bas.entity.SysUserRoleVO">
+		<id column="USER_ROLE_ID" property="userRoleId" javaType="java.lang.String" jdbcType="VARCHAR" />
+ 		<result column="USER_CODE" property="userCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ROLE_CODE" property="roleCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CREATED_USER" property="createdUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CREATED_DATE" property="createdDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+		<result column="UPDATED_USER" property="updatedUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="UPDATED_DATE" property="updatedDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+ 		<result column="VALID_IND" property="validInd" jdbcType="CHAR" javaType="java.lang.String" />
+  	</resultMap>
+
+	<!-- 查询数据列Sql不转换成对应的Java命名 -->
+	<sql id="Base_Column_List" >
+		USER_ROLE_ID,
+		USER_CODE,
+		ROLE_CODE,
+		VALID_IND,
+		CREATED_USER,
+		UPDATED_USER,
+		CREATED_DATE,
+		UPDATED_DATE
+	</sql>
+	
+	<!-- 查询数据列Sql换成对应的Java命名 -->
+	<sql id="Base_Column_List_JavaName" >
+		USER_ROLE_ID as "userRoleId",
+		USER_CODE as "userCode",
+		ROLE_CODE as "roleCode",
+		VALID_IND as "validInd",
+		UPDATED_USER as "updatedUser",
+		CREATED_USER as "createdUser",
+		CREATED_DATE as "createdDate",
+		UPDATED_DATE as "updatedDate",
+	</sql>
+	
+	<!-- 写入操作的SQL -->
+	<sql id="Insert_Base_values">
+ 		#{userRoleId,jdbcType=VARCHAR},
+ 		#{userCode,jdbcType=VARCHAR},
+ 		#{roleCode,jdbcType=VARCHAR},
+ 		#{validInd,jdbcType=CHAR},
+ 		#{createdUser,jdbcType=VARCHAR},
+		#{updatedUser,jdbcType=VARCHAR},
+ 		SYSDATE,
+ 		SYSDATE
+ 	</sql>
+	
+	<!-- 查询条件的sql -->
+	<sql id="Base_Where_Sql">
+		<where>
+		<if test="userRoleId != null and userRoleId != ''">
+			and USER_ROLE_ID = #{userRoleId,jdbcType=VARCHAR}
+		</if>
+		<if test="updatedUser != null and updatedUser != ''">
+			and UPDATED_USER = #{updatedUser,jdbcType=VARCHAR}
+		</if>
+		<if test="validInd != null and validInd != ''">
+			and VALID_IND = #{validInd,jdbcType=CHAR}
+		</if>
+		<if test="createdUser != null and createdUser != ''">
+			and CREATED_USER = #{createdUser,jdbcType=VARCHAR}
+		</if>
+		<if test="roleCode != null and roleCode != ''">
+			and ROLE_CODE = #{roleCode,jdbcType=VARCHAR}
+		</if>
+		<if test="updatedDate != null and updatedDate != ''">
+			and UPDATED_DATE = #{updatedDate,jdbcType=DATE}
+		</if>
+		<if test="userCode != null and userCode != ''">
+			and USER_CODE = #{userCode,jdbcType=VARCHAR}
+		</if>
+		<if test="startDate != null and startDate != ''">
+			and CREATED_DATE &gt;= to_date(#{startDate,jdbcType=DATE},'yyyy-mm-dd hh24:mi:ss')
+		</if>
+		<if test="endDate != null and endDate != ''">
+			and CREATED_DATE &lt;= to_date(#{endDate,jdbcType=DATE},'yyyy-mm-dd hh24:mi:ss')
+		</if>
+		</where>
+	</sql>
+	
+	<!-- 
+		insert操作给定的参数是java.util.Map<String,Object>类型的对象，
+		与<sql id="Insert_Base_values">中配置的列一致
+	-->
+	<insert id="saveSysUserRole" parameterType="com.billionsfinance.bas.entity.SysUserRoleVO" >
+    insert into UM_SYS_USER_ROLE (
+		<include refid="Base_Column_List" />
+    )
+	values (
+		<include refid="Insert_Base_values" />
+    )
+	</insert>
+	
+	<update id="updateSysUserRole" parameterType="com.billionsfinance.bas.entity.SysUserRoleVO" >
+		update UM_SYS_USER_ROLE
+		<set>
+		<if test="updatedUser != null and updatedUser != ''">
+			UPDATED_USER = #{updatedUser,jdbcType=VARCHAR},
+		</if>
+	  	<if test="validInd != null and validInd != ''">
+			VALID_IND = #{validInd,jdbcType=CHAR},
+		</if>
+	  	<if test="roleCode != null and roleCode != ''">
+			ROLE_CODE = #{roleCode,jdbcType=VARCHAR},
+		</if>
+			UPDATED_DATE = SYSDATE
+	   	</set>
+		where USER_CODE = #{userCode,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 根据Id查询一条数据 -->
+	<select id="findSysUserRoleById" resultMap="BaseResultVo" parameterType="java.lang.String" >
+	    select <include refid="Base_Column_List" />
+		from UM_SYS_USER_ROLE
+		where USER_ROLE_ID = #{userRoleId,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 条件查询 -->
+	<select id="querySysUserRole" parameterType="map" resultMap="BaseResultVo">
+		select 
+		<include refid="Base_Column_List"/>
+		from UM_SYS_USER_ROLE
+		<include refid="Base_Where_Sql"/>
+	</select>
+	
+	<select id="findUserByRole" parameterType="map" resultType="map">
+		select * from 
+			um_user u LEFT JOIN um_sys_user_role sur ON u.user_code=sur.user_code
+			<where>
+				<if test="roleCode != null and roleCode != ''">
+					sur.role_code = #{roleCode,jdbcType=VARCHAR}
+				</if>
+			</where>
+	</select>
+</mapper>

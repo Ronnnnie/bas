@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.HHReceivedPaymentsDao" >
+ 	
+ 	<resultMap id="HHReceivedPaymentsMap" type="java.util.HashMap">
+ 		<result column="SERIALNO" property="serialNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYDATE" property="payDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYTYPE" property="payType" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYPRINCIPALAMT" property="payPrincipalamt" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="PAYINTEAMT" property="payInteamt" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="PAYAMT" property="payAmt" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="ALLOTDATE" property="allotDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+		<result column="CONTRACT_COUNT" property="contractCount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 		<result column="MONEY_COUNT" property="moneyCount" jdbcType="INTEGER" javaType="java.lang.Double" />
+	</resultMap>
+	
+	<select id="queryReceivedPaymentsDetail" resultMap="HHReceivedPaymentsMap">
+ 		SELECT * FROM (
+			SELECT A.*,ROWNUM RN FROM (
+			    SELECT AAP.SERIALNO,
+				       AAP.PAYDATE,
+				       AAP.PAYTYPE,
+				       CASE WHEN AAP.PAYPRINCIPALAMT IS NULL THEN 0.00 ELSE AAP.PAYPRINCIPALAMT END AS PAYPRINCIPALAMT,
+				       CASE WHEN AAP.PAYINTEAMT IS NULL THEN 0.00 ELSE AAP.PAYINTEAMT END AS PAYINTEAMT,
+				       CASE WHEN AAP.PAYAMT IS NULL THEN 0.00 ELSE AAP.PAYAMT END AS PAYAMT,
+				       AAP.ALLOTDATE
+				  FROM AC_ACTUAL_PAYDETAIL AAP
+				  <include refid="ReceivedPayments_Where_Sql" />
+				)   A WHERE ROWNUM &lt;= #{endpoint}
+			  ) WHERE RN &gt;= #{startpoint}
+	</select>
+	
+	<select id="queryReceivedPaymentsDetailById" parameterType="com.billionsfinance.bas.entity.HHReceivedPaymentsVO" resultType="com.billionsfinance.bas.entity.HHReceivedPaymentsVO">
+		SELECT AAP.SERIALNO,
+		       AAP.PAYDATE,
+		       AAP.PAYTYPE,
+		       CASE WHEN AAP.PAYPRINCIPALAMT IS NULL THEN 0.00 ELSE AAP.PAYPRINCIPALAMT end PAYAMT,
+		       CASE WHEN AAP.PAYINTEAMT IS NULL THEN 0.00 ELSE AAP.PAYINTEAMT end PAYAMT,
+		       CASE WHEN AAP.PAYAMT IS NULL THEN 0.00 ELSE AAP.PAYAMT end PAYAMT,
+		       AAP.ALLOTDATE
+		  FROM AC_ACTUAL_PAYDETAIL AAP
+		  <include refid="ReceivedPayments_Where_Sql" />
+	</select>
+	
+	<!-- 查询业务明细条件的sql -->
+	<sql id="ReceivedPayments_Where_Sql">
+    	<where> 
+		<if test="serialNo != null and serialNo != ''">
+			AND AAP.SERIALNO = #{serialNo,jdbcType=VARCHAR}
+		</if>
+		<if test="startPayDate != null and startPayDate != ''">
+			AND AAP.PAYDATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endPayDate != null and endPayDate != ''">
+			AND AAP.PAYDATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<!-- 根据条件获取匹配合同个数  -->
+	<select id="queryReceivedPaymentsDetailCount" parameterType="map" resultMap="HHReceivedPaymentsMap">
+		SELECT COUNT(1) AS CONTRACT_COUNT,SUM(PAYAMT) AS MONEY_COUNT FROM AC_ACTUAL_PAYDETAIL AAP
+		<include refid="ReceivedPayments_Where_Sql" />
+	</select>
+	
+	<update id="accountingMark">
+		UPDATE AC_ACTUAL_PAYDETAIL SET ALLOTDATE = #{updateDate,jdbcType=VARCHAR}
+		WHERE SERIALNO IN 
+		(SELECT AAP.SERIALNO FROM AC_ACTUAL_PAYDETAIL AAP
+		  <include refid="ReceivedPayments_Where_Sql" />
+		 )
+	</update>
+	
+</mapper>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.ReleaseSlowDetailDao" >
+ 	
+ 	 <resultMap id="RepaymentDetailMap" type="java.util.HashMap">
+  		<result column="KEEPACCOUNTSDATE" property="keepAccountsDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ACCORDDATE" property="accordDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SERIALNO" property="serialNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CLIENTNAME" property="clientName" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="REGISTRATIONDATE" property="registrationDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="MATURITYDATE" property="maturityDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SURETYPE" property="sureType" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BUSINESSMODEL" property="businessModel" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PRODUCTID" property="productId" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SUBPRODUCTTYPE" property="subProductType" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PROVINCE" property="province" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CITY" property="city" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CITYCODE" property="cityCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CREDITPERSON" property="creditPerson" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BUSINESSSUM" property="businessSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="KEEPACCOUNTSSTATUS" property="keepAccountsStatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="PUTOUTDATE" property="putoutDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYSTATUS" property="payStatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CONTRACTCOUNT" property="contractCount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 		<result column="MONEYCOUNT" property="moneyCount" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 	</resultMap>
+	
+	<select id="queryRepaymentDetail" resultMap="RepaymentDetailMap">
+		SELECT * FROM (
+			SELECT A.*,ROWNUM RN FROM (
+				 SELECT ZPD.KEEPACCOUNTSDATE,
+						ZPD.ACCORDDATE,
+						ZPD.SERIALNO,
+						ZPD.CLIENTNAME,
+						ZPD.REGISTRATIONDATE,
+						ZPD.MATURITYDATE,
+						ZPD.SURETYPE,
+						ZPD.BUSINESSMODEL,
+						ZPD.PRODUCTID,
+						ZPD.SUBPRODUCTTYPE,
+						ZPD.PROVINCE,
+						ZPD.CITY,
+						ZPD.CITYCODE,
+						ZPD.CREDITPERSON,
+						ZPD.BUSINESSSUM,
+						ZPD.KEEPACCOUNTSSTATUS,
+						ZPD.PUTOUTDATE
+				  FROM ZJJS_PUTOUT_DAILY ZPD
+				 <include refid="RepaymentDetail_Where_Sql" />
+				)   A WHERE ROWNUM &lt;= #{endpoint} 
+			  ) WHERE RN &gt;= #{startpoint} 			  
+	</select>
+	
+	<select id="queryRepaymentDetailFindAll" resultMap="RepaymentDetailMap" parameterType="com.billionsfinance.bas.entity.RepaymentDetailVO">
+ 		 SELECT ZPD.KEEPACCOUNTSDATE,
+				ZPD.ACCORDDATE,
+				ZPD.SERIALNO,
+				ZPD.CLIENTNAME,
+				ZPD.REGISTRATIONDATE,
+				ZPD.MATURITYDATE,
+				ZPD.SURETYPE,
+				ZPD.BUSINESSMODEL,
+				ZPD.PRODUCTID,
+				ZPD.SUBPRODUCTTYPE,
+				ZPD.PROVINCE,
+				ZPD.CITY,
+				ZPD.CITYCODE,
+				ZPD.CREDITPERSON,
+				ZPD.BUSINESSSUM,
+				ZPD.KEEPACCOUNTSSTATUS,
+				ZPD.PUTOUTDATE
+		  FROM ZJJS_PUTOUT_DAILY ZPD
+		 <include refid="RepaymentDetail_Where_Sql" />
+	</select>
+	
+
+	<sql id="RepaymentDetail_Where_Sql">
+    	<where> 
+		<if test=" serialNo != null and serialNo != ''">
+			AND ZPD.SERIALNO = #{serialNo,jdbcType=VARCHAR}
+		</if>
+		<if test=" sffk == 'Y'.toString()">
+			AND ZPD.PUTOUTDATE IS NOT NULL
+		</if>
+		<if test=" sffk == 'N'.toString()">
+			AND ZPD.PUTOUTDATE IS NULL
+		</if>
+		<if test=" startKeepAccountsDate != null and startKeepAccountsDate != ''">
+			AND ZPD.KEEPACCOUNTSDATE &gt;= #{startKeepAccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endKeepAccountsDate != null and endKeepAccountsDate != ''">
+			AND ZPD.KEEPACCOUNTSDATE &lt;= #{endKeepAccountsDate,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<sql id="JZ_Where_Sql">
+    	<where> 
+    		<!-- AND ZPD.PAYSTATUS = 1 -->
+    		AND (ZPD.KEEPACCOUNTSSTATUS IN ('0','2') OR ZPD.KEEPACCOUNTSSTATUS IS NULL)
+		<if test=" serialNo != null and serialNo != ''">
+			AND ZPD.SERIALNO = #{serialNo,jdbcType=VARCHAR}
+		</if>
+		<if test=" sffk == 'Y'.toString()">
+			AND ZPD.PUTOUTDATE IS NOT NULL
+		</if>
+		<if test=" sffk == 'N'.toString()">
+			AND ZPD.PUTOUTDATE IS NULL
+		</if>
+		<if test=" startKeepAccountsDate != null and startKeepAccountsDate != ''">
+			AND ZPD.KEEPACCOUNTSDATE &gt;= #{startKeepAccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endKeepAccountsDate != null and endKeepAccountsDate != ''">
+			AND ZPD.KEEPACCOUNTSDATE &lt;= #{endKeepAccountsDate,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<sql id="CX_Where_Sql">
+    	<where> 
+    		AND ZPD.KEEPACCOUNTSSTATUS = 1
+		<if test=" serialNo != null and serialNo != ''">
+			AND ZPD.SERIALNO = #{serialNo,jdbcType=VARCHAR}
+		</if>
+		<if test=" sffk == 'Y'.toString()">
+			AND ZPD.PUTOUTDATE IS NOT NULL
+		</if>
+		<if test=" sffk == 'N'.toString()">
+			AND ZPD.PUTOUTDATE IS NULL
+		</if>
+		<if test=" startKeepAccountsDate != null and startKeepAccountsDate != ''">
+			AND ZPD.KEEPACCOUNTSDATE &gt;= #{startKeepAccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test=" endKeepAccountsDate != null and endKeepAccountsDate != ''">
+			AND ZPD.KEEPACCOUNTSDATE &lt;= #{endKeepAccountsDate,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<!-- 匹配合同个数 总金额  -->
+	<select id="queryRepaymentDetailCount" parameterType="java.util.HashMap" resultMap="RepaymentDetailMap">
+		SELECT COUNT(1) AS CONTRACTCOUNT,SUM(BUSINESSSUM) AS MONEYCOUNT FROM ZJJS_PUTOUT_DAILY ZPD
+		<include refid="RepaymentDetail_Where_Sql" />
+	</select>
+	
+	<!-- 记账确认 -->
+	<update id="accountingMark">
+		UPDATE ZJJS_PUTOUT_DAILY ZPD SET 
+			KEEPACCOUNTSSTATUS = 1,
+			KEEPACCOUNTSBY = #{keepAccountsBy,jdbcType=VARCHAR},
+			KEEPACCOUNTSDATE = #{updateDate,jdbcType=VARCHAR},
+			KEEPACCOUNTSREMARK = #{keepAccountsRemark,jdbcType=VARCHAR}
+		<include refid="JZ_Where_Sql" />
+	</update>
+	<!-- 记账撤销 -->
+	<update id="cancelAccountingMark">
+		UPDATE ZJJS_PUTOUT_DAILY ZPD SET 
+			KEEPACCOUNTSSTATUS = 2,
+			KEEPACCOUNTSDATE = '',
+			KEEPACCOUNTSREMARK = '记账撤销'
+		<include refid="CX_Where_Sql" />
+	</update>
+	
+	<!-- 审核 -->
+	<update id="contractApprove">
+		UPDATE ZJJS_PUTOUT_DAILY SET 
+		APPROVESTATUS = #{updateApproveStatus,jdbcType=INTEGER},
+		APPROVEREMARK = #{approveRemark,jdbcType=VARCHAR},
+		APPROVEBY = #{approveBy,jdbcType=VARCHAR},
+		APPROVETIME = #{approveTime,jdbcType=VARCHAR} 
+		WHERE SERIALNO IN 
+		(SELECT ZPD.SERIALNO FROM ZJJS_PUTOUT_DAILY ZPD
+			<include refid="RepaymentDetail_Where_Sql" />
+		 )
+	</update>
+	
+</mapper>

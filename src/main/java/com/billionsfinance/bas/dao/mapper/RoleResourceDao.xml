@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.RoleResourceDao" >
+	<resultMap id="BaseResultMap" type="java.util.HashMap">
+		<id column="PK_UUID" property="pkUuid" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="UPDATED_USER" property="updatedUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="VALID_IND" property="validInd" jdbcType="CHAR" javaType="java.lang.String" />
+ 		<result column="CREATED_DATE" property="createdDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+ 		<result column="CREATED_USER" property="createdUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ROLE_CODE" property="roleCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="UPDATED_DATE" property="updatedDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+ 		<result column="RESOURCE_ID" property="resourceId" jdbcType="VARCHAR" javaType="java.lang.String" />
+  	</resultMap>
+	
+	<resultMap id="BaseResultVo" type="com.billionsfinance.bas.entity.RoleResourceVO">
+		<id column="PK_UUID" property="pkUuid" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="UPDATED_USER" property="updatedUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="VALID_IND" property="validInd" jdbcType="CHAR" javaType="java.lang.String" />
+ 		<result column="CREATED_DATE" property="createdDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+ 		<result column="CREATED_USER" property="createdUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ROLE_CODE" property="roleCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="UPDATED_DATE" property="updatedDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+ 		<result column="RESOURCE_ID" property="resourceId" jdbcType="VARCHAR" javaType="java.lang.String" />
+  	</resultMap>
+
+	<!-- 查询数据列Sql不转换成对应的Java命名 -->
+	<sql id="Base_Column_List" >
+		UPDATED_USER,
+		VALID_IND,
+		CREATED_DATE,
+		CREATED_USER,
+		ROLE_CODE,
+		UPDATED_DATE,
+		RESOURCE_ID,
+		PK_UUID
+	</sql>
+	
+	<!-- 查询数据列Sql换成对应的Java命名 -->
+	<sql id="Base_Column_List_JavaName" >
+		UPDATED_USER as "updatedUser",
+		VALID_IND as "validInd",
+		CREATED_DATE as "createdDate",
+		CREATED_USER as "createdUser",
+		ROLE_CODE as "roleCode",
+		UPDATED_DATE as "updatedDate",
+		RESOURCE_ID as "resourceId",
+		PK_UUID as "pkUuid"
+	</sql>
+	
+	<!-- 写入操作的SQL -->
+	<sql id="Insert_Base_values">
+		#{updatedUser,jdbcType=VARCHAR},
+ 		#{validInd,jdbcType=CHAR},
+ 		SYSDATE,
+ 		#{createdUser,jdbcType=VARCHAR},
+ 		#{roleCode,jdbcType=VARCHAR},
+ 		SYSDATE,
+ 		#{resourceId,jdbcType=VARCHAR},
+ 		#{pkUuid,jdbcType=VARCHAR}
+ 	</sql>
+	
+	<!-- 查询条件的sql -->
+	<sql id="Base_Where_Sql">
+		<where>
+		<if test="updatedUser != null and updatedUser != ''">
+			and UPDATED_USER = #{updatedUser,jdbcType=VARCHAR}
+		</if>
+		<if test="validInd != null and validInd != ''">
+			and VALID_IND = #{validInd,jdbcType=CHAR}
+		</if>
+		<if test="createdDate != null and createdDate != ''">
+			and CREATED_DATE = #{createdDate,jdbcType=DATE}
+		</if>
+		<if test="createdUser != null and createdUser != ''">
+			and CREATED_USER = #{createdUser,jdbcType=VARCHAR}
+		</if>
+		<if test="roleCode != null and roleCode != ''">
+			and ROLE_CODE = #{roleCode,jdbcType=VARCHAR}
+		</if>
+		<if test="updatedDate != null and updatedDate != ''">
+			and UPDATED_DATE = #{updatedDate,jdbcType=DATE}
+		</if>
+		<if test="resourceId != null and resourceId != ''">
+			and RESOURCE_ID = #{resourceId,jdbcType=VARCHAR}
+		</if>
+		<if test="pkUuid != null and pkUuid != ''">
+			and PK_UUID = #{pkUuid,jdbcType=VARCHAR}
+		</if>
+		</where>
+	</sql>
+	
+	<!-- 
+		insert操作给定的参数是java.util.Map<String,Object>类型的对象，
+		与<sql id="Insert_Base_values">中配置的列一致
+	-->
+	<insert id="saveRoleResource" parameterType="com.billionsfinance.bas.entity.RoleResourceVO" >
+	    insert into UM_ROLE_RESOURCE (
+			<include refid="Base_Column_List" />
+	    )
+		values (
+			<include refid="Insert_Base_values" />
+	    )
+	</insert> 
+	
+	<!-- 根据角色ID和资源ID失效 -->
+	<update id="updateByRoleAndResource" parameterType="map" >
+		update UM_ROLE_RESOURCE
+		set 
+			UPDATED_USER = #{updatedUser,jdbcType=VARCHAR},
+  			VALID_IND = #{validInd,jdbcType=CHAR},
+  			UPDATED_DATE = #{updatedDate,jdbcType=DATE}
+   		where ROLE_CODE = #{roleCode,jdbcType=VARCHAR} 
+   			  and RESOURCE_ID=#{resourceId,jdbcType=VARCHAR}
+	</update>
+
+
+	
+</mapper>

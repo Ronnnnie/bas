@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.SystemUserDao" >
+	<resultMap id="BaseResultMap" type="java.util.HashMap">
+		<id column="SYS_USER_ID" property="sysUserId" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="UPDATED_USER" property="updatedUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="VALID_IND" property="validInd" jdbcType="CHAR" javaType="java.lang.String" />
+ 		<result column="CREATED_DATE" property="createdDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+ 		<result column="USER_CODE" property="userCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CREATED_USER" property="createdUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SYS_CODE" property="sysCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="UPDATED_DATE" property="updatedDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+  	</resultMap>
+
+	<resultMap id="BaseResultVo" type="com.billionsfinance.bas.entity.SystemUserVO">
+		<id column="SYS_USER_ID" property="sysUserId" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="UPDATED_USER" property="updatedUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="VALID_IND" property="validInd" jdbcType="CHAR" javaType="java.lang.String" />
+ 		<result column="CREATED_DATE" property="createdDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+ 		<result column="USER_CODE" property="userCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CREATED_USER" property="createdUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SYS_CODE" property="sysCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="UPDATED_DATE" property="updatedDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+  	</resultMap>
+
+	<!-- 查询数据列Sql不转换成对应的Java命名 -->
+	<sql id="Base_Column_List" >
+		SYS_USER_ID,
+		UPDATED_USER,
+		VALID_IND,
+		USER_CODE,
+		CREATED_USER,
+		SYS_CODE,
+		CREATED_DATE,
+		UPDATED_DATE
+	</sql>
+	
+	<!-- 写入操作的SQL -->
+	<sql id="Insert_Base_values">
+ 		#{sysUserId,jdbcType=VARCHAR},
+		#{updatedUser,jdbcType=VARCHAR},
+ 		#{validInd,jdbcType=CHAR},
+ 		#{userCode,jdbcType=VARCHAR},
+ 		#{createdUser,jdbcType=VARCHAR},
+ 		#{sysCode,jdbcType=VARCHAR},
+ 		SYSDATE,
+ 		SYSDATE
+ 	</sql>
+	
+	<!-- 查询条件的sql -->
+	<sql id="Base_Where_Sql">
+		<where>
+		<if test="sysUserId != null and sysUserId != ''">
+			and SYS_USER_ID = trim(#{sysUserId,jdbcType=VARCHAR})
+		</if>
+		<if test="userCode != null and userCode != ''">
+			and lower(USER_CODE) like '%'||lower(trim(#{userCode,jdbcType=VARCHAR}))||'%'
+		</if>
+		<if test="sysCode != null and sysCode != ''">
+			and SYS_CODE = trim(#{sysCode,jdbcType=VARCHAR})
+		</if>
+		<if test="createdUser != null and createdUser != ''">
+			and CREATED_USER like #{createdUser,jdbcType=VARCHAR}
+		</if>
+		<if test="validInd != null and validInd != ''">
+			and VALID_IND = #{validInd,jdbcType=CHAR}
+		</if>
+		<if test="updatedUser != null and updatedUser != ''">
+			and UPDATED_USER like #{updatedUser,jdbcType=VARCHAR}
+		</if>
+		<if test="startDate != null and startDate != ''">
+			and CREATED_DATE &gt;= to_date(#{startDate,jdbcType=DATE},'yyyy-mm-dd hh24:mi:ss')
+		</if>
+		<if test="endDate != null and endDate != ''">
+			and CREATED_DATE &lt;= to_date(#{endDate,jdbcType=DATE},'yyyy-mm-dd hh24:mi:ss')
+		</if>
+		<if test="updatedDate != null and updatedDate != ''">
+			and UPDATED_DATE = #{updatedDate,jdbcType=DATE}
+		</if>
+		</where>
+	</sql>
+	
+	<!-- 分配系统时，如果是超级用户，查询所有可以分配的系统  -->
+	<select id="queryAllSystem" parameterType="map" resultMap="BaseResultMap">
+		select t.sys_code as "sysCode", t.sys_cname as "sysCname"
+		  from um_system t
+		 <where>
+			<if test="validInd != null and validInd != ''">
+				and t.VALID_IND = #{validInd,jdbcType=CHAR}
+			</if>
+			<if test="sysTypeCode != null and sysTypeCode != ''">
+				and t.SYS_TYPE_CODE = #{sysTypeCode,jdbcType=VARCHAR}
+			</if>
+			<if test="sysCname != null and sysCname != ''">
+				and t.SYS_CNAME like '%'||trim(#{sysCname,jdbcType=VARCHAR})||'%'
+			</if>
+			<if test="sysCode != null and sysCode != ''">
+				and lower(t.SYS_CODE) like '%'||lower(trim(#{sysCode,jdbcType=VARCHAR}))||'%'
+			</if>
+		</where> 
+	</select>
+	
+	<!-- 分配系统时，如果非超级用户，查询当前用户拥有的系统,加and t2.sys_code <> #{basCode}是为了过滤UM系统  -->
+	<select id="querySysByCurrentUser" parameterType="map" resultMap="BaseResultMap">
+		select distinct t1.sys_code as "sysCode", t2.sys_cname as "sysCname"
+		  from um_system_user t1, um_system t2,um_admin a
+		   <where>
+		   		 t1.sys_code = t2.sys_code
+		   		 and t1.user_code = a.user_code
+		   		 and t1.sys_code = a.sys_code
+		   		 and t1.user_code = #{currentUser}
+		  		 and t1.valid_ind = #{validInd}
+		  		 and a.valid_ind = #{validInd}
+			   <if test="basCode != null and basCode != ''">
+			     and t2.sys_code != #{basCode,jdbcType=VARCHAR}
+			   </if>
+				<if test="sysTypeCode != null and sysTypeCode != ''">
+					and t2.SYS_TYPE_CODE = #{sysTypeCode,jdbcType=VARCHAR}
+				</if>
+				<if test="sysCname != null and sysCname != ''">
+					and t2.SYS_CNAME like '%'||trim(#{sysCname,jdbcType=VARCHAR})||'%'
+				</if>
+				<if test="sysCode != null and sysCode != ''">
+					and lower(t2.sys_code) like '%'||lower(trim(#{sysCode,jdbcType=VARCHAR}))||'%'
+				</if>
+			</where>
+	</select>
+	
+	<!-- 分配系统时，如果是超级用户，超级用户查询当前用户已经分配的系统  -->
+	<select id="querySysExistAdmin" parameterType="map" resultMap="BaseResultMap">
+		select distinct t1.sys_code as "sysCode", t2.sys_cname as "sysCname"
+		  from um_system_user t1, um_system t2
+		 where t1.sys_code = t2.sys_code
+		   and t1.user_code = #{userCode}
+		   and t1.valid_ind = #{validInd}
+	</select>
+	
+	<!-- 分配系统时，如果非超级用户，查询已经分配的系统(当前用户的和被选中用户所有的系统)  -->
+	<select id="querySysExist" parameterType="map" resultMap="BaseResultMap">
+     select distinct t1.sys_code as "sysCode", t2.sys_cname as "sysCname"
+       from um_system_user t1, um_system t2
+      where t1.sys_code = t2.sys_code
+        and t1.user_code = #{userCode}
+        and t1.valid_ind = #{validInd}
+        and t1.sys_code in
+            (select t2.sys_code
+               from um_system_user t2,um_admin a
+              where t2.user_code = a.user_code
+		   		 	and t2.sys_code = a.sys_code
+		   		 	and t2.user_code = #{currentUser})
+	</select>
+	
+		<!-- 
+		insert操作给定的参数是java.util.Map<String,Object>类型的对象，
+		与<sql id="Insert_Base_values">中配置的列一致
+	-->
+	<insert id="addSysUser" parameterType="com.billionsfinance.bas.entity.SystemUserVO" >
+    insert into UM_SYSTEM_USER (
+		<include refid="Base_Column_List" />
+    )
+	values (
+		<include refid="Insert_Base_values" />
+    )
+	</insert>
+	
+	<!-- 保存分配系统时， 非UM超级管理员查询当前用户拥有的系统 ，比较左右数据组件时使用-->
+	<select id="querySysUserByCurrentUser" parameterType="map" resultMap="BaseResultVo">
+	     select distinct t1.sys_user_id "sysUserId", t1.sys_code as "sysCode", t1.valid_ind as "validInd"
+	       from um_system_user t1
+	      where t1.user_code = #{userCode}
+	        and t1.sys_code in
+	            (select t2.sys_code
+	               from um_system_user t2,um_admin a
+	              where t2.user_code = a.user_code
+		   		 	and t2.sys_code = a.sys_code
+	              	and t2.user_code = #{currentUser})
+	</select>
+	
+	<update id="updateSystemUser" parameterType="com.billionsfinance.bas.entity.SystemUserVO" >
+		update UM_SYSTEM_USER
+		<set>
+		<if test="updatedUser != null and updatedUser != ''">
+			UPDATED_USER = #{updatedUser,jdbcType=VARCHAR},
+		</if>
+	  	<if test="validInd != null and validInd != ''">
+			VALID_IND = #{validInd,jdbcType=CHAR},
+		</if>
+	  	<if test="createdDate != null and createdDate != ''">
+			CREATED_DATE = #{createdDate,jdbcType=DATE},
+		</if>
+	  	<if test="userCode != null and userCode != ''">
+			USER_CODE = #{userCode,jdbcType=VARCHAR},
+		</if>
+	  	<if test="createdUser != null and createdUser != ''">
+			CREATED_USER = #{createdUser,jdbcType=VARCHAR},
+		</if>
+	  	<if test="sysCode != null and sysCode != ''">
+			SYS_CODE = #{sysCode,jdbcType=VARCHAR},
+		</if>
+			UPDATED_DATE = SYSDATE
+	   	</set>
+		where SYS_USER_ID = #{sysUserId,jdbcType=VARCHAR}
+	</update>
+	
+		<!-- 条件查询 -->
+	<select id="querySysUerByWhere" parameterType="map" resultMap="BaseResultVo">
+		select 
+		<include refid="Base_Column_List"/>
+		from UM_SYSTEM_USER
+		<include refid="Base_Where_Sql"/>
+		
+	</select>
+	
+		<!-- 分配系统时，更新系统的状态-->
+	<update id="updateStatusBySysUserId" parameterType="map" >
+		update UM_SYSTEM_USER
+		set 
+  			VALID_IND = #{validInd,jdbcType=CHAR},
+			UPDATED_USER = #{updatedUser,jdbcType=VARCHAR},
+  			UPDATED_DATE = SYSDATE
+   		where SYS_USER_ID = #{sysUserId,jdbcType=VARCHAR}
+	</update>
+	
+		<!-- 查询已经分配的角色, t3不用加validInd条件(如果系统用户无效则看不到这个系统) -->
+	<select id="queryRoleExist" parameterType="map" resultType="map">
+		select t1.role_code as "roleCode", t1.role_cname as "roleCname"
+		  from um_role t1, um_sys_user_role t2, um_system_user t3
+		 where t1.role_code = t2.role_code
+		   and t1.sys_code = t3.sys_code
+		   and t2.sys_user_id = t3.sys_user_id
+		   and t1.sys_code = #{sysCode}
+		   and t3.user_code = #{userCode}
+		   and t2.valid_ind = #{validInd}
+		   and t1.valid_ind = #{validInd}
+	</select>
+	
+	<!-- 查询系统下所有的角色, 只查询有效的角色 -->
+	<select id="queryRoleBySysCode" parameterType="map" resultType="map">
+		select t.role_code as "roleCode", t.role_cname as "roleCname"
+		  from um_role t
+		 where t.sys_code = #{sysCode}
+		   and t.valid_ind = #{validInd}
+	</select>
+	
+	<!-- 多表连接查询 -->
+	<select id="querySysUser" parameterType="map" resultMap="BaseResultMap">
+         select * from (
+			select a.*,rownum rn from (
+		      select T1.SYS_USER_ID  as "sysUserId",
+		             T1.USER_CODE    as "userCode",
+		             T3.USER_CNAME   as "userCname",
+		             T1.SYS_CODE     as "sysCode",
+		             T2.SYS_CNAME    as "sysCname",
+		             T1.VALID_IND    as "validInd",
+		             T1.UPDATED_USER as "updatedUser",         
+		             T1.CREATED_USER as "createdUser",
+		             T1.CREATED_DATE as "createdDate",
+		             T1.UPDATED_DATE as "updatedDate"
+		      from UM_SYSTEM_USER T1, UM_SYSTEM T2, UM_USER T3 
+                where T1.SYS_CODE = T2.SYS_CODE AND T1.USER_CODE = T3.USER_CODE
+		    <if test="sysUserId != null and sysUserId != ''">
+			   and T1.SYS_USER_ID = #{sysUserId,jdbcType=VARCHAR}
+		    </if>
+		    <if test="userCode != null and userCode != ''">
+			   and lower(T1.USER_CODE) like '%'||lower(trim(#{userCode,jdbcType=VARCHAR}))||'%'
+		    </if>
+		    <if test="userCname != null and userCname != ''">
+			   and T3.USER_CNAME like '%'||trim(#{userCname,jdbcType=VARCHAR})||'%'
+		    </if>
+		    <if test="sysCode != null and sysCode != ''">
+			   and T1.SYS_CODE = trim(#{sysCode,jdbcType=VARCHAR})
+		    </if>
+		    <if test="sysCodeList != null and !sysCodeList.isEmpty">
+				and T1.SYS_CODE in
+				<foreach item="item" index="index" collection="sysCodeList" 
+	                    open="(" separator="," close=")">
+	                   #{item}
+	            </foreach>
+			</if>
+		    <if test="sysCname != null and sysCname != ''">
+			   and T1.sysCname like '%'||trim(#{sysCname,jdbcType=VARCHAR})||'%'
+		    </if>
+		    <if test="validInd != null and validInd != ''">
+			    and T1.VALID_IND = #{validInd,jdbcType=CHAR}
+		    </if>
+			<if test="createdUser != null and createdUser != ''">
+				and T1.CREATED_USER = #{createdUser,jdbcType=VARCHAR}
+			</if>
+            <if test="updatedUser != null and updatedUser != ''">
+			    and T1.UPDATED_USER = #{updatedUser,jdbcType=VARCHAR}
+		    </if>
+			<if test="createdDate != null and createdDate != ''">
+			    and T1.CREATED_DATE = #{createdDate,jdbcType=DATE}
+			</if>
+			<if test="updatedDate != null and updatedDate != ''">
+				and T1.UPDATED_DATE = #{updatedDate,jdbcType=DATE}
+			</if>
+			order by T1.UPDATED_DATE desc,T1.USER_CODE desc
+			) a where rownum &lt;= #{endpoint}
+		) where rn &gt;= #{startpoint}
+	</select>
+	
+	
+	<!-- 多表连接查询总数据量 -->
+	<select id="querySysUserCount" parameterType="map" resultType="long">
+	   select count(1) "count"
+            from UM_SYSTEM_USER T1, UM_SYSTEM T2, UM_USER T3 
+                where T1.SYS_CODE = T2.SYS_CODE AND T1.USER_CODE = T3.USER_CODE
+             <if test="userCode != null and userCode != ''">
+			   and lower(T1.USER_CODE) like '%'||lower(trim(#{userCode,jdbcType=VARCHAR}))||'%'
+		    </if>
+		    <if test="userCname != null and userCname != ''">
+			   and T3.USER_CNAME like '%'||trim(#{userCname,jdbcType=VARCHAR})||'%'
+		    </if>
+		    <if test="sysCode != null and sysCode != ''">
+			   and T1.SYS_CODE = trim(#{sysCode,jdbcType=VARCHAR})
+		    </if>
+		    <if test="sysCodeList != null and !sysCodeList.isEmpty">
+				and T1.SYS_CODE in
+				<foreach item="item" index="index" collection="sysCodeList" 
+	                    open="(" separator="," close=")">
+	                   #{item}
+	            </foreach>
+			</if>
+		    <if test="sysCname != null and sysCname != ''">
+			   and T2.sysCname like '%'||trim(#{sysCname,jdbcType=VARCHAR})||'%'
+		    </if>
+		    <if test="validInd != null and validInd != ''">
+			    and T1.VALID_IND = #{validInd,jdbcType=CHAR}
+		    </if>
+			<if test="createdUser != null and createdUser != ''">
+				and T1.CREATED_USER = #{createdUser,jdbcType=VARCHAR}
+			</if>
+            <if test="updatedUser != null and updatedUser != ''">
+			    and T1.UPDATED_USER = #{updatedUser,jdbcType=VARCHAR}
+		    </if>
+			<if test="createdDate != null and createdDate != ''">
+			    and T1.CREATED_DATE = #{createdDate,jdbcType=DATE}
+			</if>
+			<if test="updatedDate != null and updatedDate != ''">
+				and T1.UPDATED_DATE = #{updatedDate,jdbcType=DATE}
+			</if>
+	</select>
+	
+	<!-- 多表连接查询总数据量 -->
+	<select id="querySysUserCountBySysCode" parameterType="map" resultType="long">
+	   select count(1) as "count"
+            from UM_SYSTEM_USER T1, UM_SYSTEM T2, UM_USER T3 
+                where T1.SYS_CODE = T2.SYS_CODE AND T1.USER_CODE = T3.USER_CODE
+                <if test="sysCode != null and sysCode != ''">
+                	and T1.SYS_CODE = #{sysCode,jdbcType=VARCHAR}
+                </if>
+				<if test="userCode != null and userCode != ''">
+                	and T1.USER_CODE = #{userCode,jdbcType=VARCHAR}
+                </if>
+				<if test="validInd != null and validInd != ''">
+                	 and T1.VALID_IND = #{validInd,jdbcType=CHAR}
+                </if>
+	</select>
+	<!-- 根据用户查询系统用户 -->
+	<select id="findSysUser" parameterType="com.billionsfinance.bas.entity.SystemUserVO" resultMap="BaseResultVo">
+		select 
+			<include refid="Base_Column_List"/>
+		 from UM_SYSTEM_USER u
+		 where u.USER_CODE = #{userCode,jdbcType=VARCHAR}
+		<if test="validInd != null and validInd != ''">
+			and u.VALID_IND = #{validInd,jdbcType=CHAR}
+		</if>
+		<if test="sysCode != null and sysCode != ''">
+			and u.SYS_CODE = #{sysCode,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+		<!-- 多表连接查询总数据量 -->
+	<select id="queryUserBindingCount" parameterType="map" resultType="long">
+	   select count(1) "count"
+		  from (select u.user_code  as userCode,
+		               u.user_cname as userCName,
+		               s.sys_code   as sysCode,
+		               s.sys_cname  as sysCName,
+		               s.is_mappinguser  as isMappingUser,
+		               s.check_url  as checkUrl
+		          from um_user u, um_system_user su, um_system s
+		         where su.user_code = u.user_code
+		           and s.sys_code = su.sys_code
+		           and u.status = '1'
+		           and su.VALID_IND = '1'
+		           and s.valid_ind = '1'
+		           and s.is_mappinguser = '1'
+		           <if test="userCode != null and userCode != ''">
+					   and lower(su.user_code) like '%'||lower(trim(#{userCode,jdbcType=VARCHAR}))||'%'
+				   </if>
+				    <if test="sysCode != null and sysCode != ''">
+					   and su.sys_code = trim(#{sysCode,jdbcType=VARCHAR})
+				   </if>
+		           ) t1
+		  left join bas_USER_SYSTEM aus
+		    on t1.usercode = aus.user_code
+		   and t1.syscode = aus.sys_code
+		   and aus.valid_ind = '1'
+		   <where>
+		   	 <if test="sysUsername != null and sysUsername != ''">
+	   			and lower(aus.sys_username) like '%'||lower(trim(#{sysUsername,jdbcType=VARCHAR}))||'%'
+	   		 </if>
+		   </where>
+	</select>
+	<resultMap id="queryUserBindingBaseResultMap" type="java.util.HashMap">
+		<id column="USERCODE" property="userCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="USERCNAME" property="userCName" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SYSCODE" property="sysCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SYSCNAME" property="sysCName" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SYSUSERNAME" property="sysUserName" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ISMAPPINGUSER" property="isMappingUser" jdbcType="CHAR" javaType="java.lang.String"/>
+ 		<result column="USERDEFAULT" property="userDefault" jdbcType="CHAR" javaType="java.lang.String"/>
+ 		<result column="PUID" property="puid" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CHECKURL" property="checkUrl" jdbcType="VARCHAR" javaType="java.lang.String" />
+  	</resultMap>
+		<!-- 多表连接查询  to_char(aus.IS_DEFAULT) as "isDefault",-->
+	<select id="queryUserBinding" parameterType="map" resultMap="queryUserBindingBaseResultMap">
+         select * from (
+			select a.*,rownum rn from (
+			    select t1.*,
+			   		 to_char(aus.user_default) as userDefault,
+			    	 aus.sys_username as sysUserName,
+			    	 aus.puid as puid
+				  from (select u.user_code  as userCode,
+				               u.user_cname as userCName,
+				               s.sys_code   as sysCode,
+				               s.sys_cname  as sysCName,
+				               s.is_mappinguser  as isMappingUser,
+				               s.check_url  as checkUrl
+				          from um_user u, um_system_user su, um_system s
+				         where su.user_code = u.user_code
+				           and s.sys_code = su.sys_code
+				           and u.status = '1'
+				           and su.VALID_IND = '1'
+				           and s.valid_ind = '1'
+				           and s.is_mappinguser = '1'
+				           <if test="userCode != null and userCode != ''">
+							   and lower(su.user_code) like '%'||lower(trim(#{userCode,jdbcType=VARCHAR}))||'%'
+						   </if>
+						    <if test="sysCode != null and sysCode != ''">
+							   and su.sys_code = trim(#{sysCode,jdbcType=VARCHAR})
+						   </if>
+				           ) t1
+				  left join bas_USER_SYSTEM aus
+				    on t1.usercode = aus.user_code
+				   and t1.syscode = aus.sys_code
+				   and aus.valid_ind = '1'
+				   <where>
+				   	 <if test="sysUsername != null and sysUsername != ''">
+			   			and lower(aus.sys_username) like '%'||lower(trim(#{sysUsername,jdbcType=VARCHAR}))||'%'
+			   		</if>
+				   </where>
+		   		order by aus.UPDATED_DATE desc,t1.userCode desc
+			) a where rownum &lt;= #{endpoint}
+		) where rn &gt;= #{startpoint}
+	</select>
+	
+   <insert id="addSysUserBinding" parameterType="map" >
+	    insert into bas_USER_SYSTEM (
+			PUID,
+			SYS_CODE,
+			USER_CODE,
+			SYS_USERNAME,
+			CREATED_DATE,
+			CREATED_USER,
+			UPDATED_USER,
+			user_default
+	    )
+		values (
+			#{puId,jdbcType=VARCHAR},
+		    #{sysCode,jdbcType=VARCHAR},
+ 		    #{userCode,jdbcType=VARCHAR},
+ 		    #{sysUserName,jdbcType=VARCHAR},
+ 		    SYSDATE,
+ 		    #{createUser,jdbcType=VARCHAR},
+ 		    #{createUser,jdbcType=VARCHAR},
+ 		    #{isDefault,jdbcType=CHAR}
+	    )
+	</insert>
+	
+	<!-- 管理员查看绑定页面 -->
+	<select id="queryAdminBinding" parameterType="map" resultMap="queryUserBindingBaseResultMap">
+	     select * from (
+			select a.*,rownum rn from (
+			    select t1.*,
+			   		  to_char(aus.user_default) as userDefault,
+			    	  aus.sys_username as sysUserName,
+			    	  aus.puid as puid
+				  from (select u.user_code  as userCode,
+				               u.user_cname as userCName,
+				               s.sys_code   as sysCode,
+				               s.sys_cname  as sysCName,
+				               s.is_mappinguser  as isMappingUser,
+				               s.check_url  as checkUrl
+				          from um_user u
+				         inner join um_system_user su
+				            on (u.user_code = su.user_code and u.status = '1')
+				         inner join um_system s
+				            on (su.sys_code = s.sys_code and su.valid_ind = '1' and
+				               s.valid_ind = '1' and s.is_mappinguser = '1')
+				          left join um_admin a
+				            on (s.sys_code = a.sys_code and su.user_code = a.user_code and
+				               a.valid_ind = '1')
+				         where u.user_code = #{currentUser,jdbcType=VARCHAR}
+				            or exists (select sys_code
+				                  from um_admin
+				                 where s.sys_code = sys_code
+				                   and user_code = #{currentUser,jdbcType=VARCHAR})) t1
+				  left join bas_USER_SYSTEM aus
+				    on t1.userCode = aus.user_code
+				   and t1.sysCode = aus.sys_code
+				   and aus.valid_ind = '1'
+				   <where>
+				   		<if test="userCode != null and userCode != ''">
+				   			and lower(t1.userCode) like '%'||lower(trim(#{userCode,jdbcType=VARCHAR}))||'%'
+				   		</if>
+				   		<if test="sysCode != null and sysCode != ''">
+				   			and t1.sysCode = trim(#{sysCode,jdbcType=VARCHAR})
+				   		</if>
+				   		<if test="sysUsername != null and sysUsername != ''">
+				   			and lower(aus.sys_username) like '%'||lower(trim(#{sysUsername,jdbcType=VARCHAR}))||'%'
+				   		</if>
+				   </where>
+				   order by aus.UPDATED_DATE desc,t1.userCode desc
+			) a where rownum &lt;= #{endpoint}
+		) where rn &gt;= #{startpoint}
+	</select>
+	<!-- 管理员查看绑定页面统计总数 -->
+	<select id="queryAdminBindingCount" parameterType="map" resultType="long">
+	    select count(1)
+		  from (select u.user_code  as userCode,
+		               u.user_cname as userCName,
+		               s.sys_code   as sysCode,
+		               s.sys_cname  as sysCName,
+		               s.is_mappinguser  as isMappingUser,
+		               s.check_url  as checkUrl
+		          from um_user u
+		         inner join um_system_user su
+		            on (u.user_code = su.user_code and u.status = '1')
+		         inner join um_system s
+		            on (su.sys_code = s.sys_code and su.valid_ind = '1' and
+		               s.valid_ind = '1' and s.is_mappinguser = '1')
+		          left join um_admin a
+		            on (s.sys_code = a.sys_code and su.user_code = a.user_code and
+		               a.valid_ind = '1')
+		         where u.user_code = #{currentUser,jdbcType=VARCHAR}
+		            or exists (select sys_code
+		                  from um_admin
+		                 where s.sys_code = sys_code
+		                   and user_code = #{currentUser,jdbcType=VARCHAR})) t1
+		  left join bas_USER_SYSTEM aus
+		    on t1.userCode = aus.user_code
+		   and t1.sysCode = aus.sys_code
+		   and aus.valid_ind = '1'
+		   <where>
+		   		<if test="userCode != null and userCode != ''">
+		   			and lower(t1.userCode) like '%'||lower(trim(#{userCode,jdbcType=VARCHAR}))||'%'
+		   		</if>
+		   		<if test="sysCode != null and sysCode != ''">
+		   			and t1.sysCode = trim(#{sysCode,jdbcType=VARCHAR})
+		   		</if>
+		   		<if test="sysUsername != null and sysUsername != ''">
+		   			and lower(aus.sys_username) like '%'||lower(trim(#{sysUsername,jdbcType=VARCHAR}))||'%'
+		   		</if>
+		   </where>
+	</select>
+		<!-- 根据usercode,syscode删除对象 -->
+<!-- 	<delete id="deleteSysUserBinding"  parameterType="map">
+		delete from
+			bas_USER_SYSTEM
+		where puid = #{puid,jdbcType=VARCHAR}
+	</delete> -->
+	
+	<!-- 根据usercode,syscode删除对象 -->
+	<update id="deleteSysUserBinding" parameterType="map">
+		update
+			bas_USER_SYSTEM set valid_ind = '0',UPDATED_USER = #{currentUser,jdbcType=VARCHAR}
+			where puid = #{puid}
+	</update>
+	
+	<!-- 根据系统编码和系统中的账号查找该系统账号是否绑定过 -->
+	<select id="findSysUsername" parameterType="map" resultType="map">
+		select 
+			aus.sys_code as "sysCode",aus.user_code as "userCode",aus.sys_username as "sysUsername"  
+			from bas_USER_SYSTEM aus  
+			where aus.sys_code = trim(#{sysCode,jdbcType=VARCHAR})
+				and aus.sys_username=trim(#{sysUserName,jdbcType=VARCHAR})
+				and aus.valid_ind = '1'
+	</select>
+	
+	<!-- 查询已经是默认的映射账号   -->
+	<select id="findSysUsernameByCode" parameterType="map" resultType="map">
+		select 
+			aus.sys_code as "sysCode",
+			aus.user_code as "userCode",
+			aus.sys_username as "sysUsername",
+			aus.puid as "puid"
+			from bas_USER_SYSTEM aus  
+			where aus.sys_code = #{sysCode,jdbcType=VARCHAR}
+				and aus.user_code=#{userCode,jdbcType=VARCHAR}
+				and user_default = '1'
+	</select>
+	<!-- 根据ID修改映射的默认账号 -->
+	<update id="updateUserIsDefault" parameterType="map">
+		update
+			bas_USER_SYSTEM set user_default = #{isDefault},UPDATED_USER = #{currentUser,jdbcType=VARCHAR}
+			where puid = #{puid}
+	</update>
+	<!-- 查询系统用户的 绑定的账号-->
+	<select id="findSysAccount" resultType="map" parameterType="map">
+		select temp.*, aus.sys_username as sysUsername,aus.USER_DEFAULT as userDefault
+		  from (select t.sys_code       as sysCode,
+		               t.valid_ind      as sysUserValid,
+		               s.is_mappinguser as isMappinguser,
+		               s.valid_ind as sysValid,
+		               t.user_code as userCode
+		          from UM_SYSTEM_USER t, UM_SYSTEM S
+		         where t.sys_code = s.sys_code) temp
+		  left join bas_USER_SYSTEM aus
+		    ON aus.sys_code = temp.sysCode
+		   and aus.user_code = temp.userCode
+		   and aus.valid_ind = '1'
+		   where  temp.sysCode = #{sysCode,jdbcType=VARCHAR}
+				and temp.userCode = #{userCode,jdbcType=VARCHAR}
+	</select>
+	
+</mapper>
+

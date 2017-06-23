@@ -1,0 +1,1112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.CurrentPayDao" >
+	
+	<resultMap id="currentPayMap" type="java.util.HashMap">
+		<result column="INACCOUNTDATE" jdbcType="VARCHAR" property="inaccountdate" />
+	    <result column="ACCORDDATE" jdbcType="VARCHAR" property="accorddate" />
+	    <result column="SERIALNO" jdbcType="VARCHAR" property="serialno" />
+	    <result column="REGISTRATIONDATE" jdbcType="VARCHAR" property="registrationdate" />
+	    <result column="SURETYPE" jdbcType="VARCHAR" property="suretype" />
+	    <result column="BUSINESSMODEL" jdbcType="VARCHAR" property="businessmodel" />
+	    <result column="PRODUCTID" jdbcType="VARCHAR" property="productid" />
+	    <result column="SUBPRODUCTTYPE" jdbcType="VARCHAR" property="subproducttype" />
+	    <result column="CITY" jdbcType="VARCHAR" property="city" />
+	    <result column="CITYCODE" jdbcType="VARCHAR" property="citycode" />
+	    <result column="PAYTYPE" jdbcType="VARCHAR" property="paytype" />
+	    <result column="PAYDATE" jdbcType="VARCHAR" property="paydate" />
+	    <result column="SEQUENCE" jdbcType="VARCHAR" property="sequence" />
+	    <result column="WAIVEDATE" jdbcType="VARCHAR" property="waivedate" />
+	    <result column="ACTUALPAYDATE" jdbcType="VARCHAR" property="actualpaydate" />
+	    <result column="DELIVERYDATE" jdbcType="VARCHAR" property="deliverydate" />
+	    <result column="DCDATE" jdbcType="VARCHAR" property="dcdate" />
+	    <result column="SHDATE" jdbcType="VARCHAR" property="shdate" />
+	    <result column="LPDATE" jdbcType="VARCHAR" property="lpdate" />
+	    <result column="DEBOURS" jdbcType="VARCHAR" property="debours" />
+	    <result column="PAYBELONG" jdbcType="VARCHAR" property="paybelong" />
+	    <result column="ASSETBELONG" jdbcType="VARCHAR" property="assetbelong" />
+	    <result column="GUARANTEEPARTY" jdbcType="VARCHAR" property="guaranteeparty" />
+	    <result column="PAYPRINCIPALAMT" jdbcType="DECIMAL" property="payprincipalamt" />
+	    <result column="PAYINTEAMT" jdbcType="DECIMAL" property="payinteamt" />
+	    <result column="A11" jdbcType="DECIMAL" property="a11" />
+	    <result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
+	    <result column="CLIENTNAME" jdbcType="VARCHAR" property="clientname" />
+	    <result column="MATURITYDATE" jdbcType="VARCHAR" property="maturitydate" />
+	    <result column="SNO" jdbcType="VARCHAR" property="sno" />
+	    <result column="RNO" jdbcType="VARCHAR" property="rno" />
+	    <result column="SA_ID" jdbcType="VARCHAR" property="sa_id" />
+	    <result column="PRODUCTCATEGORY" jdbcType="VARCHAR" property="productcategory" />
+	    <result column="PROVINCE" jdbcType="VARCHAR" property="province" />
+	    <result column="CREDITPERSON" jdbcType="VARCHAR" property="creditperson" />
+	    <result column="CONTRACTLIFE" jdbcType="VARCHAR" property="contractlife" />
+	    <result column="CDATE" jdbcType="VARCHAR" property="cdate" />
+	    <result column="OVERDUEDAYS" jdbcType="DECIMAL" property="overduedays" />
+	    <result column="CANCELTYPE" jdbcType="DECIMAL" property="canceltype" />
+	    <result column="TBDATE" jdbcType="DECIMAL" property="tbdate" />
+	    <result column="INACCOUNTSTATUS" jdbcType="VARCHAR" property="inaccountstatus" />
+	    <result column="DATASOURCE" jdbcType="VARCHAR" property="datasource" />
+	    <result column="SEQID" jdbcType="DECIMAL" property="seqid" />
+ 	</resultMap>
+ 	
+ 	
+ 	
+	
+	
+	<select id="queryCurrentPayCountSum" resultMap="currentPayMap">
+		SELECT COUNT(1) AS CONTRACTCOUNT,sum(AMOUNT) AS MONEYCOUNT,SUM(PAYPRINCIPALAMT) AS PAYPRINCIPALAMTAMOUNT,
+		SUM(PAYINTEAMT) AS PAYINTEAMTAMOUNT,SUM(PAYINTEAMT) AS WAIVEINTAMTAMOUNT,SUM(A11) AS A11AMOUNT FROM 
+		(
+			   select 
+			        zbs.KEEPACCOUNTSDATE as INACCOUNTDATE,zbs.ACCORDDATE as ACCORDDATE,zbs.SURETYPE as SURETYPE,zbs.BUSINESSMODEL as BUSINESSMODEL,zbs.PRODUCTID as PRODUCTID,zbs.SUBPRODUCTTYPE as SUBPRODUCTTYPE,
+			        zbs.city as city,zbs.citycode as citycode,zbs.paytype as paytype,zbs.paydate as PAYDATE,zbs.actualpaydate as ACTUALPAYDATE,zbs.DELIVERYDATE  as DELIVERYDATE,zbs.DCDATE as DCDATE,zbs.SHDATE as SHDATE,
+			        zbs.LPDATE as LPDATE,zbs.DEBOURS as DEBOURS,zbs.PAYBELONG,zbs.ASSETBELONG as ASSETBELONG,zbs.GUARANTEEPARTY as GUARANTEEPARTY,
+			        (nvl(zbs.PAYPRINCIPALAMT,0)) as PAYPRINCIPALAMT,(nvl(zbs.PAYINTEAMT,0)) as PAYINTEAMT,0 as WAIVEINTAMT,zbs.A11 as A11,
+			        (zbs.PAYPRINCIPALAMT+zbs.PAYINTEAMT+nvl(zbs.A11,0)) as AMOUNT
+			        from zjjs_belong_summary zbs --repaydate
+					<include refid="CurrentPay_Where_Sql"/>
+		 )
+	</select>
+	
+	<select id="queryCurrentPaySum" resultMap="currentPayMap">
+		SELECT * FROM (
+			SELECT A.*,ROWNUM RN FROM (
+			    select 
+			        zbs.KEEPACCOUNTSDATE as INACCOUNTDATE,zbs.ACCORDDATE as ACCORDDATE,zbs.SURETYPE as SURETYPE,zbs.BUSINESSMODEL as BUSINESSMODEL,zbs.PRODUCTID as PRODUCTID,zbs.SUBPRODUCTTYPE as SUBPRODUCTTYPE,
+			        zbs.city as city,zbs.citycode as citycode,zbs.paytype as paytype,zbs.paydate as PAYDATE,zbs.WAIVEDATE,zbs.actualpaydate as ACTUALPAYDATE,zbs.DELIVERYDATE  as DELIVERYDATE,zbs.DCDATE as DCDATE,zbs.SHDATE as SHDATE,
+			        zbs.LPDATE as LPDATE,zbs.DEBOURS as DEBOURS,zbs.PAYBELONG,zbs.ASSETBELONG as ASSETBELONG,zbs.GUARANTEEPARTY as GUARANTEEPARTY,
+			        (nvl(zbs.PAYPRINCIPALAMT,0)) as PAYPRINCIPALAMT,(nvl(zbs.PAYINTEAMT,0)) as PAYINTEAMT,0 as WAIVEINTAMT,zbs.A11 as A11,
+			        (zbs.PAYPRINCIPALAMT+zbs.PAYINTEAMT+nvl(zbs.A11,0)) as AMOUNT,
+			        zbs.CREDITPERSON as CREDITPERSON,
+			        zbs.DATASOURCE as DATASOURCE,
+			        zbs.SEQID as SEQID
+			        from zjjs_belong_summary zbs --repaydate
+					<include refid="CurrentPay_Where_Sql"/>
+					ORDER BY zbs.ACCORDDATE ASC
+					
+				
+				)   A WHERE ROWNUM &lt;= #{endpoint} 
+			  ) WHERE RN &gt;= #{startpoint}
+	</select>
+	
+	<select id="queryCurrentPaySumAll" resultMap="currentPayMap">
+				select 
+			        zbs.KEEPACCOUNTSDATE as INACCOUNTDATE,zbs.ACCORDDATE as ACCORDDATE,zbs.SURETYPE as SURETYPE,zbs.BUSINESSMODEL as BUSINESSMODEL,zbs.PRODUCTID as PRODUCTID,zbs.SUBPRODUCTTYPE as SUBPRODUCTTYPE,
+			        zbs.city as city,zbs.citycode as citycode,zbs.paytype as paytype,zbs.paydate as PAYDATE,zbs.WAIVEDATE,zbs.actualpaydate as ACTUALPAYDATE,zbs.DELIVERYDATE  as DELIVERYDATE,zbs.DCDATE as DCDATE,zbs.SHDATE as SHDATE,
+			        zbs.LPDATE as LPDATE,
+			        (
+			        select itemname from creditperson_code where itemno = zbs.DEBOURS
+				    )
+			         as DEBOURS,
+			        (
+			        select itemname from creditperson_code where itemno = zbs.PAYBELONG
+				    )
+			         as PAYBELONG,
+			        (
+			        select itemname from creditperson_code where itemno = zbs.ASSETBELONG
+				    )
+			         as ASSETBELONG,
+			        (
+			        select itemname from creditperson_code where itemno = zbs.GUARANTEEPARTY
+				    )
+			         as GUARANTEEPARTY,
+			        (nvl(zbs.PAYPRINCIPALAMT,0)) as PAYPRINCIPALAMT,(nvl(zbs.PAYINTEAMT,0)) as PAYINTEAMT,0 as WAIVEINTAMT,nvl(zbs.A11,0.00) as A11,
+			        (zbs.PAYPRINCIPALAMT+zbs.PAYINTEAMT+nvl(zbs.A11,0)) as AMOUNT,
+			        zbs.DATASOURCE as DATASOURCE,
+			        (
+			        select itemname from creditperson_code where itemno = zbs.CREDITPERSON
+				    )
+			         as CREDITPERSON
+			        from zjjs_belong_summary zbs --repaydate
+					<include refid="CurrentPay_Where_Sql"/>
+					ORDER BY zbs.ACCORDDATE ASC
+					
+					
+				
+	</select>
+	
+	<select id="queryCurrentPayCount" resultMap="currentPayMap">
+		SELECT count(1) AS CONTRACTCOUNT,sum(AMOUNT) AS MONEYCOUNT,SUM(PAYPRINCIPALAMT) AS PAYPRINCIPALAMTAMOUNT,
+		SUM(PAYINTEAMT) AS PAYINTEAMTAMOUNT,SUM(WAIVEINTAMT) AS WAIVEINTAMTAMOUNT,SUM(A11) AS A11AMOUNT from (
+			   <if test="assetbelong != null and assetbelong != '' and assetbelong == 'JYPH'">
+			   select 
+					jy.INACCOUNTDATE as INACCOUNTDATE,jy.ACCORDDATE as ACCORDDATE,jy.contracts as SERIALNO,jy.registrationdate as REGISTRATIONDATE,jy.SURETYPE as SURETYPE,jy.BUSINESSMODEL as BUSINESSMODEL,jy.PRODUCTID as PRODUCTID,jy.SUBPRODUCTTYPE as SUBPRODUCTTYPE,
+					jy.city as city,jy.citycode as citycode,jy.paytype as paytype,jy.paydate as PAYDATE,jy.SEQUENCE as SEQUENCE,jy.repaydate as ACTUALPAYDATE,''  as DELIVERYDATE,'' as DCDATE,'' as SHDATE,
+					'' as LPDATE,'' as DEBOURS,'JYPH' as ASSETBELONG,jy.GUARANTEEPARTY as GUARANTEEPARTY,
+					jy.PRINCIPAL as PAYPRINCIPALAMT,jy.interest as PAYINTEAMT,0 as WAIVEINTAMT,0 as A11,
+					nvl((jy.PRINCIPAL+jy.interest),0) as AMOUNT
+					from zjjs_jy_reback jy --repaydate
+					<include refid="CurrentPay_JY_Where_Sql"/>
+				</if>
+					
+					--union all
+					<if test="assetbelong != null and assetbelong != '' and (assetbelong == 'ZXXT' or assetbelong == 'ZTXT')">
+					select 
+					zpd.INACCOUNTDATE as INACCOUNTDATE,zpd.ACCORDDATE as ACCORDDATE,zpd.SERIALNO as SERIALNO,zpd.REGISTRATIONDATE as REGISTRATIONDATE,zpd.SURETYPE as SURETYPE,zpd.BUSINESSMODEL as BUSINESSMODEL,zpd.PRODUCTID as PRODUCTID,zpd.SUBPRODUCTTYPE as SUBPRODUCTTYPE,
+					zpd.city as city,zpd.citycode as citycode,zpd.PAYTYPE as paytype,zpd.PAYDATE as PAYDATE,zpd.SEQID as SEQUENCE,'' as ACTUALPAYDATE,zpd.DELIVERYDATE as DELIVERYDATE,zpd.dcdate as DCDATE,zpd.shdate as SHDATE,
+					zpd.LPDATE as LPDATE,zpd.DEBOURS as DEBOURS,zpd.ASSETBELONG as ASSETBELONG,zpd.GUARANTEEPARTY as GUARANTEEPARTY,
+					zpd.PAYPRINCIPALAMT as PAYPRINCIPALAMT,zpd.PAYINTEAMT as PAYINTEAMT,0 as WAIVEINTAMT,nvl(zpd.A11,0) as A11,
+					(zpd.PAYPRINCIPALAMT+zpd.PAYINTEAMT) as AMOUNT
+					from zjjs_pay_daily zpd --paydate
+					<include refid="CurrentPay_XT_Where_Sql"/>
+					</if>
+					
+					--union all
+					<if test="assetbelong != null and assetbelong != '' and assetbelong == 'RXCH'">
+					select 
+					zzpd.INACCOUNTDATE as INACCOUNTDATE,zzpd.ACCORDDATE as ACCORDDATE,zzpd.CONTRACTNO as SERIALNO,zzpd.REGISTRATIONDATE as REGISTRATIONDATE,zzpd.SURETYPE as SURETYPE,zzpd.BUSINESSMODEL as BUSINESSMODEL,zzpd.PRODUCTID as PRODUCTID,zzpd.SUBPRODUCTTYPE as SUBPRODUCTTYPE,
+					zzpd.city as city,zzpd.citycode as citycode,zzpd.paytype as paytype,zzpd.paydate as PAYDATE,zzpd.seqid as SEQUENCE,zzpd.ACTUALPAYDATE,'' as DELIVERYDATE,'' as DCDATE,'' as SHDATE,
+					'' as LPDATE,'' as DEBOURS,'RXCH' as ASSETBELONG,zzpd.GUARANTEEPARTY as GUARANTEEPARTY,
+					zzpd.PAYPRINCIPALAMT as PAYPRINCIPALAMT,zzpd.payinteamt as PAYINTEAMT,0 as WAIVEINTAMT,0 as A11,
+					nvl((zzpd.PAYPRINCIPALAMT+zzpd.payinteamt),0) as AMOUNT
+					from zjjs_zd_pay_daily zzpd --paydate
+					<include refid="CurrentPay_ZD_Where_Sql"/>
+					</if>
+					
+					--union all
+					<if test="assetbelong != null and assetbelong != '' and assetbelong == 'HBYH'">
+					select 
+					zhpd.INACCOUNTDATE as INACCOUNTDATE,zhpd.ACCORDDATE as ACCORDDATE,zhpd.SERIALNO as SERIALNO,zhpd.REGISTRATIONDATE as REGISTRATIONDATE,zhpd.suretype as SURETYPE,zhpd.businessmodel as BUSINESSMODEL,zhpd.PRODUCTID as PRODUCTID,zhpd.SUBPRODUCTTYPE as SUBPRODUCTTYPE,
+					zhpd.city as city,zhpd.citycode as citycode,zhpd.paytype as paytype,zhpd.paydate as PAYDATE,zhpd.SEQID as SEQUENCE,zhpd.ACTUALPAYDATE,zhpd.DELIVERYDATE as DELIVERYDATE,zhpd.DCDATE as DCDATE,zhpd.shdate as SHDATE,
+					zhpd.lpdate as LPDATE,zhpd.DEBOURS as DEBOURS,zhpd.ASSETBELONG as ASSETBELONG,zhpd.GUARANTEEPARTY as GUARANTEEPARTY,
+					zhpd.PAYPRINCIPALAMT as PAYPRINCIPALAMT,zhpd.PAYINTEAMT as PAYINTEAMT,0 as WAIVEINTAMT,nvl(zhpd.A11,0) as A11,
+					(zhpd.PAYPRINCIPALAMT+zhpd.PAYINTEAMT) as AMOUNT
+					from zjjs_actualpay_daily zhpd --ACTUALPAYDATE
+					<include refid="CurrentPay_HH_Where_Sql"/>
+					</if>
+				
+				)
+	</select>
+	
+	<select id="queryCurrentPay" resultMap="currentPayMap">
+		SELECT * FROM (
+			SELECT A.*,ROWNUM RN FROM (
+			
+			   <if test="assetbelong != null and assetbelong != '' and assetbelong == 'JYPH'">
+			   select 
+					jy.INACCOUNTDATE as INACCOUNTDATE,jy.ACCORDDATE as ACCORDDATE,jy.contracts as SERIALNO,jy.REGISTRATIONDATE as REGISTRATIONDATE,jy.SURETYPE as SURETYPE,jy.BUSINESSMODEL as BUSINESSMODEL,jy.PRODUCTID as PRODUCTID,jy.SUBPRODUCTTYPE as SUBPRODUCTTYPE,
+					jy.city as city,jy.citycode as citycode,jy.paytype as paytype,jy.paydate as PAYDATE,jy.SEQUENCE as SEQUENCE,jy.repaydate as ACTUALPAYDATE,''  as DELIVERYDATE,'' as DCDATE,'' as SHDATE,
+					'' as LPDATE,'' as DEBOURS,'JYPH' as ASSETBELONG,jy.GUARANTEEPARTY as GUARANTEEPARTY,
+					nvl(jy.PRINCIPAL,0) as PAYPRINCIPALAMT,nvl(jy.interest,0) as PAYINTEAMT,0 as WAIVEINTAMT,0 as A11,
+					nvl((jy.PRINCIPAL+jy.interest),0) as AMOUNT,
+					jy.clientname as CLIENTNAME,
+					'' as MATURITYDATE,
+					jy.SNO as SNO,
+					jy.RNO as RNO,
+					jy.SA_ID as SA_ID,
+					jy.PRODUCTCATEGORY as PRODUCTCATEGORY,
+					jy.PROVINCE as PROVINCE,
+					jy.CREDITPERSON as CREDITPERSON,
+					'' as CONTRACTLIFE,
+					jy.CDATE as CDATE,
+					0 as OVERDUEDAYS,
+					'' as CANCELTYPE,
+					'' as TBDATE,
+					jy.INACCOUNTSTATUS as INACCOUNTSTATUS,
+					'回款表' as DATASOURCE
+					from zjjs_jy_reback jy --repaydate
+					<include refid="CurrentPay_JY_Where_Sql"/>
+					ORDER BY jy.contracts,jy.ACCORDDATE ASC
+			   </if>
+					--union all
+				<if test="assetbelong != null and assetbelong != '' and (assetbelong == 'ZXXT' or assetbelong == 'ZTXT')">
+					select 
+					zpd.INACCOUNTDATE as INACCOUNTDATE,zpd.ACCORDDATE as ACCORDDATE,zpd.SERIALNO as SERIALNO,zpd.REGISTRATIONDATE as REGISTRATIONDATE,zpd.SURETYPE as SURETYPE,zpd.BUSINESSMODEL as BUSINESSMODEL,zpd.PRODUCTID as PRODUCTID,zpd.SUBPRODUCTTYPE as SUBPRODUCTTYPE,
+					zpd.city as city,zpd.citycode as citycode,zpd.PAYTYPE as paytype,zpd.PAYDATE as PAYDATE,zpd.SEQID as SEQUENCE,'' as ACTUALPAYDATE,zpd.DELIVERYDATE as DELIVERYDATE,zpd.dcdate as DCDATE,zpd.shdate as SHDATE,
+					zpd.LPDATE as LPDATE,zpd.DEBOURS as DEBOURS,zpd.ASSETBELONG as ASSETBELONG,zpd.GUARANTEEPARTY as GUARANTEEPARTY,
+					nvl(zpd.PAYPRINCIPALAMT,0) as PAYPRINCIPALAMT,nvl(zpd.PAYINTEAMT,0) as PAYINTEAMT,0 as WAIVEINTAMT,nvl(zpd.A11,0) as A11,
+					(zpd.PAYPRINCIPALAMT+zpd.PAYINTEAMT) as AMOUNT,
+					zpd.clientname as CLIENTNAME,
+					zpd.MATURITYDATE as MATURITYDATE,
+					zpd.SNO as SNO,
+					zpd.RNO as RNO,
+					zpd.SA_ID as SA_ID,
+					zpd.PRODUCTCATEGORY as PRODUCTCATEGORY,
+					zpd.PROVINCE as PROVINCE,
+					zpd.CREDITPERSON as CREDITPERSON,
+					zpd.CONTRACTLIFE as CONTRACTLIFE,
+					zpd.CDATE as CDATE,
+					0 as OVERDUEDAYS,
+					zpd.CANCELTYPE as CANCELTYPE,
+					zpd.TBDATE as TBDATE,
+					zpd.INACCOUNTSTATUS as INACCOUNTSTATUS,
+					'当期到期表' as DATASOURCE
+					from zjjs_pay_daily zpd --paydate
+					<include refid="CurrentPay_XT_Where_Sql"/>
+					ORDER BY zpd.SERIALNO,zpd.ACCORDDATE ASC 
+				</if>
+			
+				<if test="assetbelong != null and assetbelong != '' and assetbelong == 'RXCH'">
+					--union all
+					select 
+					zzpd.INACCOUNTDATE as INACCOUNTDATE,zzpd.ACCORDDATE as ACCORDDATE,zzpd.CONTRACTNO as SERIALNO,zzpd.REGISTRATIONDATE as REGISTRATIONDATE,zzpd.SURETYPE as SURETYPE,zzpd.BUSINESSMODEL as BUSINESSMODEL,zzpd.PRODUCTID as PRODUCTID,zzpd.SUBPRODUCTTYPE as SUBPRODUCTTYPE,
+					zzpd.city as city,zzpd.citycode as citycode,zzpd.paytype as paytype,zzpd.paydate as PAYDATE,zzpd.seqid as SEQUENCE,zzpd.ACTUALPAYDATE,'' as DELIVERYDATE,'' as DCDATE,'' as SHDATE,
+					'' as LPDATE,'' as DEBOURS,'RXCH' as ASSETBELONG,zzpd.GUARANTEEPARTY as GUARANTEEPARTY,
+					nvl(zzpd.PAYPRINCIPALAMT,0) as PAYPRINCIPALAMT,nvl(zzpd.payinteamt,0) as PAYINTEAMT,0 as WAIVEINTAMT,0 as A11,
+					nvl((zzpd.PAYPRINCIPALAMT+zzpd.payinteamt),0) as AMOUNT,
+					zzpd.clientname as CLIENTNAME,
+					zzpd.PAYEXPIREDATE as MATURITYDATE,
+					zzpd.SNO as SNO,
+					zzpd.RNO as RNO,
+					zzpd.SA_ID as SA_ID,
+					zzpd.PRODUCTCATEGORY as PRODUCTCATEGORY,
+					zzpd.PROVINCE as PROVINCE,
+					zzpd.CREDITPERSON as CREDITPERSON,
+					'' as CONTRACTLIFE,
+					zzpd.CDATE as CDATE,
+					zzpd.CPDDAYS as OVERDUEDAYS,
+					'' as CANCELTYPE,
+					'' as TBDATE,
+					zzpd.INACCOUNTSTATUS as INACCOUNTSTATUS,
+					'住贷表' as DATASOURCE
+					from zjjs_zd_pay_daily zzpd --paydate
+					<include refid="CurrentPay_ZD_Where_Sql"/>
+					ORDER BY zzpd.CONTRACTNO,zzpd.ACCORDDATE ASC
+				</if>
+					
+					--union all
+				<if test="assetbelong != null and assetbelong != '' and assetbelong == 'HBYH'">
+					select 
+					zhpd.INACCOUNTDATE as INACCOUNTDATE,zhpd.ACCORDDATE as ACCORDDATE,zhpd.SERIALNO as SERIALNO,zhpd.REGISTRATIONDATE as REGISTRATIONDATE,zhpd.suretype as SURETYPE,zhpd.businessmodel as BUSINESSMODEL,zhpd.PRODUCTID as PRODUCTID,zhpd.SUBPRODUCTTYPE as SUBPRODUCTTYPE,
+					zhpd.city as city,zhpd.citycode as citycode,zhpd.paytype as paytype,zhpd.paydate as PAYDATE,zhpd.SEQID as SEQUENCE,zhpd.ACTUALPAYDATE,zhpd.DELIVERYDATE as DELIVERYDATE,zhpd.DCDATE as DCDATE,zhpd.shdate as SHDATE,
+					zhpd.lpdate as LPDATE,zhpd.DEBOURS as DEBOURS,zhpd.ASSETBELONG as ASSETBELONG,zhpd.GUARANTEEPARTY as GUARANTEEPARTY,
+					nvl(zhpd.PAYPRINCIPALAMT,0) as PAYPRINCIPALAMT,nvl(zhpd.PAYINTEAMT,0) as PAYINTEAMT,0 as WAIVEINTAMT,nvl(zhpd.A11,0) as A11,
+					(zhpd.PAYPRINCIPALAMT+zhpd.PAYINTEAMT) as AMOUNT,
+					zhpd.clientname as CLIENTNAME,
+					zhpd.MATURITYDATE as MATURITYDATE,
+					zhpd.SNO as SNO,
+					zhpd.RNO as RNO,
+					zhpd.SA_ID as SA_ID,
+					zhpd.PRODUCTCATEGORY as PRODUCTCATEGORY,
+					zhpd.PROVINCE as PROVINCE,
+					zhpd.CREDITPERSON as CREDITPERSON,
+					zhpd.CONTRACTLIFE as CONTRACTLIFE,
+					zhpd.CDATE as CDATE,
+					zhpd.OVERDUEDAYS as OVERDUEDAYS,
+					zhpd.CANCELTYPE as CANCELTYPE,
+					zhpd.TBDATE as TBDATE,
+					zhpd.INACCOUNTSTATUS as INACCOUNTSTATUS,
+					'当期实还表' as DATASOURCE
+					from zjjs_actualpay_daily zhpd --ACTUALPAYDATE
+					<include refid="CurrentPay_HH_Where_Sql"/>
+					ORDER BY zhpd.SERIALNO,zhpd.ACCORDDATE ASC
+				</if>
+				
+				)   A WHERE ROWNUM &lt;= #{endpoint} 
+			  ) WHERE RN &gt;= #{startpoint}
+	</select>
+	
+	<select id="queryCurrentPayAll" resultMap="currentPayMap">
+	
+				<if test="assetbelong != null and assetbelong != '' and assetbelong == 'JYPH'">
+				select 
+					jy.INACCOUNTDATE as INACCOUNTDATE,jy.ACCORDDATE as ACCORDDATE,jy.contracts as SERIALNO,jy.REGISTRATIONDATE as REGISTRATIONDATE,jy.SURETYPE as SURETYPE,jy.BUSINESSMODEL as BUSINESSMODEL,jy.PRODUCTID as PRODUCTID,jy.SUBPRODUCTTYPE as SUBPRODUCTTYPE,
+					jy.city as city,jy.citycode as citycode,jy.paytype as paytype,jy.paydate as PAYDATE,jy.SEQUENCE as SEQUENCE,jy.repaydate as ACTUALPAYDATE,''  as DELIVERYDATE,'' as DCDATE,'' as SHDATE,
+					'' as LPDATE,'' as DEBOURS,
+					'嘉银普惠' as ASSETBELONG,
+					(
+			        select itemname from creditperson_code where itemno = jy.GUARANTEEPARTY
+				    )
+					 as GUARANTEEPARTY,
+					nvl(jy.PRINCIPAL,0) as PAYPRINCIPALAMT,nvl(jy.interest,0) as PAYINTEAMT,0 as WAIVEINTAMT,0 as A11,
+					nvl((jy.PRINCIPAL+jy.interest),0) as AMOUNT
+					from zjjs_jy_reback jy --repaydate
+					<include refid="CurrentPay_JY_Where_Sql"/>
+					ORDER BY jy.contracts,jy.ACCORDDATE ASC
+				</if>
+					
+					--union all
+				<if test="assetbelong != null and assetbelong != '' and (assetbelong == 'ZXXT' or assetbelong == 'ZTXT')">
+					select 
+					zpd.INACCOUNTDATE as INACCOUNTDATE,zpd.ACCORDDATE as ACCORDDATE,zpd.SERIALNO as SERIALNO,zpd.REGISTRATIONDATE as REGISTRATIONDATE,zpd.SURETYPE as SURETYPE,zpd.BUSINESSMODEL as BUSINESSMODEL,zpd.PRODUCTID as PRODUCTID,zpd.SUBPRODUCTTYPE as SUBPRODUCTTYPE,
+					zpd.city as city,zpd.citycode as citycode,zpd.PAYTYPE as paytype,zpd.PAYDATE as PAYDATE,zpd.SEQID as SEQUENCE,'' as ACTUALPAYDATE,zpd.DELIVERYDATE as DELIVERYDATE,zpd.dcdate as DCDATE,zpd.shdate as SHDATE,
+					zpd.LPDATE as LPDATE,
+					(
+			        select itemname from creditperson_code where itemno = zpd.DEBOURS
+				    )
+					 as DEBOURS,
+					(
+			        select itemname from creditperson_code where itemno = zpd.ASSETBELONG
+				    )
+					 as ASSETBELONG,
+					(
+			        select itemname from creditperson_code where itemno = zpd.GUARANTEEPARTY
+				    )
+					 as GUARANTEEPARTY,
+					nvl(zpd.PAYPRINCIPALAMT,0) as PAYPRINCIPALAMT,nvl(zpd.PAYINTEAMT,0) as PAYINTEAMT,0 as WAIVEINTAMT,nvl(zpd.A11,0) as A11,
+					(zpd.PAYPRINCIPALAMT+zpd.PAYINTEAMT) as AMOUNT
+					from zjjs_pay_daily zpd --paydate
+					<include refid="CurrentPay_XT_Where_Sql"/>
+					ORDER BY zpd.SERIALNO,zpd.ACCORDDATE ASC 
+				</if>
+					
+					--union all
+				<if test="assetbelong != null and assetbelong != '' and assetbelong == 'RXCH'">
+					select 
+					zzpd.INACCOUNTDATE as INACCOUNTDATE,zzpd.ACCORDDATE as ACCORDDATE,zzpd.CONTRACTNO as SERIALNO,zzpd.REGISTRATIONDATE as REGISTRATIONDATE,zzpd.SURETYPE as SURETYPE,zzpd.BUSINESSMODEL as BUSINESSMODEL,zzpd.PRODUCTID as PRODUCTID,zzpd.SUBPRODUCTTYPE as SUBPRODUCTTYPE,
+					zzpd.city as city,zzpd.citycode as citycode,zzpd.paytype as paytype,zzpd.paydate as PAYDATE,zzpd.seqid as SEQUENCE,zzpd.ACTUALPAYDATE,'' as DELIVERYDATE,'' as DCDATE,'' as SHDATE,
+					'' as LPDATE,'' as DEBOURS,
+					'宝安融兴村行' as ASSETBELONG,
+					(
+			        select itemname from creditperson_code where itemno = zzpd.GUARANTEEPARTY
+				    )
+					 as GUARANTEEPARTY,
+					nvl(zzpd.PAYPRINCIPALAMT,0) as PAYPRINCIPALAMT,nvl(zzpd.payinteamt,0) as PAYINTEAMT,0 as WAIVEINTAMT,0 as A11,
+					nvl((zzpd.PAYPRINCIPALAMT+zzpd.payinteamt),0) as AMOUNT
+					from zjjs_zd_pay_daily zzpd --paydate
+					<include refid="CurrentPay_ZD_Where_Sql"/>
+					ORDER BY zzpd.CONTRACTNO,zzpd.ACCORDDATE ASC
+				</if>
+					
+					--union all
+				<if test="assetbelong != null and assetbelong != '' and assetbelong == 'HBYH'">
+					select 
+					zhpd.INACCOUNTDATE as INACCOUNTDATE,zhpd.ACCORDDATE as ACCORDDATE,zhpd.SERIALNO as SERIALNO,zhpd.REGISTRATIONDATE as REGISTRATIONDATE,zhpd.suretype as SURETYPE,zhpd.businessmodel as BUSINESSMODEL,zhpd.PRODUCTID as PRODUCTID,zhpd.SUBPRODUCTTYPE as SUBPRODUCTTYPE,
+					zhpd.city as city,zhpd.citycode as citycode,zhpd.paytype as paytype,zhpd.paydate as PAYDATE,zhpd.SEQID as SEQUENCE,zhpd.ACTUALPAYDATE,zhpd.DELIVERYDATE as DELIVERYDATE,zhpd.DCDATE as DCDATE,zhpd.shdate as SHDATE,
+					zhpd.lpdate as LPDATE,
+					(
+			        select itemname from creditperson_code where itemno = zhpd.DEBOURS
+				    )
+					 as DEBOURS,
+					(
+			        select itemname from creditperson_code where itemno = zhpd.ASSETBELONG
+				    )
+					 as ASSETBELONG,
+					(
+			        select itemname from creditperson_code where itemno = zhpd.GUARANTEEPARTY
+				    )
+					 as GUARANTEEPARTY,
+					nvl(zhpd.PAYPRINCIPALAMT,0) as PAYPRINCIPALAMT,nvl(zhpd.PAYINTEAMT,0) as PAYINTEAMT,0 as WAIVEINTAMT,nvl(zhpd.A11,0) as A11,
+					(zhpd.PAYPRINCIPALAMT+zhpd.PAYINTEAMT) as AMOUNT
+					from zjjs_actualpay_daily zhpd --ACTUALPAYDATE
+					<include refid="CurrentPay_HH_Where_Sql"/>
+					ORDER BY zhpd.SERIALNO,zhpd.ACCORDDATE ASC
+				</if>
+				
+	</select>
+	
+	
+	<sql id="CurrentPay_Where_Sql">
+    	<where> 
+    	<if test="serialno != null and serialno != ''">
+			AND zbs.SERIALNO = #{serialno,jdbcType=VARCHAR}
+		</if>
+		<if test="startPayDate != null and startPayDate != ''">
+			AND zbs.PAYDATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endPayDate != null and endPayDate != ''">
+			AND zbs.PAYDATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startRegistrationDate != null and startRegistrationDate != ''">
+			AND zbs.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endRegistrationDate != null and endRegistrationDate != ''">
+			AND zbs.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="paybelong != null and paybelong != '' ">
+			AND zbs.PAYBELONG = #{paybelong,jdbcType=VARCHAR}
+		</if>
+		<if test="assetbelong != null and assetbelong != '' ">
+			AND zbs.ASSETBELONG = #{assetbelong,jdbcType=VARCHAR}
+		</if>
+		<if test="seqidStr != null and seqidStr != ''">
+			AND zbs.SEQID = #{seqidStr,jdbcType=DECIMAL}
+		</if>
+		<if test="payprincipalamtStr != null and payprincipalamtStr != ''">
+			AND zbs.PAYPRINCIPALAMT = #{payprincipalamtStr,jdbcType=DECIMAL}
+		</if>
+		<if test="payinteamtStr != null and payinteamtStr != ''">
+			AND zbs.PAYINTEAMT = #{payinteamtStr,jdbcType=DECIMAL}
+		</if>
+		
+		<if test="guaranteeparty != null and guaranteeparty != ''">
+			AND zbs.GUARANTEEPARTY = #{guaranteeparty,jdbcType=DECIMAL}
+		</if>
+		<if test="creditperson != null and creditperson != ''">
+			AND zbs.CREDITPERSON = #{creditperson,jdbcType=DECIMAL}
+		</if>
+		<if test="businessmodel != null and businessmodel != ''">
+			AND zbs.BUSINESSMODEL = #{businessmodel,jdbcType=DECIMAL}
+		</if>
+		<if test="subproducttype != null and subproducttype != ''">
+			AND zbs.SUBPRODUCTTYPE = #{subproducttype,jdbcType=DECIMAL}
+		</if>
+		<if test="city != null and city != ''">
+			AND zbs.CITY = #{city,jdbcType=DECIMAL}
+		</if>
+		<if test="startInaccountdate != null and startInaccountdate != ''">
+			AND zbs.KEEPACCOUNTSDATE &gt;= #{startInaccountdate,jdbcType=VARCHAR}
+		</if>
+		<if test="endInaccountdate != null and endInaccountdate != ''">
+			AND zbs.KEEPACCOUNTSDATE &lt;= #{endInaccountdate,jdbcType=VARCHAR}
+		</if>
+		<if test="datasource != null and datasource != ''">
+			AND zbs.DATASOURCE = #{datasource,jdbcType=DECIMAL}
+		</if>
+		<if test="startActualpaydate != null and startActualpaydate != ''">
+			AND zbs.ACTUALPAYDATE &gt;= #{startActualpaydate,jdbcType=VARCHAR}
+		</if>
+		<if test="endActualpaydate != null and endActualpaydate != ''">
+			AND zbs.ACTUALPAYDATE &lt;= #{endActualpaydate,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	
+	<sql id="CurrentPay_JY_Where_Sql">
+    	<where> 
+    	<if test="serialno != null and serialno != ''">
+			AND jy.CONTRACTS = #{serialno,jdbcType=VARCHAR}
+		</if>
+		<if test="startPayDate != null and startPayDate != ''">
+			AND jy.REPAYDATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endPayDate != null and endPayDate != ''">
+			AND jy.REPAYDATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startRegistrationDate != null and startRegistrationDate != ''">
+			AND jy.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endRegistrationDate != null and endRegistrationDate != ''">
+			AND jy.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="assetbelong != null and assetbelong != '' and assetbelong != 'JYPH'">
+			AND 1=2
+		</if>
+		<if test="seqidStr != null and seqidStr != ''">
+			AND jy.SEQUENCE = #{seqidStr,jdbcType=DECIMAL}
+		</if>
+		<if test="payprincipalamtStr != null and payprincipalamtStr != ''">
+			AND jy.PRINCIPAL = #{payprincipalamtStr,jdbcType=DECIMAL}
+		</if>
+		<if test="payinteamtStr != null and payinteamtStr != ''">
+			AND jy.INTEREST = #{payinteamtStr,jdbcType=DECIMAL}
+		</if>
+		
+		<if test="guaranteeparty != null and guaranteeparty != ''">
+			AND jy.GUARANTEEPARTY = #{guaranteeparty,jdbcType=DECIMAL}
+		</if>
+		<if test="creditperson != null and creditperson != ''">
+			AND jy.CREDITPERSON = #{creditperson,jdbcType=DECIMAL}
+		</if>
+		<if test="businessmodel != null and businessmodel != ''">
+			AND jy.BUSINESSMODEL = #{businessmodel,jdbcType=DECIMAL}
+		</if>
+		<if test="subproducttype != null and subproducttype != ''">
+			AND jy.SUBPRODUCTTYPE = #{subproducttype,jdbcType=DECIMAL}
+		</if>
+		<if test="city != null and city != ''">
+			AND jy.CITY = #{city,jdbcType=DECIMAL}
+		</if>
+		<if test="startInaccountdate != null and startInaccountdate != ''">
+			AND jy.INACCOUNTDATE &gt;= #{startInaccountdate,jdbcType=VARCHAR}
+		</if>
+		<if test="endInaccountdate != null and endInaccountdate != ''">
+			AND jy.INACCOUNTDATE &lt;= #{endInaccountdate,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<sql id="CurrentPay_XT_Where_Sql">
+		<where>
+			<if test="serialno != null and serialno != ''">
+				AND zpd.SERIALNO = #{serialno,jdbcType=VARCHAR}
+			</if>
+			<if test="startPayDate != null and startPayDate != ''">
+				AND zpd.PAYDATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+			</if>
+			<if test="endPayDate != null and endPayDate != ''">
+				AND zpd.PAYDATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+			</if>
+			<if test="assetbelong != null and assetbelong != ''">
+				AND zpd.ASSETBELONG = #{assetbelong,jdbcType=VARCHAR}
+			</if>
+			<if test="startRegistrationDate != null and startRegistrationDate != ''">
+				AND zpd.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+			</if>
+			<if test="endRegistrationDate != null and endRegistrationDate != ''">
+				AND zpd.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+			</if>
+			
+			<if test="seqidStr != null and seqidStr != ''">
+				AND zpd.SEQID = #{seqidStr,jdbcType=DECIMAL}
+			</if>
+			<if test="payprincipalamtStr != null and payprincipalamtStr != ''">
+				AND zpd.PAYPRINCIPALAMT = #{payprincipalamtStr,jdbcType=DECIMAL}
+			</if>
+			<if test="payinteamtStr != null and payinteamtStr != ''">
+				AND zpd.PAYINTEAMT = #{payinteamtStr,jdbcType=DECIMAL}
+			</if>
+			
+			<if test="guaranteeparty != null and guaranteeparty != ''">
+				AND zpd.GUARANTEEPARTY = #{guaranteeparty,jdbcType=DECIMAL}
+			</if>
+			<if test="creditperson != null and creditperson != ''">
+				AND zpd.CREDITPERSON = #{creditperson,jdbcType=DECIMAL}
+			</if>
+			<if test="businessmodel != null and businessmodel != ''">
+				AND zpd.BUSINESSMODEL = #{businessmodel,jdbcType=DECIMAL}
+			</if>
+			<if test="subproducttype != null and subproducttype != ''">
+				AND zpd.SUBPRODUCTTYPE = #{subproducttype,jdbcType=DECIMAL}
+			</if>
+			<if test="city != null and city != ''">
+				AND zpd.CITY = #{city,jdbcType=DECIMAL}
+			</if>
+			<if test="startInaccountdate != null and startInaccountdate != ''">
+				AND zpd.INACCOUNTDATE &gt;= #{startInaccountdate,jdbcType=VARCHAR}
+			</if>
+			<if test="endInaccountdate != null and endInaccountdate != ''">
+				AND zpd.INACCOUNTDATE &lt;= #{endInaccountdate,jdbcType=VARCHAR}
+			</if>
+			AND zpd.ASSETBELONG in('ZXXT','ZTXT')
+		</where>
+	</sql>
+	
+	<sql id="CurrentPay_ZD_Where_Sql">
+    	<where> 
+    	<if test="serialno != null and serialno != ''">
+			AND zzpd.CONTRACTNO = #{serialno,jdbcType=VARCHAR}
+		</if>
+		<if test="startPayDate != null and startPayDate != ''">
+			AND zzpd.PAYDATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endPayDate != null and endPayDate != ''">
+			AND zzpd.PAYDATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startRegistrationDate != null and startRegistrationDate != ''">
+			AND zzpd.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endRegistrationDate != null and endRegistrationDate != ''">
+			AND zzpd.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="assetbelong != null and assetbelong != '' and assetbelong != 'RXCH'">
+			AND 1=2
+		</if>
+		<if test="seqidStr != null and seqidStr != ''">
+			AND zzpd.SEQID = #{seqidStr,jdbcType=DECIMAL}
+		</if>
+		<if test="payprincipalamtStr != null and payprincipalamtStr != ''">
+			AND zzpd.PAYPRINCIPALAMT = #{payprincipalamtStr,jdbcType=DECIMAL}
+		</if>
+		<if test="payinteamtStr != null and payinteamtStr != ''">
+			AND zzpd.PAYINTEAMT = #{payinteamtStr,jdbcType=DECIMAL}
+		</if>
+		
+		<if test="guaranteeparty != null and guaranteeparty != ''">
+			AND zzpd.GUARANTEEPARTY = #{guaranteeparty,jdbcType=DECIMAL}
+		</if>
+		<if test="creditperson != null and creditperson != ''">
+			AND zzpd.CREDITPERSON = #{creditperson,jdbcType=DECIMAL}
+		</if>
+		<if test="businessmodel != null and businessmodel != ''">
+			AND zzpd.BUSINESSMODEL = #{businessmodel,jdbcType=DECIMAL}
+		</if>
+		<if test="subproducttype != null and subproducttype != ''">
+			AND zzpd.SUBPRODUCTTYPE = #{subproducttype,jdbcType=DECIMAL}
+		</if>
+		<if test="city != null and city != ''">
+			AND zzpd.CITY = #{city,jdbcType=DECIMAL}
+		</if>
+		<if test="startInaccountdate != null and startInaccountdate != ''">
+			AND zzpd.INACCOUNTDATE &gt;= #{startInaccountdate,jdbcType=VARCHAR}
+		</if>
+		<if test="endInaccountdate != null and endInaccountdate != ''">
+			AND zzpd.INACCOUNTDATE &lt;= #{endInaccountdate,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<sql id="CurrentPay_HH_Where_Sql">
+		<where>
+			<if test="serialno != null and serialno != ''">
+				AND zhpd.SERIALNO = #{serialno,jdbcType=VARCHAR}
+			</if>
+			<if test="startPayDate != null and startPayDate != ''">
+				AND zhpd.ACTUALPAYDATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+			</if>
+			<if test="endPayDate != null and endPayDate != ''">
+				AND zhpd.ACTUALPAYDATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+			</if>
+			<if test="assetbelong != null and assetbelong != ''">
+				AND zhpd.ASSETBELONG = #{assetbelong,jdbcType=VARCHAR}
+			</if>
+			<if test="startRegistrationDate != null and startRegistrationDate != ''">
+				AND zhpd.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+			</if>
+			<if test="endRegistrationDate != null and endRegistrationDate != ''">
+				AND zhpd.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+			</if>
+			
+			<if test="seqidStr != null and seqidStr != ''">
+				AND zhpd.SEQID = #{seqidStr,jdbcType=DECIMAL}
+			</if>
+			<if test="payprincipalamtStr != null and payprincipalamtStr != ''">
+				AND zhpd.PAYPRINCIPALAMT = #{payprincipalamtStr,jdbcType=DECIMAL}
+			</if>
+			<if test="payinteamtStr != null and payinteamtStr != ''">
+				AND zhpd.PAYINTEAMT = #{payinteamtStr,jdbcType=DECIMAL}
+			</if>
+			
+			<if test="guaranteeparty != null and guaranteeparty != ''">
+				AND zhpd.GUARANTEEPARTY = #{guaranteeparty,jdbcType=DECIMAL}
+			</if>
+			<if test="creditperson != null and creditperson != ''">
+				AND zhpd.CREDITPERSON = #{creditperson,jdbcType=DECIMAL}
+			</if>
+			<if test="businessmodel != null and businessmodel != ''">
+				AND zhpd.BUSINESSMODEL = #{businessmodel,jdbcType=DECIMAL}
+			</if>
+			<if test="subproducttype != null and subproducttype != ''">
+				AND zhpd.SUBPRODUCTTYPE = #{subproducttype,jdbcType=DECIMAL}
+			</if>
+			<if test="city != null and city != ''">
+				AND zhpd.CITY = #{city,jdbcType=DECIMAL}
+			</if>
+			<if test="startInaccountdate != null and startInaccountdate != ''">
+				AND zhpd.INACCOUNTDATE &gt;= #{startInaccountdate,jdbcType=VARCHAR}
+			</if>
+			<if test="endInaccountdate != null and endInaccountdate != ''">
+				AND zhpd.INACCOUNTDATE &lt;= #{endInaccountdate,jdbcType=VARCHAR}
+			</if>
+			AND zhpd.ASSETBELONG ='HBYH'
+		</where>
+	</sql>
+	
+	<update id="updateCurrentPay_JY" parameterType="com.billionsfinance.bas.entity.CurrentExpiredVO">
+		update zjjs_jy_reback jy
+		<set>
+			INACCOUNTSTATUS='1',
+			INACCOUNTBY= #{inaccountby,jdbcType=VARCHAR},
+			INACCOUNTDATE= #{inaccountdate,jdbcType=VARCHAR},
+			<if test="inaccountremark != null and inaccountremark != ''">
+				INACCOUNTREMARK = #{inaccountremark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<include refid="CurrentPay_JY_Where_Sql"/>
+	</update>
+	
+	<update id="updateCurrentPay_XT" parameterType="com.billionsfinance.bas.entity.CurrentExpiredVO">
+		update zjjs_pay_daily zpd
+		<set>
+			INACCOUNTSTATUS='1',
+			INACCOUNTBY= #{inaccountby,jdbcType=VARCHAR},
+			INACCOUNTDATE= #{inaccountdate,jdbcType=VARCHAR},
+			<if test="inaccountremark != null and inaccountremark != ''">
+				INACCOUNTREMARK = #{inaccountremark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<include refid="CurrentPay_XT_Where_Sql"/>
+	</update>
+	
+	<update id="updateCurrentPay_ZD" parameterType="com.billionsfinance.bas.entity.CurrentExpiredVO">
+		update zjjs_zd_pay_daily zzpd
+		<set>
+			INACCOUNTSTATUS='1',
+			INACCOUNTBY= #{inaccountby,jdbcType=VARCHAR},
+			INACCOUNTDATE= #{inaccountdate,jdbcType=VARCHAR},
+			<if test="inaccountremark != null and inaccountremark != ''">
+				INACCOUNTREMARK = #{inaccountremark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<include refid="CurrentPay_ZD_Where_Sql"/>
+	</update>
+	
+	<update id="updateCurrentPay_HH" parameterType="com.billionsfinance.bas.entity.CurrentExpiredVO">
+		update zjjs_actualpay_daily zhpd
+		<set>
+			INACCOUNTSTATUS='1',
+			INACCOUNTBY= #{inaccountby,jdbcType=VARCHAR},
+			INACCOUNTDATE= #{inaccountdate,jdbcType=VARCHAR},
+			<if test="inaccountremark != null and inaccountremark != ''">
+				INACCOUNTREMARK = #{inaccountremark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<include refid="CurrentPay_HH_Where_Sql"/>
+	</update>
+	
+	<select id="checkCurrentPay" resultType="java.lang.Integer">
+		SELECT  COUNT(1) FROM (
+			   <if test="assetbelong != null and assetbelong != '' and assetbelong == 'JYPH'">
+			   select 
+					jy.INACCOUNTDATE as INACCOUNTDATE,jy.ACCORDDATE as ACCORDDATE,jy.contracts as SERIALNO,jy.REGISTRATIONDATE as REGISTRATIONDATE,jy.SURETYPE as SURETYPE,jy.BUSINESSMODEL as BUSINESSMODEL,jy.PRODUCTID as PRODUCTID,jy.SUBPRODUCTTYPE as SUBPRODUCTTYPE,
+					jy.city as city,jy.citycode as citycode,jy.paytype as paytype,jy.paydate as PAYDATE,jy.SEQUENCE as SEQUENCE,jy.repaydate as ACTUALPAYDATE,''  as DELIVERYDATE,'' as DCDATE,'' as SHDATE,
+					'' as LPDATE,'' as DEBOURS,'' as ASSETBELONG,jy.GUARANTEEPARTY as GUARANTEEPARTY,
+					jy.PRINCIPAL as PAYPRINCIPALAMT,jy.interest as PAYINTEAMT,0 as A11,
+					(jy.PRINCIPAL+jy.interest) as AMOUNT
+					from zjjs_jy_reback jy --repaydate
+					<include refid="CurrentPay_JY_Inaccount_Where_Sql"/>
+				</if>
+					
+					--union all
+				<if test="assetbelong != null and assetbelong != '' and (assetbelong == 'ZXXT' or assetbelong == 'ZTXT')">
+					select 
+					zpd.INACCOUNTDATE as INACCOUNTDATE,zpd.ACCORDDATE as ACCORDDATE,zpd.SERIALNO as SERIALNO,zpd.REGISTRATIONDATE as REGISTRATIONDATE,zpd.SURETYPE as SURETYPE,zpd.BUSINESSMODEL as BUSINESSMODEL,zpd.PRODUCTID as PRODUCTID,zpd.SUBPRODUCTTYPE as SUBPRODUCTTYPE,
+					zpd.city as city,zpd.citycode as citycode,zpd.PAYTYPE as paytype,zpd.PAYDATE as PAYDATE,zpd.SEQID as SEQUENCE,'' as ACTUALPAYDATE,zpd.DELIVERYDATE as DELIVERYDATE,zpd.dcdate as DCDATE,zpd.shdate as SHDATE,
+					zpd.LPDATE as LPDATE,zpd.DEBOURS as DEBOURS,zpd.ASSETBELONG as ASSETBELONG,zpd.GUARANTEEPARTY as GUARANTEEPARTY,
+					zpd.PAYPRINCIPALAMT as PAYPRINCIPALAMT,zpd.PAYINTEAMT as PAYINTEAMT,nvl(zpd.A11,0) as A11,
+					(zpd.PAYPRINCIPALAMT+zpd.PAYINTEAMT+nvl(zpd.A11,0)) as AMOUNT
+					from zjjs_pay_daily zpd --paydate
+					<include refid="CurrentPay_XT_Inaccount_Where_Sql"/>
+				</if>
+				
+					--union all
+				<if test="assetbelong != null and assetbelong != '' and assetbelong == 'RXCH'">
+					select 
+					zzpd.INACCOUNTDATE as INACCOUNTDATE,zzpd.ACCORDDATE as ACCORDDATE,zzpd.CONTRACTNO as SERIALNO,zzpd.REGISTRATIONDATE as REGISTRATIONDATE,zzpd.SURETYPE as SURETYPE,zzpd.BUSINESSMODEL as BUSINESSMODEL,zzpd.PRODUCTID as PRODUCTID,zzpd.SUBPRODUCTTYPE as SUBPRODUCTTYPE,
+					zzpd.city as city,zzpd.citycode as citycode,zzpd.paytype as paytype,zzpd.paydate as PAYDATE,zzpd.seqid as SEQUENCE,zzpd.ACTUALPAYDATE,'' as DELIVERYDATE,'' as DCDATE,'' as SHDATE,
+					'' as LPDATE,'' as DEBOURS,'' as ASSETBELONG,zzpd.GUARANTEEPARTY as GUARANTEEPARTY,
+					zzpd.PAYPRINCIPALAMT as PAYPRINCIPALAMT,zzpd.payinteamt as PAYINTEAMT,0 as A11,
+					(zzpd.PAYPRINCIPALAMT+zzpd.payinteamt) as AMOUNT
+					from zjjs_zd_pay_daily zzpd --paydate
+					<include refid="CurrentPay_ZD_Inaccount_Where_Sql"/>
+				</if>
+					
+					--union all
+				<if test="assetbelong != null and assetbelong != '' and assetbelong == 'HBYH'">
+					select 
+					zhpd.INACCOUNTDATE as INACCOUNTDATE,zhpd.ACCORDDATE as ACCORDDATE,zhpd.SERIALNO as SERIALNO,zhpd.REGISTRATIONDATE as REGISTRATIONDATE,zhpd.suretype as SURETYPE,zhpd.businessmodel as BUSINESSMODEL,zhpd.PRODUCTID as PRODUCTID,zhpd.SUBPRODUCTTYPE as SUBPRODUCTTYPE,
+					zhpd.city as city,zhpd.citycode as citycode,zhpd.paytype as paytype,zhpd.paydate as PAYDATE,zhpd.SEQID as SEQUENCE,zhpd.ACTUALPAYDATE,zhpd.DELIVERYDATE as DELIVERYDATE,zhpd.DCDATE as DCDATE,zhpd.shdate as SHDATE,
+					zhpd.lpdate as LPDATE,zhpd.DEBOURS as DEBOURS,zhpd.ASSETBELONG as ASSETBELONG,zhpd.GUARANTEEPARTY as GUARANTEEPARTY,
+					zhpd.PAYPRINCIPALAMT as PAYPRINCIPALAMT,zhpd.PAYINTEAMT as PAYINTEAMT,nvl(zhpd.A11,0) as A11,
+					(zhpd.PAYPRINCIPALAMT+zhpd.PAYINTEAMT+nvl(zhpd.A11,0)) as AMOUNT
+					from zjjs_actualpay_daily zhpd --ACTUALPAYDATE
+					<include refid="CurrentPay_HH_Inaccount_Where_Sql"/>
+				</if>
+				
+				)
+	</select>
+	
+	<sql id="CurrentPay_JY_Inaccount_Where_Sql">
+    	<where> 
+    	<if test="serialno != null and serialno != ''">
+			AND jy.CONTRACTS = #{serialno,jdbcType=VARCHAR}
+		</if>
+		<if test="startPayDate != null and startPayDate != ''">
+			AND jy.REPAYDATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endPayDate != null and endPayDate != ''">
+			AND jy.REPAYDATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startRegistrationDate != null and startRegistrationDate != ''">
+			AND jy.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endRegistrationDate != null and endRegistrationDate != ''">
+			AND jy.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="assetbelong != null and assetbelong != '' and assetbelong != 'JYPH'">
+			AND 1=2
+		</if>
+		<if test="startInaccountdate != null and startInaccountdate != ''">
+			AND jy.INACCOUNTDATE &gt;= #{startInaccountdate,jdbcType=VARCHAR}
+		</if>
+		<if test="endInaccountdate != null and endInaccountdate != ''">
+			AND jy.INACCOUNTDATE &lt;= #{endInaccountdate,jdbcType=VARCHAR}
+		</if>
+		AND jy.INACCOUNTSTATUS = '1'
+      </where>
+	</sql>
+	
+	<sql id="CurrentPay_XT_Inaccount_Where_Sql">
+		<where>
+			<if test="serialno != null and serialno != ''">
+				AND zpd.SERIALNO = #{serialno,jdbcType=VARCHAR}
+			</if>
+			<if test="startPayDate != null and startPayDate != ''">
+				AND zpd.PAYDATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+			</if>
+			<if test="endPayDate != null and endPayDate != ''">
+				AND zpd.PAYDATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+			</if>
+			<if test="startRegistrationDate != null and startRegistrationDate != ''">
+				AND zpd.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+			</if>
+			<if test="endRegistrationDate != null and endRegistrationDate != ''">
+				AND zpd.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+			</if>
+			<if test="assetbelong != null and assetbelong != ''">
+				AND zpd.ASSETBELONG = #{assetbelong,jdbcType=VARCHAR}
+			</if>
+			<if test="startInaccountdate != null and startInaccountdate != ''">
+				AND zpd.INACCOUNTDATE &gt;= #{startInaccountdate,jdbcType=VARCHAR}
+			</if>
+			<if test="endInaccountdate != null and endInaccountdate != ''">
+				AND zpd.INACCOUNTDATE &lt;= #{endInaccountdate,jdbcType=VARCHAR}
+			</if>
+			AND zpd.ASSETBELONG in('ZXXT','ZTXT')
+			AND zpd.INACCOUNTSTATUS = '1'
+		</where>
+	</sql>
+	
+	<sql id="CurrentPay_ZD_Inaccount_Where_Sql">
+    	<where> 
+    	<if test="serialno != null and serialno != ''">
+			AND zzpd.CONTRACTNO = #{serialno,jdbcType=VARCHAR}
+		</if>
+		<if test="startPayDate != null and startPayDate != ''">
+			AND zzpd.PAYDATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endPayDate != null and endPayDate != ''">
+			AND zzpd.PAYDATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startRegistrationDate != null and startRegistrationDate != ''">
+			AND zzpd.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endRegistrationDate != null and endRegistrationDate != ''">
+			AND zzpd.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="assetbelong != null and assetbelong != '' and assetbelong != 'RXCH'">
+			AND 1=2
+		</if>
+		<if test="startInaccountdate != null and startInaccountdate != ''">
+			AND zzpd.INACCOUNTDATE &gt;= #{startInaccountdate,jdbcType=VARCHAR}
+		</if>
+		<if test="endInaccountdate != null and endInaccountdate != ''">
+			AND zzpd.INACCOUNTDATE &lt;= #{endInaccountdate,jdbcType=VARCHAR}
+		</if>
+		AND zzpd.INACCOUNTSTATUS = '1'
+      </where>
+	</sql>
+	
+	<sql id="CurrentPay_HH_Inaccount_Where_Sql">
+		<where>
+			<if test="serialno != null and serialno != ''">
+				AND zhpd.SERIALNO = #{serialno,jdbcType=VARCHAR}
+			</if>
+			<if test="startPayDate != null and startPayDate != ''">
+				AND zhpd.ACTUALPAYDATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+			</if>
+			<if test="endPayDate != null and endPayDate != ''">
+				AND zhpd.ACTUALPAYDATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+			</if>
+			<if test="assetbelong != null and assetbelong != ''">
+				AND zhpd.ASSETBELONG = #{assetbelong,jdbcType=VARCHAR}
+			</if>
+			<if test="startRegistrationDate != null and startRegistrationDate != ''">
+				AND zhpd.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+			</if>
+			<if test="endRegistrationDate != null and endRegistrationDate != ''">
+				AND zhpd.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+			</if>
+			<if test="startInaccountdate != null and startInaccountdate != ''">
+				AND zhpd.INACCOUNTDATE &gt;= #{startInaccountdate,jdbcType=VARCHAR}
+			</if>
+			<if test="endInaccountdate != null and endInaccountdate != ''">
+				AND zhpd.INACCOUNTDATE &lt;= #{endInaccountdate,jdbcType=VARCHAR}
+			</if>
+			AND zhpd.ASSETBELONG ='HBYH'
+			AND zhpd.INACCOUNTSTATUS = '1'
+		</where>
+	</sql>
+	
+	
+	<update id="cancelCurrentPay_JY" parameterType="com.billionsfinance.bas.entity.CurrentExpiredVO">
+		update zjjs_jy_reback jy
+		<set>
+			INACCOUNTSTATUS='2',
+			INACCOUNTBY= #{inaccountby,jdbcType=VARCHAR},
+			INACCOUNTDATE= '',
+			INACCOUNTREMARK = '撤销记账'
+		</set>
+		<include refid="CurrentPay_JY_Where_Sql"/>
+	</update>
+	
+	<update id="cancelCurrentPay_XT" parameterType="com.billionsfinance.bas.entity.CurrentExpiredVO">
+		update zjjs_pay_daily zpd
+		<set>
+			INACCOUNTSTATUS='2',
+			INACCOUNTBY= #{inaccountby,jdbcType=VARCHAR},
+			INACCOUNTDATE= '',
+			INACCOUNTREMARK = '撤销记账'
+		</set>
+		<include refid="CurrentPay_XT_Where_Sql"/>
+	</update>
+	
+	<update id="cancelCurrentPay_ZD" parameterType="com.billionsfinance.bas.entity.CurrentExpiredVO">
+		update zjjs_zd_pay_daily zzpd
+		<set>
+			INACCOUNTSTATUS='2',
+			INACCOUNTBY= #{inaccountby,jdbcType=VARCHAR},
+			INACCOUNTDATE= '',
+			INACCOUNTREMARK = '撤销记账'
+		</set>
+		<include refid="CurrentPay_ZD_Where_Sql"/>
+	</update>
+	
+	<update id="cancelCurrentPay_HH" parameterType="com.billionsfinance.bas.entity.CurrentExpiredVO">
+		update zjjs_actualpay_daily zhpd
+		<set>
+			INACCOUNTSTATUS='2',
+			INACCOUNTBY= #{inaccountby,jdbcType=VARCHAR},
+			INACCOUNTDATE= '',
+			INACCOUNTREMARK = '撤销记账'
+		</set>
+		<include refid="CurrentPay_HH_Where_Sql"/>
+	</update>
+	
+	<select id="checkCancelCurrentPay" resultType="java.lang.Integer">
+		SELECT  COUNT(1) FROM (
+			   select 
+					jy.INACCOUNTDATE as INACCOUNTDATE,jy.ACCORDDATE as ACCORDDATE,jy.contracts as SERIALNO,jy.REGISTRATIONDATE as REGISTRATIONDATE,jy.SURETYPE as SURETYPE,jy.BUSINESSMODEL as BUSINESSMODEL,jy.PRODUCTID as PRODUCTID,jy.SUBPRODUCTTYPE as SUBPRODUCTTYPE,
+					jy.city as city,jy.citycode as citycode,jy.paytype as paytype,jy.paydate as PAYDATE,jy.SEQUENCE as SEQUENCE,jy.repaydate as ACTUALPAYDATE,''  as DELIVERYDATE,'' as DCDATE,'' as SHDATE,
+					'' as LPDATE,'' as DEBOURS,'' as ASSETBELONG,jy.GUARANTEEPARTY as GUARANTEEPARTY,
+					jy.PRINCIPAL as PAYPRINCIPALAMT,jy.interest as PAYINTEAMT,0 as A11,
+					(jy.PRINCIPAL+jy.interest) as AMOUNT
+					from zjjs_jy_reback jy --repaydate
+					<include refid="CurrentPay_JY_Inaccount_Cancel_Where_Sql"/>
+					
+					union all
+					select 
+					zpd.INACCOUNTDATE as INACCOUNTDATE,zpd.ACCORDDATE as ACCORDDATE,zpd.SERIALNO as SERIALNO,zpd.REGISTRATIONDATE as REGISTRATIONDATE,zpd.SURETYPE as SURETYPE,zpd.BUSINESSMODEL as BUSINESSMODEL,zpd.PRODUCTID as PRODUCTID,zpd.SUBPRODUCTTYPE as SUBPRODUCTTYPE,
+					zpd.city as city,zpd.citycode as citycode,zpd.PAYTYPE as paytype,zpd.PAYDATE as PAYDATE,zpd.SEQID as SEQUENCE,'' as ACTUALPAYDATE,zpd.DELIVERYDATE as DELIVERYDATE,zpd.dcdate as DCDATE,zpd.shdate as SHDATE,
+					zpd.LPDATE as LPDATE,zpd.DEBOURS as DEBOURS,zpd.ASSETBELONG as ASSETBELONG,zpd.GUARANTEEPARTY as GUARANTEEPARTY,
+					zpd.PAYPRINCIPALAMT as PAYPRINCIPALAMT,zpd.PAYINTEAMT as PAYINTEAMT,nvl(zpd.A11,0) as A11,
+					(zpd.PAYPRINCIPALAMT+zpd.PAYINTEAMT+nvl(zpd.A11,0)) as AMOUNT
+					from zjjs_pay_daily zpd --paydate
+					<include refid="CurrentPay_XT_Inaccount_Cancel_Where_Sql"/>
+					
+					union all
+					select 
+					zzpd.INACCOUNTDATE as INACCOUNTDATE,zzpd.ACCORDDATE as ACCORDDATE,zzpd.CONTRACTNO as SERIALNO,zzpd.REGISTRATIONDATE as REGISTRATIONDATE,zzpd.SURETYPE as SURETYPE,zzpd.BUSINESSMODEL as BUSINESSMODEL,zzpd.PRODUCTID as PRODUCTID,zzpd.SUBPRODUCTTYPE as SUBPRODUCTTYPE,
+					zzpd.city as city,zzpd.citycode as citycode,zzpd.paytype as paytype,zzpd.paydate as PAYDATE,zzpd.seqid as SEQUENCE,zzpd.ACTUALPAYDATE,'' as DELIVERYDATE,'' as DCDATE,'' as SHDATE,
+					'' as LPDATE,'' as DEBOURS,'' as ASSETBELONG,zzpd.GUARANTEEPARTY as GUARANTEEPARTY,
+					zzpd.PAYPRINCIPALAMT as PAYPRINCIPALAMT,zzpd.payinteamt as PAYINTEAMT,0 as A11,
+					(zzpd.PAYPRINCIPALAMT+zzpd.payinteamt) as AMOUNT
+					from zjjs_zd_pay_daily zzpd --paydate
+					<include refid="CurrentPay_ZD_Inaccount_Cancel_Where_Sql"/>
+					
+					union all
+					select 
+					zhpd.INACCOUNTDATE as INACCOUNTDATE,zhpd.ACCORDDATE as ACCORDDATE,zhpd.SERIALNO as SERIALNO,zhpd.REGISTRATIONDATE as REGISTRATIONDATE,zhpd.suretype as SURETYPE,zhpd.businessmodel as BUSINESSMODEL,zhpd.PRODUCTID as PRODUCTID,zhpd.SUBPRODUCTTYPE as SUBPRODUCTTYPE,
+					zhpd.city as city,zhpd.citycode as citycode,zhpd.paytype as paytype,zhpd.paydate as PAYDATE,zhpd.SEQID as SEQUENCE,zhpd.ACTUALPAYDATE,zhpd.DELIVERYDATE as DELIVERYDATE,zhpd.DCDATE as DCDATE,zhpd.shdate as SHDATE,
+					zhpd.lpdate as LPDATE,zhpd.DEBOURS as DEBOURS,zhpd.ASSETBELONG as ASSETBELONG,zhpd.GUARANTEEPARTY as GUARANTEEPARTY,
+					zhpd.PAYPRINCIPALAMT as PAYPRINCIPALAMT,zhpd.PAYINTEAMT as PAYINTEAMT,nvl(zhpd.A11,0) as A11,
+					(zhpd.PAYPRINCIPALAMT+zhpd.PAYINTEAMT+nvl(zhpd.A11,0)) as AMOUNT
+					from zjjs_actualpay_daily zhpd --ACTUALPAYDATE
+					<include refid="CurrentPay_HH_Inaccount_Cancel_Where_Sql"/>
+				
+				)
+	</select>
+	
+	<sql id="CurrentPay_JY_Inaccount_Cancel_Where_Sql">
+    	<where> 
+    	<if test="serialno != null and serialno != ''">
+			AND jy.CONTRACTS = #{serialno,jdbcType=VARCHAR}
+		</if>
+		<if test="startPayDate != null and startPayDate != ''">
+			AND jy.REPAYDATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endPayDate != null and endPayDate != ''">
+			AND jy.REPAYDATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startRegistrationDate != null and startRegistrationDate != ''">
+			AND jy.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endRegistrationDate != null and endRegistrationDate != ''">
+			AND jy.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="assetbelong != null and assetbelong != '' and assetbelong != 'JYPH'">
+			AND 1=2
+		</if>
+		<if test="startInaccountdate != null and startInaccountdate != ''">
+			AND jy.INACCOUNTDATE &gt;= #{startInaccountdate,jdbcType=VARCHAR}
+		</if>
+		<if test="endInaccountdate != null and endInaccountdate != ''">
+			AND jy.INACCOUNTDATE &lt;= #{endInaccountdate,jdbcType=VARCHAR}
+		</if>
+		AND (jy.INACCOUNTSTATUS = '0' or jy.INACCOUNTSTATUS = '2')
+      </where>
+	</sql>
+	
+	<sql id="CurrentPay_XT_Inaccount_Cancel_Where_Sql">
+		<where>
+			<if test="serialno != null and serialno != ''">
+				AND zpd.SERIALNO = #{serialno,jdbcType=VARCHAR}
+			</if>
+			<if test="startPayDate != null and startPayDate != ''">
+				AND zpd.PAYDATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+			</if>
+			<if test="endPayDate != null and endPayDate != ''">
+				AND zpd.PAYDATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+			</if>
+			<if test="startRegistrationDate != null and startRegistrationDate != ''">
+				AND zpd.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+			</if>
+			<if test="endRegistrationDate != null and endRegistrationDate != ''">
+				AND zpd.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+			</if>
+			<if test="assetbelong != null and assetbelong != ''">
+				AND zpd.ASSETBELONG = #{assetbelong,jdbcType=VARCHAR}
+			</if>
+			<if test="startInaccountdate != null and startInaccountdate != ''">
+				AND zpd.INACCOUNTDATE &gt;= #{startInaccountdate,jdbcType=VARCHAR}
+			</if>
+			<if test="endInaccountdate != null and endInaccountdate != ''">
+				AND zpd.INACCOUNTDATE &lt;= #{endInaccountdate,jdbcType=VARCHAR}
+			</if>
+			AND zpd.ASSETBELONG in('ZXXT','ZTXT')
+			AND (zpd.INACCOUNTSTATUS = '0' or zpd.INACCOUNTSTATUS = '2')
+		</where>
+	</sql>
+	
+	<sql id="CurrentPay_ZD_Inaccount_Cancel_Where_Sql">
+    	<where> 
+    	<if test="serialno != null and serialno != ''">
+			AND zzpd.CONTRACTNO = #{serialno,jdbcType=VARCHAR}
+		</if>
+		<if test="startPayDate != null and startPayDate != ''">
+			AND zzpd.PAYDATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endPayDate != null and endPayDate != ''">
+			AND zzpd.PAYDATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startRegistrationDate != null and startRegistrationDate != ''">
+			AND zzpd.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endRegistrationDate != null and endRegistrationDate != ''">
+			AND zzpd.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="assetbelong != null and assetbelong != '' and assetbelong != 'RXCH'">
+			AND 1=2
+		</if>
+		<if test="startInaccountdate != null and startInaccountdate != ''">
+			AND zzpd.INACCOUNTDATE &gt;= #{startInaccountdate,jdbcType=VARCHAR}
+		</if>
+		<if test="endInaccountdate != null and endInaccountdate != ''">
+			AND zzpd.INACCOUNTDATE &lt;= #{endInaccountdate,jdbcType=VARCHAR}
+		</if>
+		AND (zzpd.INACCOUNTSTATUS = '0' or zzpd.INACCOUNTSTATUS = '2')
+      </where>
+	</sql>
+	
+	<sql id="CurrentPay_HH_Inaccount_Cancel_Where_Sql">
+		<where>
+			<if test="serialno != null and serialno != ''">
+				AND zhpd.SERIALNO = #{serialno,jdbcType=VARCHAR}
+			</if>
+			<if test="startPayDate != null and startPayDate != ''">
+				AND zhpd.ACTUALPAYDATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+			</if>
+			<if test="endPayDate != null and endPayDate != ''">
+				AND zhpd.ACTUALPAYDATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+			</if>
+			<if test="assetbelong != null and assetbelong != ''">
+				AND zhpd.ASSETBELONG = #{assetbelong,jdbcType=VARCHAR}
+			</if>
+			<if test="startRegistrationDate != null and startRegistrationDate != ''">
+				AND zhpd.REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+			</if>
+			<if test="endRegistrationDate != null and endRegistrationDate != ''">
+				AND zhpd.REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+			</if>
+			<if test="startInaccountdate != null and startInaccountdate != ''">
+				AND zhpd.INACCOUNTDATE &gt;= #{startInaccountdate,jdbcType=VARCHAR}
+			</if>
+			<if test="endInaccountdate != null and endInaccountdate != ''">
+				AND zhpd.INACCOUNTDATE &lt;= #{endInaccountdate,jdbcType=VARCHAR}
+			</if>
+			AND zhpd.ASSETBELONG ='HBYH'
+			AND (zhpd.INACCOUNTSTATUS = '0' or zhpd.INACCOUNTSTATUS = '2')
+		</where>
+	</sql>
+	
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.DepartDao" >
+	<resultMap id="BaseResultMap" type="java.util.HashMap">
+		<id column="ID" property="id" javaType="java.lang.String" jdbcType="VARCHAR" />
+  		<result column="DEPART_NAME" property="departName" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PARENT_DEPARTID" property="parentDepartId" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DESCRIPTION" property="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 	</resultMap>
+	
+	<resultMap id="BaseResultVo" type="com.billionsfinance.bas.entity.DepartVO">
+		<id column="ID" property="id" javaType="java.lang.String" jdbcType="VARCHAR" />
+  		<result column="DEPART_NAME" property="departName" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PARENT_DEPARTID" property="parentDepartId" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DESCRIPTION" property="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 	</resultMap>
+
+
+	<!-- 查询数据列Sql换成对应的Java命名 -->
+	<sql id="Base_Column_List_JavaName" >
+		d.ID as "id",
+		d.DEPART_NAME as "departName",
+		d.PARENT_DEPARTID as "parentDepartId",
+		d.DESCRIPTION as "description"
+	</sql>
+	
+ 	<!-- 查询数据列Sql不转换成对应的Java命名 -->
+	<sql id="Insert_Column_List" >
+		ID,
+		DEPART_NAME,
+		PARENT_DEPARTID,
+		DESCRIPTION
+	</sql>
+	
+	<!-- 写入操作的SQL -->
+	<sql id="Insert_Column_values">
+ 		#{id,jdbcType=VARCHAR},
+ 		#{departName,jdbcType=VARCHAR},
+ 		#{parentDepartId,jdbcType=VARCHAR},
+ 		#{description,jdbcType=VARCHAR},
+ 	</sql>
+	
+	<select id="loadDepart"  resultMap="BaseResultVo">
+		select * from um_depart
+	</select>
+	
+	<select id="queryAllDepart"  resultMap="BaseResultMap">
+		select * from um_depart
+	</select>
+	
+	<select id="queryDepartCount" resultType="long">
+		select count(1) from  um_depart
+	</select>
+	
+</mapper>

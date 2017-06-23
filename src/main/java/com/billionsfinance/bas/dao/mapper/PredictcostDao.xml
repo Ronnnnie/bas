@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.PredictcostDao" >
+	
+	<resultMap id="predictcostMap" type="java.util.HashMap">
+		 	<result column="ACCORDDATE" property="duedate" jdbcType="VARCHAR" />
+		    <result column="ISP2P" property="isp2p" jdbcType="VARCHAR" />
+		    <result column="ISJC" property="isjc" jdbcType="VARCHAR" />
+		    <result column="SERIALNO" property="contractno" jdbcType="VARCHAR" />
+		    <result column="PAYDATE" property="paydate" jdbcType="VARCHAR" />
+		    <result column="SEQID" property="seqid" jdbcType="VARCHAR" />
+		    <result column="CDATE" property="cdate" jdbcType="VARCHAR" />
+		    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+		    <result column="CITY" property="city" jdbcType="VARCHAR" />
+		    <result column="CITYCODE" property="citycode" jdbcType="VARCHAR" />
+		    <result column="PRODUCTID" property="productid" jdbcType="VARCHAR" />
+		    <result column="SUBPRODUCTTYPE" property="subproducttype" jdbcType="VARCHAR" />
+		    <result column="PAYTYPE" property="paytype" jdbcType="CHAR" />
+		    <result column="REGISTRATIONDATE" property="registrationdate" jdbcType="VARCHAR" />
+		    <result column="ASSETBELONG" property="belong" jdbcType="VARCHAR" />
+		    <result column="DEBOURS" property="debours" jdbcType="VARCHAR" />
+		    <result column="GUARANTEEPARTY" property="guaranteeparty" jdbcType="VARCHAR" />
+		    <result column="PAYPRINCIPALAMT" property="payprincipalamt" jdbcType="DECIMAL" />
+		    <result column="PAYINTEAMT" property="payinteamt" jdbcType="DECIMAL" />
+		    <result column="A2" property="a2" jdbcType="DECIMAL" />
+		    <result column="A7" property="a7" jdbcType="DECIMAL" />
+		    <result column="A9" property="a9" jdbcType="DECIMAL" />
+		    <result column="A10" property="a10" jdbcType="DECIMAL" />
+		    <result column="A11" property="a11" jdbcType="DECIMAL" />
+		    <result column="A12" property="a12" jdbcType="DECIMAL" />
+		    <result column="A17" property="a17" jdbcType="DECIMAL" />
+		    <result column="A18" property="a18" jdbcType="DECIMAL" />
+		    <result column="A19" property="a19" jdbcType="DECIMAL" />
+		    <result column="A22" property="a22" jdbcType="DECIMAL" />
+		    <result column="PAYAMT" property="payamt" jdbcType="DECIMAL" />
+		    <result column="CREATETIME" property="createtime" jdbcType="VARCHAR" />
+		    <result column="CLIENTNAME" property="clientname" jdbcType="VARCHAR" />
+		    <result column="CREDITPERSON" property="creditperson" jdbcType="VARCHAR" />
+		    <result column="SNO" property="sno" jdbcType="VARCHAR" />
+		    <result column="RNO" property="rno" jdbcType="VARCHAR" />
+		    <result column="SA_ID" property="sa_id" jdbcType="VARCHAR" />
+		    <result column="SURETYPE" property="suretype" jdbcType="VARCHAR" />
+		    <result column="BUSINESSMODEL" property="businessmodel" jdbcType="VARCHAR" />
+		    <result column="PRODUCTCATEGORY" property="productcategory" jdbcType="VARCHAR" />
+		    <result column="DELIVERYDATE" property="deliverydate" jdbcType="VARCHAR" />
+		    <result column="DCDATE" property="dcdate" jdbcType="VARCHAR" />
+		    <result column="SHDATE" property="shdate" jdbcType="VARCHAR" />
+		    <result column="TBDATE" property="tbdate" jdbcType="VARCHAR" />
+		    <result column="LPDATE" property="lpdate" jdbcType="VARCHAR" />
+		    <result column="COMPENSATORY" property="compensatory" jdbcType="VARCHAR" />
+		    <result column="OVERDUEDAYS" property="overduedays" jdbcType="DECIMAL" />
+		    <result column="CLASSFY" property="classfy" jdbcType="VARCHAR" />
+		    <result column="OVERDUEREMARK" property="describe" jdbcType="VARCHAR" />
+		    <result column="CANCELTYPE" property="canceltype" jdbcType="VARCHAR" />
+		    <result column="CONTRACTLIFE" property="belonglife" jdbcType="VARCHAR" />
+		    <result column="BUSINESSSUM" property="businesssum" jdbcType="DECIMAL" />
+		    <result column="LOANTYPE" property="loantype" jdbcType="VARCHAR" />
+		    <result column="MATURITYDATE" property="maturitydate" jdbcType="VARCHAR" />
+		    <result column="INACCOUNTDATE" property="inaccountdate" jdbcType="VARCHAR" />
+		    <result column="INACCOUNTBY" property="inaccountby" jdbcType="VARCHAR" />
+		    <result column="INACCOUNTREMARK" property="inaccountremark" jdbcType="VARCHAR" />
+		    <result column="INACCOUNTSTATUS" property="keepaccountsstatus" jdbcType="VARCHAR" />
+		    <result column="INACCOUNTBY" jdbcType="VARCHAR" property="inaccountby" />
+		    <result column="INACCOUNTDATE" jdbcType="VARCHAR" property="inaccountdate" />
+		    <result column="INACCOUNTREMARK" jdbcType="VARCHAR" property="inaccountremark" />
+		    <result column="INACCOUNTSTATUS" jdbcType="VARCHAR" property="inaccountstatus" />
+	    	<result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
+ 	</resultMap>
+ 	
+ 	<resultMap id="predictcostVO" type="com.billionsfinance.bas.entity.PredictcostVO">
+			<result column="ACCORDDATE" property="duedate" jdbcType="VARCHAR" />
+		    <result column="ISP2P" property="isp2p" jdbcType="VARCHAR" />
+		    <result column="ISJC" property="isjc" jdbcType="VARCHAR" />
+		    <result column="SERIALNO" property="contractno" jdbcType="VARCHAR" />
+		    <result column="PAYDATE" property="paydate" jdbcType="VARCHAR" />
+		    <result column="SEQID" property="seqid" jdbcType="VARCHAR" />
+		    <result column="CDATE" property="cdate" jdbcType="VARCHAR" />
+		    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+		    <result column="CITY" property="city" jdbcType="VARCHAR" />
+		    <result column="CITYCODE" property="citycode" jdbcType="VARCHAR" />
+		    <result column="PRODUCTID" property="productid" jdbcType="VARCHAR" />
+		    <result column="SUBPRODUCTTYPE" property="subproducttype" jdbcType="VARCHAR" />
+		    <result column="PAYTYPE" property="paytype" jdbcType="CHAR" />
+		    <result column="REGISTRATIONDATE" property="registrationdate" jdbcType="VARCHAR" />
+		    <result column="ASSETBELONG" property="belong" jdbcType="VARCHAR" />
+		    <result column="DEBOURS" property="debours" jdbcType="VARCHAR" />
+		    <result column="GUARANTEEPARTY" property="guaranteeparty" jdbcType="VARCHAR" />
+		    <result column="PAYPRINCIPALAMT" property="payprincipalamt" jdbcType="DECIMAL" />
+		    <result column="PAYINTEAMT" property="payinteamt" jdbcType="DECIMAL" />
+		    <result column="A2" property="a2" jdbcType="DECIMAL" />
+		    <result column="A7" property="a7" jdbcType="DECIMAL" />
+		    <result column="A9" property="a9" jdbcType="DECIMAL" />
+		    <result column="A10" property="a10" jdbcType="DECIMAL" />
+		    <result column="A11" property="a11" jdbcType="DECIMAL" />
+		    <result column="A12" property="a12" jdbcType="DECIMAL" />
+		    <result column="A17" property="a17" jdbcType="DECIMAL" />
+		    <result column="A18" property="a18" jdbcType="DECIMAL" />
+		    <result column="A19" property="a19" jdbcType="DECIMAL" />
+		    <result column="A22" property="a22" jdbcType="DECIMAL" />
+		    <result column="PAYAMT" property="payamt" jdbcType="DECIMAL" />
+		    <result column="CREATETIME" property="createtime" jdbcType="VARCHAR" />
+		    <result column="CLIENTNAME" property="clientname" jdbcType="VARCHAR" />
+		    <result column="CREDITPERSON" property="creditperson" jdbcType="VARCHAR" />
+		    <result column="SNO" property="sno" jdbcType="VARCHAR" />
+		    <result column="RNO" property="rno" jdbcType="VARCHAR" />
+		    <result column="SA_ID" property="saId" jdbcType="VARCHAR" />
+		    <result column="SURETYPE" property="suretype" jdbcType="VARCHAR" />
+		    <result column="BUSINESSMODEL" property="businessmodel" jdbcType="VARCHAR" />
+		    <result column="PRODUCTCATEGORY" property="productcategory" jdbcType="VARCHAR" />
+		    <result column="DELIVERYDATE" property="deliverydate" jdbcType="VARCHAR" />
+		    <result column="DCDATE" property="dcdate" jdbcType="VARCHAR" />
+		    <result column="SHDATE" property="shdate" jdbcType="VARCHAR" />
+		    <result column="TBDATE" property="tbdate" jdbcType="VARCHAR" />
+		    <result column="LPDATE" property="lpdate" jdbcType="VARCHAR" />
+		    <result column="COMPENSATORY" property="compensatory" jdbcType="VARCHAR" />
+		    <result column="OVERDUEDAYS" property="overduedays" jdbcType="DECIMAL" />
+		    <result column="CLASSFY" property="classfy" jdbcType="VARCHAR" />
+		    <result column="OVERDUEREMARK" property="describe" jdbcType="VARCHAR" />
+		    <result column="CANCELTYPE" property="canceltype" jdbcType="VARCHAR" />
+		    <result column="CONTRACTLIFE" property="belonglife" jdbcType="VARCHAR" />
+		    <result column="BUSINESSSUM" property="businesssum" jdbcType="DECIMAL" />
+		    <result column="LOANTYPE" property="loantype" jdbcType="VARCHAR" />
+		    <result column="MATURITYDATE" property="maturitydate" jdbcType="VARCHAR" />
+		    <result column="INACCOUNTDATE" property="inaccountdate" jdbcType="VARCHAR" />
+		    <result column="INACCOUNTBY" property="inaccountby" jdbcType="VARCHAR" />
+		    <result column="INACCOUNTREMARK" property="inaccountremark" jdbcType="VARCHAR" />
+		    <result column="INACCOUNTSTATUS" property="keepaccountsstatus" jdbcType="VARCHAR" />
+		    <result column="INACCOUNTBY" jdbcType="VARCHAR" property="inaccountby" />
+		    <result column="INACCOUNTDATE" jdbcType="VARCHAR" property="inaccountdate" />
+		    <result column="INACCOUNTREMARK" jdbcType="VARCHAR" property="inaccountremark" />
+		    <result column="INACCOUNTSTATUS" jdbcType="VARCHAR" property="inaccountstatus" />
+	    	<result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
+ 	</resultMap>
+ 	
+ 	<resultMap id="predictcostSumMap" type="java.util.HashMap">
+ 			<result column="ACCORDDATE" property="duedate" jdbcType="VARCHAR" />
+		    <result column="ISP2P" property="isp2p" jdbcType="VARCHAR" />
+		    <result column="ISJC" property="isjc" jdbcType="VARCHAR" />
+		    <result column="SERIALNO" property="contractno" jdbcType="VARCHAR" />
+		    <result column="PAYDATE" property="paydate" jdbcType="VARCHAR" />
+		    <result column="SEQID" property="seqid" jdbcType="VARCHAR" />
+		    <result column="CDATE" property="cdate" jdbcType="VARCHAR" />
+		    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+		    <result column="CITY" property="city" jdbcType="VARCHAR" />
+		    <result column="CITYCODE" property="citycode" jdbcType="VARCHAR" />
+		    <result column="PRODUCTID" property="productid" jdbcType="VARCHAR" />
+		    <result column="SUBPRODUCTTYPE" property="subproducttype" jdbcType="VARCHAR" />
+		    <result column="PAYTYPE" property="paytype" jdbcType="CHAR" />
+		    <result column="REGISTRATIONDATE" property="registrationdate" jdbcType="VARCHAR" />
+		    <result column="ASSETBELONG" property="belong" jdbcType="VARCHAR" />
+		    <result column="DEBOURS" property="debours" jdbcType="VARCHAR" />
+		    <result column="GUARANTEEPARTY" property="guaranteeparty" jdbcType="VARCHAR" />
+		    <result column="PAYPRINCIPALAMT" property="payprincipalamt" jdbcType="DECIMAL" />
+		    <result column="PAYINTEAMT" property="payinteamt" jdbcType="DECIMAL" />
+		    <result column="A2" property="a2" jdbcType="DECIMAL" />
+		    <result column="A7" property="a7" jdbcType="DECIMAL" />
+		    <result column="A9" property="a9" jdbcType="DECIMAL" />
+		    <result column="A10" property="a10" jdbcType="DECIMAL" />
+		    <result column="A11" property="a11" jdbcType="DECIMAL" />
+		    <result column="A12" property="a12" jdbcType="DECIMAL" />
+		    <result column="A17" property="a17" jdbcType="DECIMAL" />
+		    <result column="A18" property="a18" jdbcType="DECIMAL" />
+		    <result column="A19" property="a19" jdbcType="DECIMAL" />
+		    <result column="A22" property="a22" jdbcType="DECIMAL" />
+		    <result column="PAYAMT" property="payamt" jdbcType="DECIMAL" />
+		    <result column="CREATETIME" property="createtime" jdbcType="VARCHAR" />
+		    <result column="CLIENTNAME" property="clientname" jdbcType="VARCHAR" />
+		    <result column="CREDITPERSON" property="creditperson" jdbcType="VARCHAR" />
+		    <result column="SNO" property="sno" jdbcType="VARCHAR" />
+		    <result column="RNO" property="rno" jdbcType="VARCHAR" />
+		    <result column="SA_ID" property="saId" jdbcType="VARCHAR" />
+		    <result column="SURETYPE" property="suretype" jdbcType="VARCHAR" />
+		    <result column="BUSINESSMODEL" property="businessmodel" jdbcType="VARCHAR" />
+		    <result column="PRODUCTCATEGORY" property="productcategory" jdbcType="VARCHAR" />
+		    <result column="DELIVERYDATE" property="deliverydate" jdbcType="VARCHAR" />
+		    <result column="DCDATE" property="dcdate" jdbcType="VARCHAR" />
+		    <result column="SHDATE" property="shdate" jdbcType="VARCHAR" />
+		    <result column="TBDATE" property="tbdate" jdbcType="VARCHAR" />
+		    <result column="LPDATE" property="lpdate" jdbcType="VARCHAR" />
+		    <result column="COMPENSATORY" property="compensatory" jdbcType="VARCHAR" />
+		    <result column="OVERDUEDAYS" property="overduedays" jdbcType="DECIMAL" />
+		    <result column="CLASSFY" property="classfy" jdbcType="VARCHAR" />
+		    <result column="OVERDUEREMARK" property="describe" jdbcType="VARCHAR" />
+		    <result column="CANCELTYPE" property="canceltype" jdbcType="VARCHAR" />
+		    <result column="CONTRACTLIFE" property="belonglife" jdbcType="VARCHAR" />
+		    <result column="BUSINESSSUM" property="businesssum" jdbcType="DECIMAL" />
+		    <result column="LOANTYPE" property="loantype" jdbcType="VARCHAR" />
+		    <result column="MATURITYDATE" property="maturitydate" jdbcType="VARCHAR" />
+		    <result column="KEEPACCOUNTSDATE" property="inaccountdate" jdbcType="VARCHAR" />
+		    <result column="KEEPACCOUNTSBY" property="inaccountby" jdbcType="VARCHAR" />
+		    <result column="KEEPACCOUNTSREMARK" property="inaccountremark" jdbcType="VARCHAR" />
+		    <result column="KEEPACCOUNTSSTATUS" property="keepaccountsstatus" jdbcType="VARCHAR" />
+		    <result column="INACCOUNTBY" jdbcType="VARCHAR" property="inaccountby" />
+		    <result column="INACCOUNTDATE" jdbcType="VARCHAR" property="inaccountdate" />
+		    <result column="INACCOUNTREMARK" jdbcType="VARCHAR" property="inaccountremark" />
+		    <result column="INACCOUNTSTATUS" jdbcType="VARCHAR" property="inaccountstatus" />
+	    	<result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
+ 	</resultMap>
+	
+	
+	<select id="queryPredictcostCountSum" resultMap="predictcostSumMap">
+		SELECT COUNT(1) AS CONTRACTCOUNT,SUM(AMOUNT) AS MONEYCOUNT,SUM(A2) AS A2AMOUNT,SUM(A7) AS A7AMOUNT
+		,SUM(A12) AS A12AMOUNT,SUM(A18) AS A18AMOUNT
+		,SUM(PAYPRINCIPALAMT) AS PAYPRINCIPALAMTAMOUNT,SUM(PAYINTEAMT) AS PAYINTEAMTAMOUNT FROM 
+		(
+			   SELECT
+					INACCOUNTDATE,ACCORDDATE,SURETYPE,BUSINESSMODEL,SUBPRODUCTTYPE,CITY,CITYCODE,OVERDUEDAYS,OVERDUEREMARK,CLASSFY,ASSETBELONG,GUARANTEEPARTY,
+					(PAYPRINCIPALAMT) as PAYPRINCIPALAMT,
+					(PAYINTEAMT) as PAYINTEAMT,
+					(nvl(A2,0)) as A2,
+					(nvl(A7,0)) as A7,
+					(nvl(A12,0)) as A12,
+					(nvl(A18,0)) as A18,
+					(nvl(PAYPRINCIPALAMT,0)+nvl(PAYINTEAMT,0)+nvl(A2,0)+nvl(A7,0)+nvl(A12,0)+nvl(A18,0)) as AMOUNT
+				FROM zjjs_predictcost_summary 
+				<include refid="Predictcost_Where_Sql"/>
+				
+		 )
+	</select>
+	
+	<select id="queryPredictcostSum" resultMap="predictcostSumMap">
+		SELECT * FROM (
+			SELECT A.*,ROWNUM RN FROM (
+			   SELECT
+					INACCOUNTDATE,ACCORDDATE,SURETYPE,BUSINESSMODEL,SUBPRODUCTTYPE,CITY,CITYCODE,OVERDUEDAYS,OVERDUEREMARK,CLASSFY,ASSETBELONG,GUARANTEEPARTY,
+					(PAYPRINCIPALAMT) as PAYPRINCIPALAMT,NVL(CANCELTYPE,'N') AS CANCELTYPE,PAYDATE,PROVINCE,SEQID,
+					(PAYINTEAMT) as PAYINTEAMT,
+					CREDITPERSON as CREDITPERSON,
+					(nvl(A2,0)) as A2,
+					(nvl(A7,0)) as A7,
+					(nvl(A12,0)) as A12,
+					(nvl(A18,0)) as A18,
+					(nvl(PAYPRINCIPALAMT,0)+nvl(PAYINTEAMT,0)+nvl(A2,0)+nvl(A7,0)+nvl(A12,0)+nvl(A18,0)) as AMOUNT
+				FROM zjjs_predictcost_summary 
+				<include refid="Predictcost_Where_Sql"/>
+				ORDER BY ACCORDDATE ASC
+				)   A WHERE ROWNUM &lt;= #{endpoint} 
+			  ) WHERE RN &gt;= #{startpoint}
+	</select>
+	
+	<select id="queryPredictcostSumAll" resultMap="predictcostVO">
+
+			   SELECT
+					INACCOUNTDATE,ACCORDDATE,SURETYPE,BUSINESSMODEL,SUBPRODUCTTYPE,CITY,CITYCODE,OVERDUEDAYS,OVERDUEREMARK,CLASSFY,
+					(
+			        select itemname from creditperson_code where itemno = CREDITPERSON
+				    )
+					as CREDITPERSON,
+					(
+			        select itemname from creditperson_code where itemno = ASSETBELONG
+				    )
+					as ASSETBELONG,
+					(
+			        select itemname from creditperson_code where itemno = GUARANTEEPARTY
+				    )
+					as GUARANTEEPARTY,
+					(PAYPRINCIPALAMT) as PAYPRINCIPALAMT,NVL(CANCELTYPE,'N') AS CANCELTYPE,PAYDATE,
+					(PAYINTEAMT) as PAYINTEAMT,
+					(nvl(A2,0)) as A2,
+					(nvl(A7,0)) as A7,
+					(nvl(A12,0)) as A12,
+					(nvl(A18,0)) as A18,
+					PROVINCE,
+					SEQID,
+					(nvl(PAYPRINCIPALAMT,0)+nvl(PAYINTEAMT,0)+nvl(A2,0)+nvl(A7,0)+nvl(A12,0)+nvl(A18,0)) as AMOUNT
+				FROM zjjs_predictcost_summary
+				<include refid="Predictcost_Where_Sql"/>
+				ORDER BY ACCORDDATE ASC
+				
+	</select>
+	
+	<select id="queryPredictcostCount" resultMap="predictcostMap">
+		SELECT  COUNT(1) AS CONTRACTCOUNT,SUM(AMOUNT) AS MONEYCOUNT,SUM(A2) AS A2AMOUNT,SUM(A7) AS A7AMOUNT
+		,SUM(A12) AS A12AMOUNT,SUM(A18) AS A18AMOUNT
+		,SUM(PAYPRINCIPALAMT) AS PAYPRINCIPALAMTAMOUNT,SUM(PAYINTEAMT) AS PAYINTEAMTAMOUNT FROM (
+				SELECT
+					INACCOUNTDATE,ACCORDDATE, SERIALNO, CLIENTNAME, REGISTRATIONDATE, MATURITYDATE, SNO, RNO, SA_ID, 
+				    PRODUCTCATEGORY, SURETYPE, BUSINESSMODEL, PRODUCTID, SUBPRODUCTTYPE, PROVINCE, CITY, 
+				    CITYCODE, CREDITPERSON, CONTRACTLIFE, CDATE, OVERDUEDAYS, OVERDUEREMARK, CLASSFY, PAYDATE, 
+				    SEQID, NVL(CANCELTYPE,'N') AS CANCELTYPE, DELIVERYDATE, DCDATE, SHDATE, TBDATE, 
+				    LPDATE, DEBOURS, ASSETBELONG, GUARANTEEPARTY, PAYPRINCIPALAMT, PAYINTEAMT, A2, A7, A12, 
+				    A18, (PAYPRINCIPALAMT+PAYINTEAMT+nvl(A2,0)+nvl(A7,0)+nvl(A12,0)+nvl(A18,0)) as AMOUNT
+				FROM ZJJS_PREDICTCOST_DAILY
+		) <include refid="Predictcost_Where_Sql"/>
+	</select>
+	
+	<select id="queryPredictcost" resultMap="predictcostMap">
+		SELECT * FROM (
+			SELECT A.*,ROWNUM RN FROM (
+			   SELECT
+					INACCOUNTDATE,ACCORDDATE, SERIALNO, CLIENTNAME, REGISTRATIONDATE, MATURITYDATE, SNO, RNO, SA_ID, 
+				    PRODUCTCATEGORY, SURETYPE, BUSINESSMODEL, PRODUCTID, SUBPRODUCTTYPE, PROVINCE, CITY, 
+				    CITYCODE, CREDITPERSON, CONTRACTLIFE, CDATE, OVERDUEDAYS, OVERDUEREMARK, CLASSFY, PAYDATE, 
+				    SEQID, NVL(CANCELTYPE,'N') AS CANCELTYPE, DELIVERYDATE, DCDATE, SHDATE, TBDATE, 
+				    LPDATE, DEBOURS, ASSETBELONG, GUARANTEEPARTY, nvl(PAYPRINCIPALAMT,0) as PAYPRINCIPALAMT, nvl(PAYINTEAMT,0) as PAYINTEAMT, 
+				    nvl(A2,0) as A2, nvl(A7,0) as A7, nvl(A12,0) as A12, 
+				    nvl(A18,0) as A18, (nvl(PAYPRINCIPALAMT,0)+nvl(PAYINTEAMT,0)+nvl(A2,0)+nvl(A7,0)+nvl(A12,0)+nvl(A18,0)) as AMOUNT,
+				    INACCOUNTSTATUS
+				    
+				    
+				FROM ZJJS_PREDICTCOST_DAILY
+				<include refid="Predictcost_Where_Sql"/>
+				ORDER BY CLIENTNAME,ACCORDDATE ASC
+				)   A WHERE ROWNUM &lt;= #{endpoint} 
+			  ) WHERE RN &gt;= #{startpoint}
+	</select>
+	
+	<select id="queryPredictcostAll" resultMap="predictcostVO">
+
+			   SELECT
+					INACCOUNTDATE,ACCORDDATE, SERIALNO, CLIENTNAME, REGISTRATIONDATE, MATURITYDATE, SNO, RNO, SA_ID, 
+				    PRODUCTCATEGORY, SURETYPE, BUSINESSMODEL, PRODUCTID, SUBPRODUCTTYPE, PROVINCE, CITY, 
+				    CITYCODE, 
+				    (
+			        select itemname from creditperson_code where itemno = CREDITPERSON
+				    )
+				    as CREDITPERSON, 
+				    CONTRACTLIFE, CDATE, OVERDUEDAYS, OVERDUEREMARK, CLASSFY, PAYDATE, 
+				    SEQID, NVL(CANCELTYPE,'N') AS CANCELTYPE, DELIVERYDATE, DCDATE, SHDATE, TBDATE, 
+				    LPDATE, 
+				    (
+			        select itemname from creditperson_code where itemno = DEBOURS
+				    )
+				    as DEBOURS, 
+				    (
+			        select itemname from creditperson_code where itemno = ASSETBELONG
+				    )
+				    as ASSETBELONG, 
+				    (
+			        select itemname from creditperson_code where itemno = GUARANTEEPARTY
+				    )
+				    as GUARANTEEPARTY, 
+				    PAYPRINCIPALAMT, PAYINTEAMT, A2, A7, A12, 
+				    A18, (PAYPRINCIPALAMT+PAYINTEAMT+nvl(A2,0)+nvl(A7,0)+nvl(A12,0)+nvl(A18,0)) as AMOUNT
+				FROM ZJJS_PREDICTCOST_DAILY
+				<include refid="Predictcost_Where_Sql"/>
+				ORDER BY CLIENTNAME,ACCORDDATE ASC
+				
+	</select>
+	
+	
+	
+	<sql id="Predictcost_Where_Sql">
+    	<where> 
+    	<if test="contractno != null and contractno != ''">
+			AND SERIALNO = #{contractno,jdbcType=VARCHAR}
+		</if>
+		<if test="startPayDate != null and startPayDate != ''">
+			AND PAYDATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endPayDate != null and endPayDate != ''">
+			AND PAYDATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="belong != null and belong != ''">
+			AND ASSETBELONG like #{belong,jdbcType=VARCHAR} ||'%'
+		</if>
+		<if test="startRegistrationDate != null and startRegistrationDate != ''">
+			AND REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endRegistrationDate != null and endRegistrationDate != ''">
+			AND REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startDueDate != null and startDueDate != ''">
+			AND ACCORDDATE &gt;= #{startDueDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endDueDate != null and endDueDate != ''">
+			AND ACCORDDATE &lt;= #{endDueDate,jdbcType=VARCHAR}
+		</if>
+		<if test="seqid != null and seqid != ''">
+			AND SEQID = #{seqid,jdbcType=VARCHAR}
+		</if>
+		<if test="payprincipalamtStr != null and payprincipalamtStr != ''">
+			AND PAYPRINCIPALAMT = #{payprincipalamtStr,jdbcType=DECIMAL}
+		</if>
+		<if test="payinteamtStr != null and payinteamtStr != ''">
+			AND PAYINTEAMT = #{payinteamtStr,jdbcType=DECIMAL}
+		</if>
+		
+		<if test="creditperson != null and creditperson != ''">
+			AND CREDITPERSON = #{creditperson,jdbcType=VARCHAR}
+		</if>
+		<if test="guaranteeparty != null and guaranteeparty != ''">
+			AND GUARANTEEPARTY = #{guaranteeparty,jdbcType=VARCHAR}
+		</if>
+		<if test="city != null and city != ''">
+			AND CITY = #{city,jdbcType=VARCHAR}
+		</if>
+		<if test="subproducttype != null and subproducttype != ''">
+			AND SUBPRODUCTTYPE = #{subproducttype,jdbcType=VARCHAR}
+		</if>
+		<if test="businessmodel != null and businessmodel != ''">
+			AND BUSINESSMODEL = #{businessmodel,jdbcType=VARCHAR}
+		</if>
+		<if test="startKeepaccountsDate != null and startKeepaccountsDate != ''">
+			AND KEEPACCOUNTSDATE &gt;= #{startKeepaccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endKeepaccountsDate != null and endKeepaccountsDate != ''">
+			AND KEEPACCOUNTSDATE &lt;= #{endKeepaccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startPayDate != null and startPayDate != ''">
+			AND PAYDATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endPayDate != null and endPayDate != ''">
+			AND PAYDATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="canceltype != null and canceltype != ''">
+			<if test="canceltype != 'N'.toString()">
+				AND CANCELTYPE = #{canceltype,jdbcType=VARCHAR}
+			</if>
+			<if test="canceltype == 'N'.toString()">
+				AND CANCELTYPE is null
+			</if>
+		</if>
+		
+		<if test="startInaccountdate != null and startInaccountdate != ''">
+			AND INACCOUNTDATE &gt;= #{startInaccountdate,jdbcType=VARCHAR}
+		</if>
+		<if test="endInaccountdate != null and endInaccountdate != ''">
+			AND INACCOUNTDATE &lt;= #{endInaccountdate,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<sql id="Predictcost_Inaccount_Where_Sql">
+    	<where> 
+    	<if test="contractno != null and contractno != ''">
+			AND SERIALNO = #{contractno,jdbcType=VARCHAR}
+		</if>
+		<if test="startPayDate != null and startPayDate != ''">
+			AND PAYDATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endPayDate != null and endPayDate != ''">
+			AND PAYDATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="belong != null and belong != ''">
+			AND ASSETBELONG like #{belong,jdbcType=VARCHAR} ||'%'
+		</if>
+		<if test="startRegistrationDate != null and startRegistrationDate != ''">
+			AND REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endRegistrationDate != null and endRegistrationDate != ''">
+			AND REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startKeepaccountsDate != null and startKeepaccountsDate != ''">
+			AND KEEPACCOUNTSDATE &gt;= #{startKeepaccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endKeepaccountsDate != null and endKeepaccountsDate != ''">
+			AND KEEPACCOUNTSDATE &lt;= #{endKeepaccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startInaccountdate != null and startInaccountdate != ''">
+			AND INACCOUNTDATE &gt;= #{startInaccountdate,jdbcType=VARCHAR}
+		</if>
+		<if test="endInaccountdate != null and endInaccountdate != ''">
+			AND INACCOUNTDATE &lt;= #{endInaccountdate,jdbcType=VARCHAR}
+		</if>
+		AND INACCOUNTSTATUS = 1
+      </where>
+	</sql>
+	
+	<sql id="Predictcost_Inaccount_Cancel_Where_Sql">
+    	<where> 
+    	<if test="contractno != null and contractno != ''">
+			AND SERIALNO = #{contractno,jdbcType=VARCHAR}
+		</if>
+		<if test="startPayDate != null and startPayDate != ''">
+			AND PAYDATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endPayDate != null and endPayDate != ''">
+			AND PAYDATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="belong != null and belong != ''">
+			AND ASSETBELONG like #{belong,jdbcType=VARCHAR} ||'%'
+		</if>
+		<if test="startRegistrationDate != null and startRegistrationDate != ''">
+			AND REGISTRATIONDATE &gt;= #{startRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endRegistrationDate != null and endRegistrationDate != ''">
+			AND REGISTRATIONDATE &lt;= #{endRegistrationDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startKeepaccountsDate != null and startKeepaccountsDate != ''">
+			AND KEEPACCOUNTSDATE &gt;= #{startKeepaccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endKeepaccountsDate != null and endKeepaccountsDate != ''">
+			AND KEEPACCOUNTSDATE &lt;= #{endKeepaccountsDate,jdbcType=VARCHAR}
+		</if>
+		<if test="startInaccountdate != null and startInaccountdate != ''">
+			AND INACCOUNTDATE &gt;= #{startInaccountdate,jdbcType=VARCHAR}
+		</if>
+		<if test="endInaccountdate != null and endInaccountdate != ''">
+			AND INACCOUNTDATE &lt;= #{endInaccountdate,jdbcType=VARCHAR}
+		</if>
+		AND (INACCOUNTSTATUS = 2 or INACCOUNTSTATUS = 0)
+      </where>
+	</sql>
+	
+	<update id="updatePredictcost" parameterType="com.billionsfinance.bas.entity.PredictcostVO">
+		update ZJJS_PREDICTCOST_DAILY
+		<set>
+			INACCOUNTSTATUS='1',
+			INACCOUNTBY= #{inaccountby,jdbcType=VARCHAR},
+			INACCOUNTDATE= #{inaccountdate,jdbcType=VARCHAR},
+			<if test="inaccountremark != null and inaccountremark != ''">
+				INACCOUNTREMARK = #{inaccountremark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<include refid="Predictcost_Where_Sql"/>
+	</update>
+	
+	<select id="checkPredictcost" resultType="java.lang.Integer">
+		SELECT  COUNT(1) FROM (
+				SELECT
+					INACCOUNTDATE,ACCORDDATE, SERIALNO, CLIENTNAME, REGISTRATIONDATE, MATURITYDATE, SNO, RNO, SA_ID, 
+				    PRODUCTCATEGORY, SURETYPE, BUSINESSMODEL, PRODUCTID, SUBPRODUCTTYPE, PROVINCE, CITY, 
+				    CITYCODE, CREDITPERSON, CONTRACTLIFE, CDATE, OVERDUEDAYS, OVERDUEREMARK, CLASSFY, PAYDATE, 
+				    SEQID, NVL(CANCELTYPE,'N') AS CANCELTYPE, DELIVERYDATE, DCDATE, SHDATE, TBDATE, 
+				    LPDATE, DEBOURS, ASSETBELONG, GUARANTEEPARTY, PAYPRINCIPALAMT, PAYINTEAMT, A2, A7, A12, 
+				    A18, (PAYPRINCIPALAMT+PAYINTEAMT+nvl(A2,0)+nvl(A7,0)+nvl(A12,0)+nvl(A18,0)) as AMOUNT,
+				    INACCOUNTSTATUS
+				    
+				FROM ZJJS_PREDICTCOST_DAILY
+		) <include refid="Predictcost_Inaccount_Where_Sql"/>
+	</select>
+	
+	<select id="checkCancelPredictcost" resultType="java.lang.Integer">
+		SELECT  COUNT(1) FROM (
+				SELECT
+					INACCOUNTDATE,ACCORDDATE, SERIALNO, CLIENTNAME, REGISTRATIONDATE, MATURITYDATE, SNO, RNO, SA_ID, 
+				    PRODUCTCATEGORY, SURETYPE, BUSINESSMODEL, PRODUCTID, SUBPRODUCTTYPE, PROVINCE, CITY, 
+				    CITYCODE, CREDITPERSON, CONTRACTLIFE, CDATE, OVERDUEDAYS, OVERDUEREMARK, CLASSFY, PAYDATE, 
+				    SEQID, NVL(CANCELTYPE,'N') AS CANCELTYPE, DELIVERYDATE, DCDATE, SHDATE, TBDATE, 
+				    LPDATE, DEBOURS, ASSETBELONG, GUARANTEEPARTY, PAYPRINCIPALAMT, PAYINTEAMT, A2, A7, A12, 
+				    A18, (PAYPRINCIPALAMT+PAYINTEAMT+nvl(A2,0)+nvl(A7,0)+nvl(A12,0)+nvl(A18,0)) as AMOUNT,
+				    INACCOUNTSTATUS
+				    
+				FROM ZJJS_PREDICTCOST_DAILY
+		) <include refid="Predictcost_Inaccount_Cancel_Where_Sql"/>
+	</select>
+	
+	<update id="cancelPredictcost" parameterType="com.billionsfinance.bas.entity.PredictcostVO">
+		update ZJJS_PREDICTCOST_DAILY
+		<set>
+			INACCOUNTSTATUS='2',
+			INACCOUNTBY= #{inaccountby,jdbcType=VARCHAR},
+			INACCOUNTDATE= '',
+			INACCOUNTREMARK = '撤销记账'
+		</set>
+		<include refid="Predictcost_Where_Sql"/>
+	</update>
+	
+</mapper>

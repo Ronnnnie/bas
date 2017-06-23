@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.CapitalMitigateDao" >
+ 	
+ 	 <resultMap id="CapitalMitigateMap" type="java.util.HashMap">
+ 		<result column="SERIALNO" property="contractNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="REGISTRATIONDATE" property="registrationDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="WAIVEDATE" property="waiveDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CREDITPERSON" property="creditPersion" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="PRODUCTID" property="businessType" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SUBPRODUCTTYPE" property="subProductType" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PROVINCE" property="province" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CITY" property="city" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="CITYCODE" property="cityCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ISP2P" property="isp2p" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYDATE" property="payDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SEQID" property="seqId" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DELIVERYDATE" property="deliveryDay" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DCDATE" property="dcDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SHDATE" property="shDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="LPDATE" property="lpDate" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="ASSETBELONG" property="assetBelong" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="GUARANTEEPARTY" property="guaranteeParty" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="DEBOURS" property="debours" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BUSINESSSUM" property="businessSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+		<result column="PAYPRINCIPALAMT" property="payprinciPalamt" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYINTEAMT" property="payInteamt" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BUSINESSSUMCOUNT" property="businessSumCount" jdbcType="VARCHAR" javaType="java.lang.String" />
+		<result column="PAYPRINCIPALAMTSUM" property="payprinciPalamtSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PAYINTEAMTSUM" property="payInteamtSum" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CONTRACTCOUNT" property="contractCount" jdbcType="INTEGER" javaType="java.lang.Integer" />
+ 		<result column="MONEYCOUNT" property="moneyCount" jdbcType="INTEGER" javaType="java.lang.Double" />
+ 		<result column="SNO" property="sno" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="RNO" property="rno" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SA_ID" property="sa_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="PRODUCTCATEGORY" property="productcategory" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SURETYPE" property="suretype" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="BUSINESSMODEL" property="businessmodel" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="WAIVETYPE" property="waivetype" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 	</resultMap>
+	
+	<select id="queryCapitalMitigate" resultMap="CapitalMitigateMap">
+		SELECT * FROM (
+			SELECT A.*,ROWNUM RN FROM (
+				 SELECT	FWAT.SERIALNO,
+				 		FWAT.REGISTRATIONDATE,
+				  		FWAT.WAIVEDATE,
+				 		FWAT.CREDITPERSON,
+				  		FWAT.PRODUCTID,
+				  		FWAT.SUBPRODUCTTYPE,
+				 		FWAT.PROVINCE,
+				 		FWAT.CITY,
+				 		FWAT.CITYCODE,
+				 		FWAT.BUSINESSSUM,
+				 		FWAT.ISP2P,
+				 		FWAT.PAYDATE,
+				 		FWAT.SEQID,
+				 		FWAT.DELIVERYDATE,
+				 		FWAT.DCDATE,
+				 		FWAT.SHDATE,
+				 		FWAT.LPDATE,
+				 		FWAT.ASSETBELONG,
+				 		FWAT.WAIVETYPE,
+				 		FWAT.GUARANTEEPARTY,
+		 				FWAT.DEBOURS,
+		 				FWAT.PAYPRINCIPALAMT,
+		 				FWAT.PAYINTEAMT,
+		 				FWAT.SNO,
+		 				FWAT.RNO,
+		 				FWAT.SA_ID,
+		 				FWAT.PRODUCTCATEGORY,
+		 				FWAT.SURETYPE,
+		 				FWAT.BUSINESSMODEL
+				 FROM ZJJS_WAIVE_DAILY FWAT
+				 <include refid="CapitalMitigate_Where_Sql" />
+				)   A WHERE ROWNUM &lt;= #{endpoint} 
+			  ) WHERE RN &gt;= #{startpoint} 			  
+	</select>
+	
+	<select id="queryCapitalMitigateFindAll" parameterType="com.billionsfinance.bas.entity.CapitalMitigateVO" resultMap="CapitalMitigateMap">
+	SELECT  FWAT.SERIALNO,
+	        FWAT.REGISTRATIONDATE,
+	          FWAT.WAIVEDATE,
+	          (select itemname from creditperson_code where itemno=creditperson) as CREDITPERSON, 
+	          FWAT.PRODUCTID,
+	          FWAT.SUBPRODUCTTYPE,
+	        FWAT.PROVINCE,
+	        FWAT.CITY,
+	        FWAT.CITYCODE,
+	        FWAT.BUSINESSSUM,
+	        (
+	            CASE WHEN ISP2P = '1' THEN '是' 
+	            WHEN ISP2P = '0' THEN '否' 
+	            WHEN ISP2P IS NULL THEN '否'
+	            ELSE ISP2P END
+	        )
+	        AS ISP2P, 
+	        FWAT.PAYDATE,
+	        FWAT.SEQID,
+	        FWAT.DELIVERYDATE,
+	        FWAT.DCDATE,
+	        FWAT.SHDATE,
+	        FWAT.LPDATE,
+	        (select itemname from creditperson_code where itemno=ASSETBELONG) as ASSETBELONG, 
+	        '利息减免' as WAIVETYPE,
+	        (select itemname from creditperson_code where itemno=GUARANTEEPARTY) as GUARANTEEPARTY, 
+	        (select itemname from creditperson_code where itemno=DEBOURS) as DEBOURS, 
+	        FWAT.PAYPRINCIPALAMT,
+	        FWAT.PAYINTEAMT,
+	        FWAT.SNO,
+	        FWAT.RNO,
+	        FWAT.SA_ID,
+	        FWAT.PRODUCTCATEGORY,
+	        FWAT.SURETYPE,
+	        FWAT.BUSINESSMODEL
+	     FROM ZJJS_WAIVE_DAILY FWAT
+		 <include refid="CapitalMitigate_Where_Sql" />
+	</select>
+	
+	
+	<!-- 查询业务明细条件的sql -->
+	<sql id="CapitalMitigate_Where_Sql">
+    	<where> 
+		<if test="contractNo != null and contractNo != ''">
+			AND FWAT.SERIALNO = #{contractNo,jdbcType=VARCHAR}
+		</if>
+		<if test="startPayDate != null and startPayDate != ''">
+			AND FWAT.PAYDATE &gt;= #{startPayDate,jdbcType=VARCHAR}
+		</if>
+		<if test="endPayDate != null and endPayDate != ''">
+			AND FWAT.PAYDATE &lt;= #{endPayDate,jdbcType=VARCHAR}
+		</if>
+      </where>
+	</sql>
+	
+	<!-- 根据条件获取匹配合同个数  -->
+	<select id="queryCapitalMitigateCount" resultMap="CapitalMitigateMap">
+		SELECT COUNT(1) AS CONTRACTCOUNT,SUM(PAYINTEAMT) AS MONEYCOUNT,SUM(BUSINESSSUM) AS BUSINESSSUMCOUNT,SUM(PAYPRINCIPALAMT) AS PAYPRINCIPALAMTSUM,SUM(PAYINTEAMT) AS PAYINTEAMTSUM FROM ZJJS_WAIVE_DAILY FWAT
+		<include refid="CapitalMitigate_Where_Sql" />
+	</select>
+	
+	
+	
+</mapper>

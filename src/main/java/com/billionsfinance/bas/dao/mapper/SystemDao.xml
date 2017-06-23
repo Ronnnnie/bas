@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.billionsfinance.bas.dao.SystemDao" >
+	<resultMap id="BaseResultMap" type="java.util.HashMap">
+		<id column="SYS_CODE" property="sysCode" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="UPDATED_USER" property="updatedUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="VALID_IND" property="validInd" jdbcType="CHAR" javaType="java.lang.String" />
+ 		<result column="CREATED_DATE" property="createdDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+ 		<result column="SYS_URL" property="sysUrl" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SYS_DESC" property="sysDesc" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CREATED_USER" property="createdUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="UPDATED_DATE" property="updatedDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+ 		<result column="SYS_ENAME" property="sysEname" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SYS_TYPE_CODE" property="sysTypeCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SYS_CNAME" property="sysCname" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SYS_LOGO" property="sysLogo" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CHECK_URL" property="checkUrl" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="IS_MAPPINGUSER" property="isMappinguser" jdbcType="CHAR" javaType="java.lang.String" />
+ 	</resultMap>
+	
+	<resultMap id="BaseResultVo" type="com.billionsfinance.bas.entity.SystemVO">
+		<id column="SYS_CODE" property="sysCode" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="UPDATED_USER" property="updatedUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="VALID_IND" property="validInd" jdbcType="CHAR" javaType="java.lang.String" />
+ 		<result column="CREATED_DATE" property="createdDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+ 		<result column="SYS_URL" property="sysUrl" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SYS_DESC" property="sysDesc" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CREATED_USER" property="createdUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+  		<result column="UPDATED_DATE" property="updatedDate" jdbcType="DATE" javaType="java.sql.Timestamp" />
+ 		<result column="SYS_ENAME" property="sysEname" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SYS_TYPE_CODE" property="sysTypeCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SYS_CNAME" property="sysCname" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="SYS_LOGO" property="sysLogo" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="CHECK_URL" property="checkUrl" jdbcType="VARCHAR" javaType="java.lang.String" />
+ 		<result column="IS_MAPPINGUSER" property="isMappinguser" jdbcType="CHAR" javaType="java.lang.String" />
+ 	</resultMap>
+
+	<!-- 查询数据列Sql不转换成对应的Java命名 -->
+	<sql id="Base_Column_List" >
+		UPDATED_USER,
+		VALID_IND,
+		CREATED_DATE,
+		SYS_URL,
+		SYS_DESC,
+		CREATED_USER,
+		SYS_CODE,
+		UPDATED_DATE,
+		SYS_ENAME,
+		SYS_TYPE_CODE,
+		SYS_CNAME,
+		SYS_LOGO,
+		CHECK_URL,
+		IS_MAPPINGUSER
+	</sql>
+	
+	<sql id="Base_Column_Select_List" >
+		sys.UPDATED_USER,
+		sys.VALID_IND,
+		sys.CREATED_DATE,
+		sys.SYS_URL,
+		sys.SYS_DESC,
+		sys.CREATED_USER,
+		sys.SYS_CODE,
+		sys.UPDATED_DATE,
+		sys.SYS_ENAME,
+		sys.SYS_TYPE_CODE,
+		sys.SYS_CNAME,
+		sys.SYS_LOGO,
+		CHECK_URL,
+		IS_MAPPINGUSER
+	</sql>
+	
+	<!-- 查询数据列Sql换成对应的Java命名 -->
+	<sql id="Base_Column_List_JavaName" >
+		UPDATED_USER as "updatedUser",
+		VALID_IND as "validInd",
+		CREATED_DATE as "createdDate",
+		SYS_URL as "sysUrl",
+		SYS_DESC as "sysDesc",
+		CREATED_USER as "createdUser",
+		SYS_CODE as "sysCode",
+		UPDATED_DATE as "updatedDate",
+		SYS_ENAME as "sysEname",
+		SYS_TYPE_CODE as "sysTypeCode",
+		SYS_CNAME as "sysCname",
+		SYS_LOGO as "sysLogo",
+		CHECK_URL as "checkUrl",
+		IS_MAPPINGUSER as "isMappinguser"
+	</sql>
+	
+	<!-- 写入操作的SQL -->
+	<sql id="Insert_Base_values">
+		#{updatedUser,jdbcType=VARCHAR},
+ 		#{validInd,jdbcType=CHAR},
+ 		SYSDATE,
+ 		#{sysUrl,jdbcType=VARCHAR},
+ 		#{sysDesc,jdbcType=VARCHAR},
+ 		#{createdUser,jdbcType=VARCHAR},
+ 		#{sysCode,jdbcType=VARCHAR},
+ 		SYSDATE,
+ 		#{sysEname,jdbcType=VARCHAR},
+ 		#{sysTypeCode,jdbcType=VARCHAR},
+ 		#{sysCname,jdbcType=VARCHAR},
+ 		#{sysLogo,jdbcType=VARCHAR},
+ 		#{checkUrl,jdbcType=VARCHAR},
+ 		#{isMappinguser,jdbcType=CHAR}
+ 		
+ 	</sql>
+	
+	<!-- 查询条件的sql -->
+	<sql id="Base_Where_Sql">
+		<where>
+		<if test="updatedUser != null and updatedUser != ''">
+			and UPDATED_USER = #{updatedUser,jdbcType=VARCHAR}
+		</if>
+		<if test="validInd != null and validInd != ''">
+			and VALID_IND = #{validInd,jdbcType=CHAR}
+		</if>
+		<if test="createdDate != null and createdDate != ''">
+			and CREATED_DATE = #{createdDate,jdbcType=DATE}
+		</if>
+		<if test="sysUrl != null and sysUrl != ''">
+			and SYS_URL = #{sysUrl,jdbcType=VARCHAR}
+		</if>
+		<if test="sysDesc != null and sysDesc != ''">
+			and SYS_DESC = #{sysDesc,jdbcType=VARCHAR}
+		</if>
+		<if test="createdUser != null and createdUser != ''">
+			and CREATED_USER = #{createdUser,jdbcType=VARCHAR}
+		</if>
+		<if test="sysCode != null and sysCode != ''">
+			and SYS_CODE like '%'||trim(#{sysCode,jdbcType=VARCHAR})||'%'
+		</if>
+		<if test="updatedDate != null and updatedDate != ''">
+			and UPDATED_DATE = #{updatedDate,jdbcType=DATE}
+		</if>
+		<if test="sysEname != null and sysEname != ''">
+			and SYS_ENAME like '%'||trim(#{sysEname,jdbcType=VARCHAR})||'%'
+		</if>
+		<if test="sysTypeCode != null and sysTypeCode != ''">
+			and SYS_TYPE_CODE = #{sysTypeCode,jdbcType=VARCHAR}
+		</if>
+		<if test="sysCname != null and sysCname != ''">
+			and SYS_CNAME like '%'||trim(#{sysCname,jdbcType=VARCHAR})||'%'
+		</if>
+		</where>
+	</sql>
+	
+	<!-- 查询条件的sql -->
+	<sql id="Base_Where_Select_Sql">
+		
+		<if test="updatedUser != null and updatedUser != ''">
+			and sys.UPDATED_USER = #{updatedUser,jdbcType=VARCHAR}
+		</if>
+		<if test="validInd != null and validInd != ''">
+			and sys.VALID_IND = #{validInd,jdbcType=CHAR}
+		</if>
+		<if test="createdDate != null and createdDate != ''">
+			and sys.CREATED_DATE = #{createdDate,jdbcType=DATE}
+		</if>
+		<if test="sysUrl != null and sysUrl != ''">
+			and sys.SYS_URL = #{sysUrl,jdbcType=VARCHAR}
+		</if>
+		<if test="sysDesc != null and sysDesc != ''">
+			and sys.SYS_DESC = #{sysDesc,jdbcType=VARCHAR}
+		</if>
+		<if test="createdUser != null and createdUser != ''">
+			and sys.CREATED_USER = #{createdUser,jdbcType=VARCHAR}
+		</if>
+		<if test="sysCode != null and sysCode != ''">
+			and sys.SYS_CODE = trim(#{sysCode,jdbcType=VARCHAR})
+		</if>
+		<if test="updatedDate != null and updatedDate != ''">
+			and sys.UPDATED_DATE = #{updatedDate,jdbcType=DATE}
+		</if>
+		<if test="sysEname != null and sysEname != ''">
+			and sys.SYS_ENAME = trim(#{sysEname,jdbcType=VARCHAR})
+		</if>
+		<if test="sysTypeCode != null and sysTypeCode != ''">
+			and sys.SYS_TYPE_CODE = #{sysTypeCode,jdbcType=VARCHAR}
+		</if>
+		<if test="sysCname != null and sysCname != ''">
+			and sys.SYS_CNAME = trim(#{sysCname,jdbcType=VARCHAR})
+		</if>
+	</sql>
+	
+	<!-- 新增sql 根据系统类型代码查询系统清单 -->
+	<select id="querySystembytypeCode" parameterType="java.lang.String" resultMap="BaseResultVo">
+		select 
+			a.UPDATED_USER,
+		    a.VALID_IND,
+		    a.CREATED_DATE,
+		    SYS_URL,
+		    SYS_DESC,
+		    a.CREATED_USER,
+		    SYS_CODE,
+		    a.UPDATED_DATE,
+		    SYS_ENAME,
+		    b.SYS_TYPE_CNAME,
+		    a.SYS_TYPE_CODE,
+		    SYS_CNAME
+				from UM_SYSTEM a,UM_SYSTEM_TYPE b
+				where a.SYS_TYPE_CODE=#{sysTypeCode,jdbcType=VARCHAR}
+				and a.SYS_TYPE_CODE=b.SYS_TYPE_CODE
+	</select>
+	
+	<!-- queryCountWithUser -->
+	<!-- 条件查询总数据量 -->
+	<select id="querySysCountByAdminUser" parameterType="map" resultType="long">
+	select count(1)
+	from UM_SYSTEM  sys , UM_ADMIN ua  Where sys.SYS_CODE = ua.SYS_CODE and ua.valid_ind = '1'  and  ua.USER_CODE =   #{userCode,jdbcType=VARCHAR}  
+	 <include refid="Base_Where_Sql" />
+	</select>
+	
+		<!-- 按用户单独条件分页查询语句,注意下面语句中的endpoint和startpoint这两个名称不可修改，否则将导致sql错误 -->
+	<select id="querySysListPageByAdminUser" parameterType="map" resultMap="BaseResultMap">
+	select * from (
+		select a.*,rownum rn from (
+		select 
+		<include refid="Base_Column_Select_List"/>
+		from UM_SYSTEM sys , UM_ADMIN ua  Where sys.SYS_CODE = ua.SYS_CODE and ua.valid_ind = '1' and  ua.USER_CODE =  #{userCode,jdbcType=VARCHAR}  
+		<include refid="Base_Where_Sql"/>   order by sys.UPDATED_DATE desc,sys.SYS_CODE desc
+		) a where rownum &lt;= #{endpoint}
+	) where rn &gt;= #{startpoint}
+	</select>
+	<!-- 条件查询总数据量 -->
+	<select id="querySysCount" parameterType="map" resultType="long">
+	select count(1)
+	from UM_SYSTEM <include refid="Base_Where_Sql" />
+	</select>
+	
+	<!-- 单独条件分页查询语句,注意下面语句中的endpoint和startpoint这两个名称不可修改，否则将导致sql错误 -->
+	<select id="querySysListPage" parameterType="map" resultMap="BaseResultMap">
+	select * from (
+		select a.*,rownum rn from (
+		select 
+		<include refid="Base_Column_List"/>
+		from UM_SYSTEM
+		<include refid="Base_Where_Sql"/>   order by UPDATED_DATE desc,sys_code desc
+		) a where rownum &lt;= #{endpoint}
+	) where rn &gt;= #{startpoint}
+	</select>
+	
+	<!-- 查询是否为超级用户-->
+	<select id="isSuperAdmin" parameterType="map" resultMap="BaseResultMap">	   
+      select t.sys_code ,t.user_code
+	      from um_admin t
+	     where t.user_code =  #{userCode}
+	       and t.sys_code = #{sysCode}
+	       and t.admin_level = 1  	
+           and t.valid_ind ='1'	   
+	</select>
+		<!-- 查询是否为超级用户-->
+	<select id="isSysAdmin" parameterType="map" resultMap="BaseResultMap">	   
+      select t.sys_code ,t.user_code
+	      from um_admin t
+	     where t.user_code =  #{userCode}
+	       and t.sys_code != #{sysCode}
+	       and t.admin_level = 1  	
+           and t.valid_ind ='1'	   
+	</select>
+	<!-- 
+		insert操作给定的参数是java.util.Map<String,Object>类型的对象，
+		与<sql id="Insert_Base_values">中配置的列一致
+	-->
+	<insert id="saveSystem" parameterType="com.billionsfinance.bas.entity.SystemVO" >
+	    insert into UM_SYSTEM (
+			<include refid="Base_Column_List" />
+	    )
+		values (
+			<include refid="Insert_Base_values" />
+	    )
+	</insert>
+	<update id="updateSystem" parameterType="com.billionsfinance.bas.entity.SystemVO" >
+		update UM_SYSTEM
+		<set>
+		<if test="updatedUser != null and updatedUser != ''">
+			UPDATED_USER = #{updatedUser,jdbcType=VARCHAR},
+		</if>
+	  	<if test="validInd != null and validInd != ''">
+			VALID_IND = #{validInd,jdbcType=CHAR},
+		</if>
+	  	<if test="createdDate != null and createdDate != ''">
+			CREATED_DATE = #{createdDate,jdbcType=DATE},
+		</if>
+	  	<if test="sysUrl != null and sysUrl != ''">
+			SYS_URL = #{sysUrl,jdbcType=VARCHAR},
+		</if>
+	  	<if test="sysDesc != null and sysDesc != ''">
+			SYS_DESC = #{sysDesc,jdbcType=VARCHAR},
+		</if>
+	  	<if test="createdUser != null and createdUser != ''">
+			CREATED_USER = #{createdUser,jdbcType=VARCHAR},
+		</if>
+	  	<if test="sysEname != null and sysEname != ''">
+			SYS_ENAME = #{sysEname,jdbcType=VARCHAR},
+		</if>
+	  	<if test="sysTypeCode != null and sysTypeCode != ''">
+			SYS_TYPE_CODE = #{sysTypeCode,jdbcType=VARCHAR},
+		</if>
+	  	<if test="sysCname != null and sysCname != ''">
+			SYS_CNAME = #{sysCname,jdbcType=VARCHAR},
+		</if>
+		<if test="sysLogo != null and sysLogo != ''">
+			SYS_LOGO = #{sysLogo,jdbcType=VARCHAR},
+		</if>
+		<if test="checkUrl != null and checkUrl != ''">
+			CHECK_URL = #{checkUrl,jdbcType=VARCHAR},
+		</if>
+		<if test="isMappinguser != null and isMappinguser != ''">
+			IS_MAPPINGUSER = #{isMappinguser,jdbcType=CHAR},
+		</if>
+			UPDATED_DATE = SYSDATE
+	  	</set>
+		where SYS_CODE = #{sysCode,jdbcType=VARCHAR}
+	</update>
+	<!-- 根据Id查询一条数据 -->
+	<select id="findSysByCode" resultMap="BaseResultVo" parameterType="java.lang.String" >
+	   select <include refid="Base_Column_List" />
+			from UM_SYSTEM
+			where SYS_CODE = #{sysCode,jdbcType=VARCHAR}
+	</select>
+	
+		<!-- 查询所有可用的系统编码信息  -->
+	<select id="queryAllSysCode"  resultMap="BaseResultVo">
+		 select s.sys_code as "sysCode",s.Sys_Cname as "sysCname" 
+		 	from um_system s where s.valid_ind='1'
+	</select>
+	
+	<!-- 根据用户查询负责的系统  -->
+	<select id="querySysCodeByUser" parameterType="java.lang.String" resultMap="BaseResultVo">
+		select distinct s.sys_code as "sysCode", s.Sys_Cname as "sysCname"
+		  from um_system s ,um_admin ua
+		 where s.sys_code=ua.sys_code and s.valid_ind = '1' and ua.user_code=#{currentUser}
+	</select>
+	
+	<!-- 当前用户是系统用户的老系统  -->
+	<select id="queryOdlSysCodeByUser" parameterType="java.lang.String" resultMap="BaseResultVo">
+		select distinct s.sys_code as "sysCode", s.Sys_Cname as "sysCname"
+		  from um_system_user su,um_system s
+		 where su.sys_code=s.sys_code 
+		 	and s.valid_ind = '1' 
+		 	and su.valid_ind = '1'
+		 	and s.is_mappinguser = '1'
+		 	<if test="currentUser != null and currentUser != ''">
+		 		and su.user_code=#{currentUser,jdbcType=VARCHAR}
+		 	</if>
+		 	
+	</select>
+	
+	<!-- 根据用户可以访问的系统-->
+	<select id="findSystemByUser" parameterType="map" resultMap="BaseResultVo">
+		select 
+			s.UPDATED_USER,
+			s.VALID_IND,
+			s.CREATED_DATE,
+			s.SYS_URL,
+			s.SYS_DESC,
+			s.CREATED_USER,
+			s.SYS_CODE,
+			s.UPDATED_DATE,
+			s.SYS_ENAME,
+			s.SYS_TYPE_CODE,
+			s.SYS_CNAME,
+			s.SYS_LOGO
+		 from um_system s,um_system_user u
+		 where s.sys_code=u.sys_code 
+		 	and s.valid_ind = '1'
+		 	and u.valid_ind = '1'
+		 	and u.user_code=#{currentUser}
+		 	<if test="sysCode != null and sysCode != ''">
+		 		and s.sys_code != #{sysCode}
+		 	</if>
+	</select>
+	<!-- 根据条件精确查询系统 -->
+	<select id="findSysByWhere" parameterType="map" resultMap="BaseResultVo">
+		select 
+		<include refid="Base_Column_Select_List"/>
+		from UM_SYSTEM sys 
+		<where>
+			<include refid="Base_Where_Select_Sql"/>
+		</where>
+		
+	</select>
+	
+	
+</mapper>
